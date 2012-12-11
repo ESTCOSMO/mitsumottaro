@@ -2,7 +2,9 @@ Mitsumoritaro::Application.routes.draw do
   resources :subjects
 
 
-  resources :projects
+  resources :projects do
+    resource :dashboard
+  end
 
 
   # The priority is based upon order of creation:
