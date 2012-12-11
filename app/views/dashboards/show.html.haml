@@ -1,0 +1,31 @@
+%h2= @project.name
+
+%table
+  - @project.large_items.each do |l_item|
+    %tr
+      %td
+        = l_item.name
+        = '↑↓'
+    - l_item.medium_items.each do |m_item|
+      %tr
+        %td
+          = m_item.name
+          = '↑↓'
+      - m_item.small_items.each do |s_item|
+        %tr
+          %td
+            = s_item.name
+            = '↑↓'
+          - @project.project_subjects.each do |ps|
+            - sp = s_item.subject_points.find_by_project_subject_id(ps.id)
+            %td= sp.try(:point_50)
+            %td= sp.try(:point_90)
+      %tr
+        %td
+        %td
+        %td= "追加"
+    %tr
+      %td
+      %td= "追加"
+  %tr
+    %td= "追加"
