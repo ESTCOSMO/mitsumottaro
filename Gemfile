@@ -43,3 +43,8 @@ group :development, :test do
 end
 
 gem 'acts_as_list'
+
+gem 'twitter-bootstrap-rails'
+gem 'therubyracer'
+gem 'libv8', '~> 3.11.8'
+gem 'less-rails'
