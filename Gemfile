@@ -41,3 +41,5 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'debugger'
 end
+
+gem 'acts_as_list'
