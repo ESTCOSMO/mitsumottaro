@@ -12,6 +12,12 @@
     </div>
   </div>
 
+  <div class="control-group">
+    <%= f.label :subject, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select(:subject_ids, Subject.all, :id, :name, {selected: f.object.subject_ids}, {multiple: true}) %>
+    </div>
+  </div>
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
