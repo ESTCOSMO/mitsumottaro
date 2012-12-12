@@ -1,3 +1,26 @@
-// Place all the styles related to the dashboards controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.table_point_50 {
+  text-align: right;
+}
+
+.table_buffered {
+  text-align: right;
+  color: blue;
+}
+
+.table_point_90 {
+  text-align: right;
+  color: silver;
+}
+
+.large_item {
+  background-color: pink;
+}
+
+.medium_item {
+  background-color: #00ffff;
+}
+
+.subtotal {
+  text-align: right;
+  font-weight: bold;
+}

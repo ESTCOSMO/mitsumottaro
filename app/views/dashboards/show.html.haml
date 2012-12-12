@@ -1,8 +1,15 @@
 - subjects_size = @project.project_subjects.size
+- lids = @project.large_items.pluck(:id)
+- mids = MediumItem.where(large_item_id: lids).pluck(:id)
+- sids = SmallItem.where(medium_item_id: mids).pluck(:id)
+- subject_points = SubjectPoint.where(small_item_id: sids)
+- total_point = subject_points.sum(:point_50)
+- buffer = Math::sqrt(subject_points.map{|sp| (sp.point_90 - sp.point_50) ** 2}.inject(0){|result, square| result += square}) / 2
 .project_id.hidden= @project.id
 %h2= @project.name
+%h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
 
-%table
+%table.table.table-condensed
   %tr
     %th{rowspan: 2}
       大項目
@@ -12,51 +19,58 @@
       小項目
     - @project.project_subjects.each do |ps|
       %th{colspan: 2}= ps.subject.name
+    %th{colspan: 2}
+      小計
   %tr
-    - subjects_size.times do
-      %th= "50%"
-      %th= "90%"
+    - (subjects_size).times do
+      %th= "50%(90%)"
+      %th= "50%+b"
+    %th
+      50%
+    %th
+      50%+b
   - @project.large_items.each do |l_item|
     %tr
-      %td
-        = l_item.name
-        = '↑↓'
-      - (subjects_size * 2 + 2).times do
-        %td= '-'
+      %td.large_item= l_item.name
+      %td.large_item= link_to "追加", new_project_large_item_medium_item_path(@project, l_item)
+      - (subjects_size * 2 + 3).times do
+        %td.large_item= '-'
     - l_item.medium_items.each do |m_item|
       %tr
-        %td
-        %td
-          = m_item.name
-          = '↑↓'
-          - (subjects_size * 2 + 1).times do
-            %td= '-'
+        %td.large_item
+        %td.medium_item= m_item.name
+        %td.medium_item= link_to "追加", new_project_large_item_medium_item_small_item_path(@project, l_item, m_item)
+        - @project.project_subjects.each do |ps|
+          - m_subject_total = ps.subject_points.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
+          %td.medium_item.subtotal= m_subject_total
+          %td.medium_item= sprintf("%10.1f", m_subject_total * (1 + buffer / total_point))
+        - m_subtotal = SubjectPoint.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
+        %td.medium_item.subtotal= m_subtotal
+        %td.medium_item.subtotal= sprintf("%10.1f", m_subtotal * (1 + buffer / total_point))
       - m_item.small_items.each do |s_item|
         %tr
-          %td
-          %td
+          %td.large_item
+          %td.medium_item
           %td
             = s_item.name
             = '↑↓'
           - @project.project_subjects.each do |ps|
             - sp = s_item.subject_points.find_by_project_subject_id(ps.id)
             - class_suffix = "#{l_item.id}_#{m_item.id}_#{s_item.id}_#{ps.id}_#{sp ? sp.id : 'new'}"
-            %td{class: "point_50_#{class_suffix}"}= sp.try(:point_50) || "-"
-            %td{class: "point_90_#{class_suffix}"}= sp.try(:point_90) || "-"
-      %tr
-        %td
-        %td
-        %td= link_to "追加", new_project_large_item_medium_item_small_item_path(@project, l_item, m_item)
-        - (subjects_size * 2).times do
-          %td= '-'
-    %tr
-      %td
-      %td= link_to "追加", new_project_large_item_medium_item_path(@project, l_item)
-      - (subjects_size * 2 + 1).times do
-        %td= '-'
+            %td.table_point_50.point_area
+              - point_50 = sp.try(:point_50)
+              - point_90 = sp.try(:point_90)
+              = point_50 ? point_50 : "-"
+              = point_90 ? "(#{point_90})" : ""
+              .hidden{id: "point_50_#{class_suffix}"}= point_50
+              .hidden{id: "point_90_#{class_suffix}"}= point_90
+            %td.table_buffered= point_50 ? sprintf("%10.1f", point_50 * (1 + buffer / total_point)) : "-"
+          - s_subtotal = s_item.subject_points.sum(:point_50)
+          %td.subtotal= s_subtotal
+          %td.subtotal= sprintf("%10.1f", s_subtotal * (1 + buffer / total_point))
   %tr
     %td= link_to "追加", new_project_large_item_path(@project)
-    - (subjects_size * 2 + 2).times do
+    - (subjects_size * 2 + 3).times do
       %td= '-'
 
 #point-modal.modal.hide.fade
@@ -64,7 +78,7 @@
     = project_large_item_medium_item_small_item_subject_points_path("___PID___", "___LID___", "___MID___", "___SID___")
   .url_for_destroy.hidden
     = project_large_item_medium_item_small_item_subject_point_path("___PID___", "___LID___", "___MID___", "___SID___", "__SPID__")
-  = form_for SubjectPoint.new, url: "#", method: :post, remote: true do |f|
+  = form_for SubjectPoint.new, url: "#", method: :post, remote: true, html: { class: 'form-horizontal'} do |f|
     .modal-header
       %button.close{"type" => "button", "data-dissmiss" => "modal", "aria-hidden" => true}
         &times;
@@ -72,12 +86,18 @@
         Pointの登録
     .modal-body
       .alert.alert-error.hidden
-      = f.text_field :point_50
-      = f.text_field :point_90
+      .control-group
+        = f.label :point_50, class: 'control-label'
+        .controls
+          = f.text_field :point_50, class: "text_field"
+      .control-group
+        = f.label :point_90, class: 'control-label'
+        .controls
+          = f.text_field :point_90, class: "text_field"
       = f.hidden_field :project_subject_id
       = hidden_field_tag :_method, "POST"
-    .modal-footer
-      = submit_tag "保存", class: "btn btn-primary btn-create"
-      = submit_tag "削除", class: "btn btn-delete"
-      %a.btn.close_btn
-        閉じる
+      .form-actions
+        = submit_tag "保存", class: "btn btn-primary btn-create"
+        = submit_tag "削除", class: "btn btn-delete"
+        %a.btn.close_btn
+          閉じる

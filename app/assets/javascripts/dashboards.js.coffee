@@ -43,9 +43,11 @@ deploy_point_form = (l_item_id, m_item_id, s_item_id, project_subject_id, subjec
   modal.find(".alert").addClass("hidden")
   modal.modal "show"
 
-$("[class^='point_']").on "click", () ->
-  css_class = $(this).attr("class")
-  data = css_class.split("_")
+$(".point_area").on "click", () ->
+  css_id_50 = $(this).children("[id^='point_50_']").attr("id")
+  css_id_90 = $(this).children("[id^='point_90_']").attr("id")
+  #css_class = $(this).attr("id")
+  data = css_id_50.split("_")
   point_type = data[1]
   large_item_id = data[2]
   medium_item_id = data[3]
@@ -53,12 +55,8 @@ $("[class^='point_']").on "click", () ->
   project_subject_id = data[5]
   subject_point_id = data[6]
   selector_suffix = "#{large_item_id}_#{medium_item_id}_#{small_item_id}_#{project_subject_id}_#{subject_point_id}"
-  if point_type == "50"
-    point_50 = $(this).text()
-    point_90 = $(".point_90_#{selector_suffix}").text()
-  else
-    point_90 = $(this).text()
-    point_50 = $(".point_50_#{selector_suffix}").text()
+  point_50 = $("##{css_id_50}").text()
+  point_90 = $("##{css_id_90}").text()
   if point_50 == "-"
     point_50 = ""
   if point_90 == "-"
