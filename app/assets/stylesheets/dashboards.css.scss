@@ -1,26 +1,51 @@
-.table_point_50 {
-  text-align: right;
-}
+.dashboard-table {
+  td {
+    font-size: 0.8em;
+  }
+  th {
+    font-size: 0.6em;
+    white-space: nowrap;
+    color: gray;
+  }
 
-.table_buffered {
-  text-align: right;
-  color: blue;
-}
+  .item_name {
+    white-space: nowrap;
+  }
 
-.table_point_90 {
-  text-align: right;
-  color: silver;
-}
+  .blank_row {
+    background-color: silver;
+  }
 
-.large_item {
-  background-color: pink;
-}
+  .table_point_50 {
+    text-align: right;
+  }
 
-.medium_item {
-  background-color: #00ffff;
-}
+  .table_buffered {
+    text-align: right;
+    color: blue;
+  }
 
-.subtotal {
-  text-align: right;
-  font-weight: bold;
+  .table_point_90 {
+    text-align: right;
+    color: silver;
+  }
+
+  .large_item {
+    color: #3A87AD;
+    background-color: #D9EDF7;
+  }
+
+  .medium_item {
+    color: #C09853;
+    background-color: #FCF8E3;
+  }
+
+  .subtotal {
+    text-align: right;
+    font-weight: bold;
+  }
+
+  .point {
+    text-align: right;
+  }
 }

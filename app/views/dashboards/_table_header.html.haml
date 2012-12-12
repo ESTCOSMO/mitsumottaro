@@ -1,0 +1,22 @@
+- subjects_size = @project.project_subjects.size
+%tr
+  %td.blank_row{colspan: "#{subjects_size * 2 + 5}"}
+%tr
+  %th{rowspan: 2}
+    大項目
+  %th{rowspan: 2}
+    中項目
+  %th{rowspan: 2}
+    小項目
+  - @project.project_subjects.each do |ps|
+    %th{colspan: 2}= ps.subject.name
+  %th{colspan: 2}
+    小計
+%tr
+  - (subjects_size).times do
+    %th= "50%(90%)"
+    %th= "50%+b"
+  %th
+    50%
+  %th
+    50%+b

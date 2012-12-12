@@ -9,69 +9,58 @@
 %h2= @project.name
 %h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
 
-%table.table.table-condensed
-  %tr
-    %th{rowspan: 2}
-      大項目
-    %th{rowspan: 2}
-      中項目
-    %th{rowspan: 2}
-      小項目
-    - @project.project_subjects.each do |ps|
-      %th{colspan: 2}= ps.subject.name
-    %th{colspan: 2}
-      小計
-  %tr
-    - (subjects_size).times do
-      %th= "50%(90%)"
-      %th= "50%+b"
-    %th
-      50%
-    %th
-      50%+b
-  - @project.large_items.each do |l_item|
-    %tr
-      %td.large_item= l_item.name
-      %td.large_item= link_to "追加", new_project_large_item_medium_item_path(@project, l_item)
-      - (subjects_size * 2 + 3).times do
-        %td.large_item= '-'
-    - l_item.medium_items.each do |m_item|
+.dashboard-table
+  %table.table.table-condensed.table-bordered
+    - @project.large_items.each do |l_item|
+      = render 'table_header'
       %tr
-        %td.large_item
-        %td.medium_item= m_item.name
-        %td.medium_item= link_to "追加", new_project_large_item_medium_item_small_item_path(@project, l_item, m_item)
+        %td.large_item.item_name{rowspan: "#{l_item.count_of_medium_items + l_item.count_of_small_items + 1}"}
+          = l_item.name
+          %br
+          = link_to "[Add]", new_project_large_item_medium_item_path(@project, l_item)
+        %td.large_item{colspan: 2} サマリー
         - @project.project_subjects.each do |ps|
-          - m_subject_total = ps.subject_points.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
-          %td.medium_item.subtotal= m_subject_total
-          %td.medium_item= sprintf("%10.1f", m_subject_total * (1 + buffer / total_point))
-        - m_subtotal = SubjectPoint.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
-        %td.medium_item.subtotal= m_subtotal
-        %td.medium_item.subtotal= sprintf("%10.1f", m_subtotal * (1 + buffer / total_point))
-      - m_item.small_items.each do |s_item|
+          - l_subject_total = l_item.sum_of_point_50_by_project_subject_id(ps.id)
+          %td.large_item.subtotal= l_subject_total
+          %td.large_item.point= sprintf("%10.1f", l_subject_total * (1 + buffer / total_point))
+        - l_subtotal = l_item.sum_of_point_50
+        %td.large_item.subtotal= l_subtotal
+        %td.large_item.subtotal= sprintf("%10.1f", l_subtotal * (1 + buffer / total_point))
+      - l_item.medium_items.each do |m_item|
         %tr
-          %td.large_item
-          %td.medium_item
-          %td
-            = s_item.name
-            = '↑↓'
+          %td.medium_item.item_name{rowspan: "#{m_item.count_of_small_items + 1}"}
+            = m_item.name
+            %br
+            = link_to "[Add]", new_project_large_item_medium_item_small_item_path(@project, l_item, m_item)
+          %td.medium_item サマリー
           - @project.project_subjects.each do |ps|
-            - sp = s_item.subject_points.find_by_project_subject_id(ps.id)
-            - class_suffix = "#{l_item.id}_#{m_item.id}_#{s_item.id}_#{ps.id}_#{sp ? sp.id : 'new'}"
-            %td.table_point_50.point_area
-              - point_50 = sp.try(:point_50)
-              - point_90 = sp.try(:point_90)
-              = point_50 ? point_50 : "-"
-              = point_90 ? "(#{point_90})" : ""
-              .hidden{id: "point_50_#{class_suffix}"}= point_50
-              .hidden{id: "point_90_#{class_suffix}"}= point_90
-            %td.table_buffered= point_50 ? sprintf("%10.1f", point_50 * (1 + buffer / total_point)) : "-"
-          - s_subtotal = s_item.subject_points.sum(:point_50)
-          %td.subtotal= s_subtotal
-          %td.subtotal= sprintf("%10.1f", s_subtotal * (1 + buffer / total_point))
-  %tr
-    %td= link_to "追加", new_project_large_item_path(@project)
-    - (subjects_size * 2 + 3).times do
-      %td= '-'
+            - m_subject_total = ps.subject_points.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
+            %td.medium_item.subtotal= m_subject_total
+            %td.medium_item.point= sprintf("%10.1f", m_subject_total * (1 + buffer / total_point))
+          - m_subtotal = SubjectPoint.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
+          %td.medium_item.subtotal= m_subtotal
+          %td.medium_item.subtotal= sprintf("%10.1f", m_subtotal * (1 + buffer / total_point))
+        - m_item.small_items.each do |s_item|
+          %tr
+            %td.item_name
+              = s_item.name
+              = '↑↓'
+            - @project.project_subjects.each do |ps|
+              - sp = s_item.subject_points.find_by_project_subject_id(ps.id)
+              - class_suffix = "#{l_item.id}_#{m_item.id}_#{s_item.id}_#{ps.id}_#{sp ? sp.id : 'new'}"
+              %td.table_point_50.point_area
+                - point_50 = sp.try(:point_50)
+                - point_90 = sp.try(:point_90)
+                = point_50 ? point_50 : "-"
+                = point_90 ? "(#{point_90})" : ""
+                .hidden{id: "point_50_#{class_suffix}"}= point_50
+                .hidden{id: "point_90_#{class_suffix}"}= point_90
+              %td.table_buffered= point_50 ? sprintf("%10.1f", point_50 * (1 + buffer / total_point)) : "-"
+            - s_subtotal = s_item.subject_points.sum(:point_50)
+            %td.subtotal= s_subtotal
+            %td.subtotal= sprintf("%10.1f", s_subtotal * (1 + buffer / total_point))
+    %tr
+      %td{colspan: "#{subjects_size * 2 + 5}"}= link_to "[Add]", new_project_large_item_path(@project)
 
 #point-modal.modal.hide.fade
   .url_for_create.hidden
