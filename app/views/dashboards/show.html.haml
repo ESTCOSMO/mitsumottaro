@@ -40,7 +40,7 @@
             = '↑↓'
           - @project.project_subjects.each do |ps|
             - sp = s_item.subject_points.find_by_project_subject_id(ps.id)
-            - class_suffix = "#{l_item.id}_#{m_item.id}_#{s_item.id}_#{ps.id}"
+            - class_suffix = "#{l_item.id}_#{m_item.id}_#{s_item.id}_#{ps.id}_#{sp ? sp.id : 'new'}"
             %td{class: "point_50_#{class_suffix}"}= sp.try(:point_50) || "-"
             %td{class: "point_90_#{class_suffix}"}= sp.try(:point_90) || "-"
       %tr
@@ -60,7 +60,11 @@
       %td= '-'
 
 #point-modal.modal.hide.fade
-  = form_for SubjectPoint.new, url: project_large_item_medium_item_small_item_subject_points_path("___PID___", "___LID___", "___MID___", "___SID___"), method: :post, remote: true do |f|
+  .url_for_create.hidden
+    = project_large_item_medium_item_small_item_subject_points_path("___PID___", "___LID___", "___MID___", "___SID___")
+  .url_for_destroy.hidden
+    = project_large_item_medium_item_small_item_subject_point_path("___PID___", "___LID___", "___MID___", "___SID___", "__SPID__")
+  = form_for SubjectPoint.new, url: "#", method: :post, remote: true do |f|
     .modal-header
       %button.close{"type" => "button", "data-dissmiss" => "modal", "aria-hidden" => true}
         &times;
@@ -71,8 +75,9 @@
       = f.text_field :point_50
       = f.text_field :point_90
       = f.hidden_field :project_subject_id
+      = hidden_field_tag :_method, "POST"
     .modal-footer
-      = submit_tag "保存", class: "btn btn-primary"
-      = submit_tag "削除", class: "btn"
+      = submit_tag "保存", class: "btn btn-primary btn-create"
+      = submit_tag "削除", class: "btn btn-delete"
       %a.btn.close_btn
         閉じる
