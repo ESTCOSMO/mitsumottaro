@@ -4,6 +4,13 @@ Mitsumoritaro::Application.routes.draw do
 
   resources :projects do
     resource :dashboard
+    resources :large_items, controller: :items do
+      resources :medium_items, controller: :items do
+        resources :small_items, controller: :items do
+          resources :subject_points
+        end
+      end
+    end
   end
 
 
