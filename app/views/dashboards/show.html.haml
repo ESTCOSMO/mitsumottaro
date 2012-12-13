@@ -34,7 +34,7 @@
           %td.medium_item.item_name{rowspan: "#{m_item.count_of_small_items + 1}"}
             = m_item.name
             = m_item.first? ? '' : (link_to '↑', move_higher_project_large_item_medium_item_path(@project, l_item, m_item))
-            = m_item.last? == 1 ? '' : (link_to '↓', move_lower_project_large_item_medium_item_path(@project, l_item, m_item))
+            = m_item.last? ? '' : (link_to '↓', move_lower_project_large_item_medium_item_path(@project, l_item, m_item))
           %td.medium_item
             サマリー
             = link_to "[Add]", new_project_large_item_medium_item_small_item_path(@project, l_item, m_item)
