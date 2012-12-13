@@ -1,10 +1,6 @@
-- subjects_size = @project.project_subjects.size
-- lids = @project.large_items.pluck(:id)
-- mids = MediumItem.where(large_item_id: lids).pluck(:id)
-- sids = SmallItem.where(medium_item_id: mids).pluck(:id)
-- subject_points = SubjectPoint.where(small_item_id: sids)
-- total_point = subject_points.sum(:point_50)
-- buffer = Math::sqrt(subject_points.map{|sp| (sp.point_90 - sp.point_50) ** 2}.inject(0){|result, square| result += square}) / 2
+- total_point = @project.sum_of_point_50
+- buffer = @project.buffer
+- ratio = 1 + (buffer / total_point)
 .project_id.hidden= @project.id
 %h2= @project.name
 %h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
@@ -25,10 +21,10 @@
         - @project.project_subjects.each do |ps|
           - l_subject_total = l_item.sum_of_point_50_by_project_subject_id(ps.id)
           %td.large_item.subtotal= l_subject_total
-          %td.large_item.point= sprintf("%10.1f", l_subject_total * (1 + buffer / total_point))
+          %td.large_item.point= sprintf("%10.1f", l_subject_total * ratio)
         - l_subtotal = l_item.sum_of_point_50
         %td.large_item.subtotal= l_subtotal
-        %td.large_item.subtotal= sprintf("%10.1f", l_subtotal * (1 + buffer / total_point))
+        %td.large_item.subtotal= sprintf("%10.1f", l_subtotal * ratio)
       - l_item.medium_items.each do |m_item|
         %tr
           %td.medium_item.item_name{rowspan: "#{m_item.count_of_small_items + 1}", id: "item_name_#{l_item.id}_#{m_item.id}"}
@@ -41,10 +37,10 @@
           - @project.project_subjects.each do |ps|
             - m_subject_total = ps.subject_points.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
             %td.medium_item.subtotal= m_subject_total
-            %td.medium_item.point= sprintf("%10.1f", m_subject_total * (1 + buffer / total_point))
+            %td.medium_item.point= sprintf("%10.1f", m_subject_total * ratio)
           - m_subtotal = SubjectPoint.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
           %td.medium_item.subtotal= m_subtotal
-          %td.medium_item.subtotal= sprintf("%10.1f", m_subtotal * (1 + buffer / total_point))
+          %td.medium_item.subtotal= sprintf("%10.1f", m_subtotal * ratio)
         - m_item.small_items.each do |s_item|
           %tr
             %td.item_name{id: "item_name_#{l_item.id}_#{m_item.id}_#{s_item.id}"}
@@ -61,10 +57,10 @@
                 = point_90 ? "(#{point_90})" : ""
                 .hidden{id: "point_50_#{class_suffix}"}= point_50
                 .hidden{id: "point_90_#{class_suffix}"}= point_90
-              %td.table_buffered= point_50 ? sprintf("%10.1f", point_50 * (1 + buffer / total_point)) : "-"
+              %td.table_buffered= point_50 ? sprintf("%10.1f", point_50 * ratio) : "-"
             - s_subtotal = s_item.subject_points.sum(:point_50)
             %td.subtotal= s_subtotal
-            %td.subtotal= sprintf("%10.1f", s_subtotal * (1 + buffer / total_point))
+            %td.subtotal= sprintf("%10.1f", s_subtotal * ratio)
 
 = render 'point_modal'
 = render 'item_modal'

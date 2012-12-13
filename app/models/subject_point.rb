@@ -5,4 +5,8 @@ class SubjectPoint < ActiveRecord::Base
   validates :project_subject_id, presence: true
   validates :point_50, numericality: { only_integer: true }
   validates :point_90, numericality: { only_integer: true }
+
+  def square_of_diff
+    point_50 && point_90 ? (point_90 - point_50) ** 2 : 0
+  end
 end

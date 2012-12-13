@@ -5,4 +5,20 @@ class Project < ActiveRecord::Base
   has_many :subjects, through: :project_subjects, order: "project_subjects.position"
   accepts_nested_attributes_for :project_subjects, allow_destroy: true
   validates :name, presence: true
+
+  def sum_of_point_50
+    large_items.map(&:sum_of_point_50).inject(0, :+)
+  end
+
+  def sum_of_point_50_by_project_subject_id(project_subject_id)
+    large_items.map{|l| l.sum_of_point_50_by_project_subject_id(project_subject_id) }.inject(0, :+)
+  end
+
+  def sum_of_square_of_diff
+    large_items.map(&:sum_of_square_of_diff).inject(0, :+)
+  end
+
+  def buffer
+    Math::sqrt(sum_of_square_of_diff) / 2
+  end
 end
