@@ -1,31 +1,20 @@
 class ItemsController < ApplicationController
   before_filter :set_project_to_variable
 
-  def new
-    large_item_id = params[:large_item_id]
-    medium_item_id = params[:medium_item_id]
-    if large_item_id.blank?
-      @item = @project.large_items.build
-    elsif medium_item_id.blank?
-      @item = @project.large_items.find(large_item_id).medium_items.build
-    else
-      @item = @project.large_items.find(large_item_id).medium_items.find(medium_item_id).small_items.build
-    end
-  end
-
   def create
     large_item_id = params[:large_item_id]
     medium_item_id = params[:medium_item_id]
 
     if large_item_id.blank?
-      @item = @project.large_items.create!(params[:large_item])
+      @project.large_items.create!(params[:large_item])
     elsif medium_item_id.blank?
-      @item = @project.large_items.find(large_item_id).medium_items.create!(params[:medium_item])
+      @project.large_items.find(large_item_id).medium_items.create!(params[:medium_item])
     else
-      @item = @project.large_items.find(large_item_id).medium_items.find(medium_item_id).small_items.create!(params[:small_item])
+      @project.large_items.find(large_item_id).medium_items.find(medium_item_id).small_items.create!(params[:small_item])
     end
-
-    redirect_to project_dashboard_path(@project.id)
+    render nothing: true, status: :ok
+  rescue ActiveRecord::RecordInvalid => e
+    render json: e.record.errors.full_messages, status: :bad_request
   end
 
   def move_higher

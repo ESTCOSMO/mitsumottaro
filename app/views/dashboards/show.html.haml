@@ -10,7 +10,7 @@
 %h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
 
 .dashboard-table
-  = link_to "[Add]", new_project_large_item_path(@project)
+  = link_to "[Add]", "#", id: "add_item"
   %table.table.table-condensed.table-bordered
     - @project.large_items.each do |l_item|
       = render 'table_header'
@@ -21,7 +21,7 @@
           = l_item.last? ? '' : (link_to '↓', move_lower_project_large_item_path(@project, l_item))
         %td.large_item{colspan: 2}
           サマリー
-          = link_to "[Add]", new_project_large_item_medium_item_path(@project, l_item)
+          = link_to "[Add]", new_project_large_item_medium_item_path(@project, l_item), id: "add_item_#{l_item.id}"
         - @project.project_subjects.each do |ps|
           - l_subject_total = l_item.sum_of_point_50_by_project_subject_id(ps.id)
           %td.large_item.subtotal= l_subject_total
@@ -37,7 +37,7 @@
             = m_item.last? ? '' : (link_to '↓', move_lower_project_large_item_medium_item_path(@project, l_item, m_item))
           %td.medium_item
             サマリー
-            = link_to "[Add]", new_project_large_item_medium_item_small_item_path(@project, l_item, m_item)
+            = link_to "[Add]", new_project_large_item_medium_item_small_item_path(@project, l_item, m_item), id: "add_item_#{l_item.id}_#{m_item.id}"
           - @project.project_subjects.each do |ps|
             - m_subject_total = ps.subject_points.where(small_item_id: m_item.small_items.pluck(:id)).sum(:point_50)
             %td.medium_item.subtotal= m_subject_total
@@ -67,3 +67,4 @@
             %td.subtotal= sprintf("%10.1f", s_subtotal * (1 + buffer / total_point))
 
 = render 'point_modal'
+= render 'item_modal'
