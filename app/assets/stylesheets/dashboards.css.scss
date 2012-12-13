@@ -2,6 +2,7 @@
   td {
     font-size: 0.8em;
   }
+
   th {
     font-size: 0.6em;
     white-space: nowrap;
@@ -10,6 +11,10 @@
 
   .item_name {
     white-space: nowrap;
+    cursor: pointer;
+    &:hover {
+      background-color: pink;
+    }
   }
 
   .blank_row {
@@ -18,16 +23,15 @@
 
   .table_point_50 {
     text-align: right;
+    cursor: pointer;
+    &:hover {
+      background-color: pink;
+    }
   }
 
   .table_buffered {
     text-align: right;
     color: blue;
-  }
-
-  .table_point_90 {
-    text-align: right;
-    color: silver;
   }
 
   .large_item {
