@@ -10,6 +10,7 @@
 %h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
 
 .dashboard-table
+  = link_to "[Add]", new_project_large_item_path(@project)
   %table.table.table-condensed.table-bordered
     - @project.large_items.each do |l_item|
       = render 'table_header'
@@ -64,8 +65,6 @@
             - s_subtotal = s_item.subject_points.sum(:point_50)
             %td.subtotal= s_subtotal
             %td.subtotal= sprintf("%10.1f", s_subtotal * (1 + buffer / total_point))
-    %tr
-      %td{colspan: "#{subjects_size * 2 + 5}"}= link_to "[Add]", new_project_large_item_path(@project)
 
 #point-modal.modal.hide.fade
   .url_for_create.hidden
