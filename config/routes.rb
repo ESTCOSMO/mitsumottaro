@@ -5,8 +5,20 @@ Mitsumoritaro::Application.routes.draw do
   resources :projects do
     resource :dashboard
     resources :large_items, controller: :items do
+      member do
+        get "move_higher" => 'items#move_higher', as: :move_higher
+        get "move_lower" => 'items#move_lower', as: :move_lower
+      end
       resources :medium_items, controller: :items do
+        member do
+          get "move_higher" => 'items#move_higher', as: :move_higher
+          get "move_lower" =>  'items#move_lower', as: :move_lower
+        end
         resources :small_items, controller: :items do
+          member do
+            get "move_higher" => 'items#move_higher', as: :move_higher
+            get "move_lower" => 'items#move_lower', as: :move_lower
+          end
           resources :subject_points
         end
       end
