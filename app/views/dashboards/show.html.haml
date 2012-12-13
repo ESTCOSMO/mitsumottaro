@@ -66,31 +66,4 @@
             %td.subtotal= s_subtotal
             %td.subtotal= sprintf("%10.1f", s_subtotal * (1 + buffer / total_point))
 
-#point-modal.modal.hide
-  .url_for_create.hidden
-    = project_large_item_medium_item_small_item_subject_points_path("___PID___", "___LID___", "___MID___", "___SID___")
-  .url_for_destroy.hidden
-    = project_large_item_medium_item_small_item_subject_point_path("___PID___", "___LID___", "___MID___", "___SID___", "__SPID__")
-  = form_for SubjectPoint.new, url: "#", method: :post, remote: true, html: { class: 'form-horizontal'} do |f|
-    .modal-header
-      %button.close{"type" => "button", "data-dissmiss" => "modal", "aria-hidden" => true}
-        &times;
-      %h3
-        Pointの登録
-    .modal-body
-      .alert.alert-error.hidden
-      .control-group
-        = f.label :point_50, class: 'control-label'
-        .controls
-          = f.text_field :point_50, class: "text_field span2"
-      .control-group
-        = f.label :point_90, class: 'control-label'
-        .controls
-          = f.text_field :point_90, class: "text_field span2"
-      = f.hidden_field :project_subject_id
-      = hidden_field_tag :_method, "POST"
-      .form-actions
-        = submit_tag "保存", class: "btn btn-primary btn-create"
-        = submit_tag "削除", class: "btn btn-delete"
-        %a.btn.close_btn
-          閉じる
+= render 'point_modal'
