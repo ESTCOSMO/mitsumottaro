@@ -15,8 +15,8 @@
     - @project.large_items.each do |l_item|
       = render 'table_header'
       %tr
-        %td.large_item.item_name{rowspan: "#{l_item.count_of_medium_items + l_item.count_of_small_items + 1}"}
-          = l_item.name
+        %td.large_item.item_name{rowspan: "#{l_item.count_of_medium_items + l_item.count_of_small_items + 1}", id: "item_name_#{l_item.id}"}
+          %span.plain_item_name= l_item.name
           = l_item.first? ? '' : (link_to '↑', move_higher_project_large_item_path(@project, l_item))
           = l_item.last? ? '' : (link_to '↓', move_lower_project_large_item_path(@project, l_item))
         %td.large_item{colspan: 2}
@@ -31,8 +31,8 @@
         %td.large_item.subtotal= sprintf("%10.1f", l_subtotal * (1 + buffer / total_point))
       - l_item.medium_items.each do |m_item|
         %tr
-          %td.medium_item.item_name{rowspan: "#{m_item.count_of_small_items + 1}"}
-            = m_item.name
+          %td.medium_item.item_name{rowspan: "#{m_item.count_of_small_items + 1}", id: "item_name_#{l_item.id}_#{m_item.id}"}
+            %span.plain_item_name= m_item.name
             = m_item.first? ? '' : (link_to '↑', move_higher_project_large_item_medium_item_path(@project, l_item, m_item))
             = m_item.last? ? '' : (link_to '↓', move_lower_project_large_item_medium_item_path(@project, l_item, m_item))
           %td.medium_item
@@ -47,8 +47,8 @@
           %td.medium_item.subtotal= sprintf("%10.1f", m_subtotal * (1 + buffer / total_point))
         - m_item.small_items.each do |s_item|
           %tr
-            %td.item_name
-              = s_item.name
+            %td.item_name{id: "item_name_#{l_item.id}_#{m_item.id}_#{s_item.id}"}
+              %span.plain_item_name= s_item.name
               = s_item.first? ? '' : (link_to '↑', move_higher_project_large_item_medium_item_small_item_path(@project, l_item, m_item, s_item))
               = s_item.last? ? '' : (link_to '↓', move_lower_project_large_item_medium_item_small_item_path(@project, l_item, m_item, s_item))
             - @project.project_subjects.each do |ps|

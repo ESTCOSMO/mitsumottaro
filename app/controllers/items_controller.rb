@@ -17,6 +17,22 @@ class ItemsController < ApplicationController
     render json: e.record.errors.full_messages, status: :bad_request
   end
 
+  def update
+    large_item_id = params[:large_item_id]
+    medium_item_id = params[:medium_item_id]
+
+    if large_item_id.blank?
+      @project.large_items.find(params[:id]).update_attributes!(params[:large_item])
+    elsif medium_item_id.blank?
+      @project.large_items.find(large_item_id).medium_items.find(params[:id]).update_attributes!(params[:medium_item])
+    else
+      @project.large_items.find(large_item_id).medium_items.find(medium_item_id).small_items.find(params[:id]).update_attributes!(params[:small_item])
+    end
+    render nothing: true, status: :ok
+  rescue ActiveRecord::RecordInvalid => e
+    render json: e.record.errors.full_messages, status: :bad_request
+  end
+
   def move_higher
     item = find_item_from_params
     item.move_higher
