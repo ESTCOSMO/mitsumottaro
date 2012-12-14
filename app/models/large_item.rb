@@ -10,7 +10,7 @@ class LargeItem < ActiveRecord::Base
   end
 
   def sum_of_point_50_by_project_subject_id(project_subject_id)
-    medium_items.map{|m| m.sum_of_point_50_by_project_subject_id(project_subject_id) }.inject(:+)
+    medium_items.map{|m| m.sum_of_point_50_by_project_subject_id(project_subject_id) }.inject(0, :+)
   end
 
   def sum_of_square_of_diff
