@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <% ratio = 1 + @project.buffer / @project.sum_of_point_50 %>
+    <Table>
+      <Row>
+        <Cell ss:StyleID="ce1"><Data ss:Type="String"><%= @project.name %> 見積書</Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String"></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">50%</Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 %></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">バッファ</Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.buffer %></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String"></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">大区分</Data></Cell>
+        <Cell><Data ss:Type="String">中区分</Data></Cell>
+        <Cell><Data ss:Type="String">小区分</Data></Cell>
+        <Cell><Data ss:Type="String">科目</Data></Cell>
+        <Cell><Data ss:Type="String">Point</Data></Cell>
+        <Cell><Data ss:Type="String">Point + b</Data></Cell>
+        <Cell><Data ss:Type="String">人日</Data></Cell>
+        <Cell><Data ss:Type="String">単価(円/人日)</Data></Cell>
+        <Cell><Data ss:Type="String">小計(円)</Data></Cell>
+      </Row>
+      <% @project.large_items.each do |l_item| %>
+        <Row>
+          <Cell><Data ss:Type="String"><%= l_item.name %></Data></Cell>
+        </Row>
+        <% l_item.medium_items.each do |m_item| %>
+          <Row>
+            <Cell><Data ss:Type="String"></Data></Cell>
+            <Cell><Data ss:Type="String"><%= m_item.name %></Data></Cell>
+          </Row>
+          <% m_item.small_items.each do |s_item| %>
+            <Row>
+              <Cell><Data ss:Type="String"></Data></Cell>
+              <Cell><Data ss:Type="String"></Data></Cell>
+              <Cell><Data ss:Type="String"><%= s_item.name %></Data></Cell>
+            </Row>
+            <% @project.project_subjects.each do |ps| %>
+  	    <% s_point = s_item.subject_points.find_by_project_subject_id(ps.id) %>
+              <% if s_point %>
+                <% point = s_point.point_50 * ratio %>
+                <Row>
+                  <Cell><Data ss:Type="String"></Data></Cell>
+                  <Cell><Data ss:Type="String"></Data></Cell>
+                  <Cell><Data ss:Type="String"></Data></Cell>
+                  <Cell><Data ss:Type="String"><%= ps.name %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= s_point.point_50 %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= point %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= point * @project.days_per_point %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= ps.price_per_day %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= point * @project.days_per_point * ps.price_per_day %></Data></Cell>
+                </Row>
+              <% end %>
+            <% end %>
+          <% end # small %>
+        <% end # medium %>
+      <% end # large %>
+      <Row>
+        <Cell><Data ss:Type="String">合計</Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 * ratio %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 * ratio * @project.days_per_point %></Data></Cell>
+        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.total_price %></Data></Cell>
+      </Row>
+    </Table>
+  </Worksheet>
+</Workbook>

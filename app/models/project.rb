@@ -19,7 +19,7 @@ class Project < ActiveRecord::Base
   end
 
   def buffer
-    Math::sqrt(sum_of_square_of_diff) / 2
+    Math::sqrt(sum_of_square_of_diff)
   end
 
   def total_price

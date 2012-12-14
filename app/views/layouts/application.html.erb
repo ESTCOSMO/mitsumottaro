@@ -48,8 +48,9 @@
           <div class="container-fluid nav-collapse">
             <ul class="nav">
               <li><%= link_to "プロジェクトリスト", projects_path  %></li>
-              <li><%= link_to "種別", subjects_path  %></li>
+              <li><%= link_to "科目テンプレート", subjects_path %></li>
               <% if params[:project_id] %>
+                <li><%= link_to "科目", project_project_subjects_path(params[:project_id]) %></li>
                 <li><%= link_to "プロジェクトトップ", project_dashboard_path(params[:project_id])  %></li>
               <% end %>
             </ul>

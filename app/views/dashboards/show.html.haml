@@ -5,7 +5,9 @@
 %h2= @project.name
 %h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
 %p
-  = link_to "[バッファ込み見積りCSV]", buffer_distributed_project_dashboard_path(@project, format: :csv)
+  バッファ分散型見積り出力
+  = link_to "[CSV]", buffer_distributed_project_dashboard_path(@project, format: :csv)
+  = link_to "[XML(Office)]", buffer_distributed_project_dashboard_path(@project, format: :xml)
 
 .dashboard-table
   = link_to "[Add]", "#", id: "add_item"
