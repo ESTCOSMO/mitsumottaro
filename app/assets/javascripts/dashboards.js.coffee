@@ -97,11 +97,14 @@ $ () ->
     item_modal.find("input[name=_method]").val(method)
 
   $("#item-modal").find(".btn-destroy").on "click", ->
-    item_modal = $("#item-modal")
-    action = item_modal.find(".url_for_save").text()
-    method = "DELETE"
-    item_modal.find("form").attr("action", action)
-    item_modal.find("input[name=_method]").val(method)
+    if confirm("Are you sure?")
+      item_modal = $("#item-modal")
+      action = item_modal.find(".url_for_save").text()
+      method = "DELETE"
+      item_modal.find("form").attr("action", action)
+      item_modal.find("input[name=_method]").val(method)
+    else
+      false
 
   #
   # Add item

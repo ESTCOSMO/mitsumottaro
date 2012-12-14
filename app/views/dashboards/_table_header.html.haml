@@ -14,7 +14,7 @@
       = ps.first? ? '' : (link_to '←', move_higher_project_project_subject_path(@project, ps))
       = ps.last? ? '' : (link_to '→', move_lower_project_project_subject_path(@project, ps))
   %th{colspan: 2}
-    小計
+    = is_project_summary ? "合計" : "小計"
 %tr
   - (subjects_size).times do
     %th= "50%(90%)"

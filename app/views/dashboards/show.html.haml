@@ -8,8 +8,18 @@
 .dashboard-table
   = link_to "[Add]", "#", id: "add_item"
   %table.table.table-condensed.table-bordered
+    = render partial: 'table_header', locals: {is_project_summary: true}
+    %tr
+      %td.project.item_name{colspan: 3} プロジェクトサマリ
+      - @project.project_subjects.each do |ps|
+        - p_subject_total = @project.sum_of_point_50_by_project_subject_id(ps.id)
+        %td.project.subtotal= p_subject_total
+        %td.project.point= sprintf("%10.1f", p_subject_total * ratio)
+      - p_total = @project.sum_of_point_50
+      %td.project.subtotal= p_total
+      %td.project.point= sprintf("%10.1f", p_total * ratio)
     - @project.large_items.each do |l_item|
-      = render 'table_header'
+      = render partial: 'table_header', locals: {is_project_summary: true}
       %tr
         %td.large_item.item_name{rowspan: "#{l_item.count_of_medium_items + l_item.count_of_small_items + 1}", id: "item_name_#{l_item.id}"}
           %span.plain_item_name= l_item.name
