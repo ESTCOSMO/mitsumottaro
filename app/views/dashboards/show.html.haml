@@ -4,6 +4,8 @@
 .project_id.hidden= @project.id
 %h2= @project.name
 %h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
+%p
+  = link_to "[バッファ込み見積りCSV]", buffer_distributed_project_dashboard_path(@project, format: :csv)
 
 .dashboard-table
   = link_to "[Add]", "#", id: "add_item"

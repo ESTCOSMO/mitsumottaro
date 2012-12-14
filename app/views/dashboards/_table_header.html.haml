@@ -10,7 +10,7 @@
     小項目
   - @project.project_subjects.each do |ps|
     %th{colspan: 2}
-      = ps.subject.name
+      = ps.name
       = ps.first? ? '' : (link_to '←', move_higher_project_project_subject_path(@project, ps))
       = ps.last? ? '' : (link_to '→', move_lower_project_project_subject_path(@project, ps))
   %th{colspan: 2}

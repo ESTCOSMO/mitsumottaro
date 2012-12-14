@@ -7,8 +7,7 @@
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:position) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%= model_class.human_attribute_name(:price_per_day) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -17,8 +16,7 @@
       <tr>
         <td><%= link_to subject.id, subject_path(subject) %></td>
         <td><%= subject.name %></td>
-        <td><%= subject.position %></td>
-        <td><%=l subject.created_at %></td>
+        <td><%= subject.price_per_day %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_subject_path(subject), :class => 'btn btn-mini' %>

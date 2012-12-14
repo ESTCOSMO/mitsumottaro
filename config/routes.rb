@@ -1,9 +1,11 @@
 Mitsumoritaro::Application.routes.draw do
   resources :subjects
-
-
   resources :projects do
-    resource :dashboard
+    resource :dashboard do
+      member do
+        get "buffer_distributed" => 'dashboards#buffer_distributed', as: :buffer_distributed
+      end
+    end
     resources :project_subjects do
       member do
         get "move_higher" => 'project_subjects#move_higher', as: :move_higher

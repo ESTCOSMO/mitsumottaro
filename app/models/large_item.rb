@@ -24,4 +24,8 @@ class LargeItem < ActiveRecord::Base
   def count_of_medium_items
     medium_items.size
   end
+
+  def total_price(ratio, days_per_point)
+    medium_items.map{|item| item.total_price(ratio, days_per_point)}.inject(0, :+)
+  end
 end

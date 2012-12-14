@@ -20,4 +20,8 @@ class MediumItem < ActiveRecord::Base
   def sum_of_square_of_diff
     small_items.map(&:sum_of_square_of_diff).inject(0, :+)
   end
+
+  def total_price(ratio, days_per_point)
+    small_items.map{|item| item.total_price(ratio, days_per_point)}.inject(0, :+)
+  end
 end
