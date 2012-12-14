@@ -96,6 +96,13 @@ $ () ->
     item_modal.find("form").attr("action", action)
     item_modal.find("input[name=_method]").val(method)
 
+  $("#item-modal").find(".btn-destroy").on "click", ->
+    item_modal = $("#item-modal")
+    action = item_modal.find(".url_for_save").text()
+    method = "DELETE"
+    item_modal.find("form").attr("action", action)
+    item_modal.find("input[name=_method]").val(method)
+
   #
   # Add item
   #
@@ -121,6 +128,7 @@ $ () ->
     item_modal.find(".method_for_save").text("POST")
     item_modal.find(".alert").addClass("hidden")
     item_modal.find("#large_item_name").val("")
+    item_modal.find(".btn-destroy").addClass("hidden")
     item_modal.find("#large_item_name").attr("name", text_field_name)
     item_modal.modal("show")
     false
@@ -149,6 +157,7 @@ $ () ->
     item_modal.find(".url_for_save").text(url_for_update)
     item_modal.find(".method_for_save").text("PUT")
     item_modal.find(".alert").addClass("hidden")
+    item_modal.find(".btn-destroy").removeClass("hidden")
     orig_item_name = $(this).find(".plain_item_name").text()
     item_modal.find("#large_item_name").val(orig_item_name)
     item_modal.find("#large_item_name").attr("name", text_field_name)
