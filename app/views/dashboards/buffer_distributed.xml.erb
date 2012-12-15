@@ -14,12 +14,20 @@
         <Cell><Data ss:Type="String"></Data></Cell>
       </Row>
       <Row>
-        <Cell><Data ss:Type="String">50%</Data></Cell>
+        <Cell><Data ss:Type="String">確率50%合計</Data></Cell>
         <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 %></Data></Cell>
       </Row>
       <Row>
-        <Cell><Data ss:Type="String">バッファ</Data></Cell>
+        <Cell><Data ss:Type="String">人日/Point</Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.days_per_point %></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">バッファ(Point)</Data></Cell>
         <Cell><Data ss:Type="Number"><%= @project.buffer %></Data></Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">バッファ(人日)</Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.buffer * @project.days_per_point %></Data></Cell>
       </Row>
       <Row>
         <Cell><Data ss:Type="String"></Data></Cell>
@@ -29,11 +37,13 @@
         <Cell><Data ss:Type="String">中区分</Data></Cell>
         <Cell><Data ss:Type="String">小区分</Data></Cell>
         <Cell><Data ss:Type="String">科目</Data></Cell>
-        <Cell><Data ss:Type="String">Point</Data></Cell>
-        <Cell><Data ss:Type="String">Point + b</Data></Cell>
-        <Cell><Data ss:Type="String">人日</Data></Cell>
+        <Cell><Data ss:Type="String">Point(50%)</Data></Cell>
+        <Cell><Data ss:Type="String">Point(b込)</Data></Cell>
+        <Cell><Data ss:Type="String">人日(50%)</Data></Cell>
+        <Cell><Data ss:Type="String">人日(b込)</Data></Cell>
         <Cell><Data ss:Type="String">単価(円/人日)</Data></Cell>
-        <Cell><Data ss:Type="String">小計(円)</Data></Cell>
+        <Cell><Data ss:Type="String">小計(円)(50%)</Data></Cell>
+        <Cell><Data ss:Type="String">小計(円)(b込)</Data></Cell>
       </Row>
       <% @project.categories.each do |category| %>
         <Row>
@@ -61,8 +71,10 @@
                   <Cell><Data ss:Type="String"><%= pt.name %></Data></Cell>
                   <Cell><Data ss:Type="Number"><%= s_point.point_50 %></Data></Cell>
                   <Cell><Data ss:Type="Number"><%= point %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= s_point.point_50 * @project.days_per_point %></Data></Cell>
                   <Cell><Data ss:Type="Number"><%= point * @project.days_per_point %></Data></Cell>
                   <Cell><Data ss:Type="Number"><%= pt.price_per_day %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= s_point.point_50 * @project.days_per_point * pt.price_per_day %></Data></Cell>
                   <Cell><Data ss:Type="Number"><%= point * @project.days_per_point * pt.price_per_day %></Data></Cell>
                 </Row>
               <% end %>
@@ -77,9 +89,11 @@
         <Cell><Data ss:Type="String"></Data></Cell>
         <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 * ratio %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 * @project.days_per_point %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 * ratio * @project.days_per_point %></Data></Cell>
         <Cell><Data ss:Type="String"></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= @project.total_price %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.total_price_50 %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.total_price_with_buffer %></Data></Cell>
       </Row>
     </Table>
   </Worksheet>

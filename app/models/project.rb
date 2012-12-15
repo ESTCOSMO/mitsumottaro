@@ -22,8 +22,13 @@ class Project < ActiveRecord::Base
     Math::sqrt(sum_of_square_of_diff)
   end
 
-  def total_price
+  def total_price_with_buffer
     ratio = 1.0 + buffer / sum_of_point_50
+    categories.map{|c| c.total_price(ratio, days_per_point)}.inject(0, :+)
+  end
+
+  def total_price_50
+    ratio = 1.0
     categories.map{|c| c.total_price(ratio, days_per_point)}.inject(0, :+)
   end
 end
