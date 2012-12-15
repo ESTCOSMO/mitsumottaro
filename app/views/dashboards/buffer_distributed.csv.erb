@@ -1,19 +1,19 @@
 <% ratio = 1 + @project.buffer / @project.sum_of_point_50 %>
 大区分,中区分,小区分,科目,Point + b,人日,単価(人日当たり),小計
-<% @project.large_items.each do |l_item| -%>
-<%= l_item.name %>,,,,,,,
-<% l_item.medium_items.each do |m_item| -%>
-,<%= m_item.name %>,,,,,,
-<% m_item.small_items.each do |s_item| -%>
-,,<%= s_item.name %>,,,,,
+<% @project.categories.each do |category| -%>
+<%= category.name %>,,,,,,,
+<% category.sub_categories.each do |sub_category| -%>
+,<%= sub_category.name %>,,,,,,
+<% sub_category.stories.each do |story| -%>
+,,<%= story.name %>,,,,,
 <% @project.project_subjects.each do |ps| -%>
-<% s_point = s_item.subject_points.find_by_project_subject_id(ps.id) -%>
+<% s_point = story.subject_points.find_by_project_subject_id(ps.id) -%>
 <% if s_point -%>
 <% point = s_point.point_50 * ratio -%>
 ,,,<%= ps.name %>,<%= sprintf("%10.2f",point) %>,<%= sprintf("%10.2f", point * @project.days_per_point) %>,<%= ps.price_per_day %>,<%= sprintf("%10.1f", point * @project.days_per_point * ps.price_per_day) %>
 <% end -%>
 <% end -%>
-<% end # small -%>
-<% end # medium -%>
-<% end # large -%>
+<% end # story -%>
+<% end # sub_category -%>
+<% end # category -%>
 合計,,,,<%= (@project.sum_of_point_50 * ratio).round(1) %>,<%= (@project.sum_of_point_50 * ratio * @project.days_per_point).round(1) %>,,<%= @project.total_price.round %>

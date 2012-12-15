@@ -11,22 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121214051456) do
+ActiveRecord::Schema.define(:version => 20121215074058) do
 
-  create_table "large_items", :force => true do |t|
+  create_table "categories", :force => true do |t|
     t.integer  "project_id"
     t.string   "name"
     t.integer  "position"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "medium_items", :force => true do |t|
-    t.integer  "large_item_id"
-    t.string   "name"
-    t.integer  "position"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
   end
 
   create_table "project_subjects", :force => true do |t|
@@ -46,16 +38,24 @@ ActiveRecord::Schema.define(:version => 20121214051456) do
     t.datetime "updated_at",     :null => false
   end
 
-  create_table "small_items", :force => true do |t|
-    t.integer  "medium_item_id"
+  create_table "stories", :force => true do |t|
+    t.integer  "sub_category_id"
     t.string   "name"
     t.integer  "position"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "sub_categories", :force => true do |t|
+    t.integer  "category_id"
+    t.string   "name"
+    t.integer  "position"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "subject_points", :force => true do |t|
-    t.integer  "small_item_id"
+    t.integer  "story_id"
     t.integer  "project_subject_id"
     t.integer  "point_50"
     t.integer  "point_90"

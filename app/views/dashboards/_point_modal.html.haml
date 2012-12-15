@@ -1,6 +1,6 @@
 #point-modal.modal.hide
-  .url_template_for_create.hidden= project_large_item_medium_item_small_item_subject_points_path("___PID___", "___LID___", "___MID___", "___SID___")
-  .url_template_for_destroy.hidden= project_large_item_medium_item_small_item_subject_point_path("___PID___", "___LID___", "___MID___", "___SID___", "__SPID__")
+  .url_template_for_create.hidden= project_category_sub_category_story_subject_points_path("___PID___", "___LID___", "___MID___", "___SID___")
+  .url_template_for_destroy.hidden= project_category_sub_category_story_subject_point_path("___PID___", "___LID___", "___MID___", "___SID___", "__SPID__")
   .url_for_create.hidden
   .url_for_destroy.hidden
   = form_for SubjectPoint.new, url: "#", method: :post, remote: true, html: { class: 'form-horizontal'} do |f|

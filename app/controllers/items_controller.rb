@@ -2,15 +2,15 @@ class ItemsController < ApplicationController
   before_filter :set_project_to_variable
 
   def create
-    large_item_id = params[:large_item_id]
-    medium_item_id = params[:medium_item_id]
+    category_id = params[:category_id]
+    sub_category_id = params[:sub_category_id]
 
-    if large_item_id.blank?
-      @project.large_items.create!(params[:large_item])
-    elsif medium_item_id.blank?
-      @project.large_items.find(large_item_id).medium_items.create!(params[:medium_item])
+    if category_id.blank?
+      @project.categories.create!(params[:category])
+    elsif sub_category_id.blank?
+      @project.categories.find(category_id).sub_categories.create!(params[:sub_category])
     else
-      @project.large_items.find(large_item_id).medium_items.find(medium_item_id).small_items.create!(params[:small_item])
+      @project.categories.find(category_id).sub_categories.find(sub_category_id).stories.create!(params[:story])
     end
     render nothing: true, status: :ok
   rescue ActiveRecord::RecordInvalid => e
@@ -20,14 +20,14 @@ class ItemsController < ApplicationController
   def update
     item = find_item_from_params
 
-    large_item_id = params[:large_item_id]
-    medium_item_id = params[:medium_item_id]
-    if large_item_id.blank?
-      item.update_attributes!(params[:large_item])
-    elsif medium_item_id.blank?
-      item.update_attributes!(params[:medium_item])
+    category_id = params[:category_id]
+    sub_category_id = params[:sub_category_id]
+    if category_id.blank?
+      item.update_attributes!(params[:category])
+    elsif sub_category_id.blank?
+      item.update_attributes!(params[:sub_category])
     else
-      item.update_attributes!(params[:small_item])
+      item.update_attributes!(params[:story])
     end
     render nothing: true, status: :ok
   rescue ActiveRecord::RecordInvalid => e
@@ -60,15 +60,15 @@ class ItemsController < ApplicationController
   end
 
   def find_item_from_params
-    large_item_id = params[:large_item_id]
-    medium_item_id = params[:medium_item_id]
+    category_id = params[:category_id]
+    sub_category_id = params[:sub_category_id]
 
-    if large_item_id.blank?
-      @project.large_items.find(params[:id])
-    elsif medium_item_id.blank?
-      @project.large_items.find(large_item_id).medium_items.find(params[:id])
+    if category_id.blank?
+      @project.categories.find(params[:id])
+    elsif sub_category_id.blank?
+      @project.categories.find(category_id).sub_categories.find(params[:id])
     else
-      @project.large_items.find(large_item_id).medium_items.find(medium_item_id).small_items.find(params[:id])
+      @project.categories.find(category_id).sub_categories.find(sub_category_id).stories.find(params[:id])
     end
   end
 end

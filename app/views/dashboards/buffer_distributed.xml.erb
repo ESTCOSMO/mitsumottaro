@@ -35,23 +35,23 @@
         <Cell><Data ss:Type="String">単価(円/人日)</Data></Cell>
         <Cell><Data ss:Type="String">小計(円)</Data></Cell>
       </Row>
-      <% @project.large_items.each do |l_item| %>
+      <% @project.categories.each do |category| %>
         <Row>
-          <Cell><Data ss:Type="String"><%= l_item.name %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= category.name %></Data></Cell>
         </Row>
-        <% l_item.medium_items.each do |m_item| %>
+        <% category.sub_categories.each do |sub_category| %>
           <Row>
             <Cell><Data ss:Type="String"></Data></Cell>
-            <Cell><Data ss:Type="String"><%= m_item.name %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= sub_category.name %></Data></Cell>
           </Row>
-          <% m_item.small_items.each do |s_item| %>
+          <% sub_category.stories.each do |story| %>
             <Row>
               <Cell><Data ss:Type="String"></Data></Cell>
               <Cell><Data ss:Type="String"></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s_item.name %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= story.name %></Data></Cell>
             </Row>
             <% @project.project_subjects.each do |ps| %>
-  	    <% s_point = s_item.subject_points.find_by_project_subject_id(ps.id) %>
+  	    <% s_point = story.subject_points.find_by_project_subject_id(ps.id) %>
               <% if s_point %>
                 <% point = s_point.point_50 * ratio %>
                 <Row>
@@ -67,9 +67,9 @@
                 </Row>
               <% end %>
             <% end %>
-          <% end # small %>
-        <% end # medium %>
-      <% end # large %>
+          <% end # story %>
+        <% end # sub_category %>
+      <% end # category %>
       <Row>
         <Cell><Data ss:Type="String">合計</Data></Cell>
         <Cell><Data ss:Type="String"></Data></Cell>

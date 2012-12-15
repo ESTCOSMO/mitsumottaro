@@ -1,10 +1,10 @@
-deploy_point_form = (l_item_id, m_item_id, s_item_id, project_subject_id, subject_point_id, point_50, point_90) ->
+deploy_point_form = (category_id, sub_category_id, story_id, project_subject_id, subject_point_id, point_50, point_90) ->
   project_id = $(".project_id").text()
   modal = $("#point-modal")
   form = modal.find("form")
-  url_for_create = modal.find(".url_template_for_create").text().replace("___PID___", project_id).replace("___LID___", l_item_id).replace("___MID___", m_item_id).replace("___SID___", s_item_id)
+  url_for_create = modal.find(".url_template_for_create").text().replace("___PID___", project_id).replace("___LID___", category_id).replace("___MID___", sub_category_id).replace("___SID___", story_id)
   modal.find(".url_for_create").text(url_for_create)
-  url_for_destroy = modal.find(".url_template_for_destroy").text().replace("___PID___", project_id).replace("___LID___", l_item_id).replace("___MID___", m_item_id).replace("___SID___", s_item_id).replace("__SPID__", subject_point_id)
+  url_for_destroy = modal.find(".url_template_for_destroy").text().replace("___PID___", project_id).replace("___LID___", category_id).replace("___MID___", sub_category_id).replace("___SID___", story_id).replace("__SPID__", subject_point_id)
   modal.find(".url_for_destroy").text(url_for_destroy)
   form.find("#subject_point_project_subject_id").val(project_subject_id)
   form.find("#subject_point_point_50").val(point_50)
@@ -55,12 +55,12 @@ $ () ->
     css_id_90 = $(this).children("[id^='point_90_']").attr("id")
     data = css_id_50.split("_")
     point_type = data[1]
-    large_item_id = data[2]
-    medium_item_id = data[3]
-    small_item_id = data[4]
+    category_id = data[2]
+    sub_category_id = data[3]
+    story_id = data[4]
     project_subject_id = data[5]
     subject_point_id = data[6]
-    selector_suffix = "#{large_item_id}_#{medium_item_id}_#{small_item_id}_#{project_subject_id}_#{subject_point_id}"
+    selector_suffix = "#{category_id}_#{sub_category_id}_#{story_id}_#{project_subject_id}_#{subject_point_id}"
     point_50 = $("##{css_id_50}").text()
     point_90 = $("##{css_id_90}").text()
     if point_50 == "-"
@@ -68,7 +68,7 @@ $ () ->
     if point_90 == "-"
       point_90 = ""
     modalform = $("#point-modal").find("form")
-    deploy_point_form large_item_id, medium_item_id, small_item_id, project_subject_id, subject_point_id, point_50, point_90
+    deploy_point_form category_id, sub_category_id, story_id, project_subject_id, subject_point_id, point_50, point_90
 
   #
   # Item Modal (common)
@@ -115,24 +115,24 @@ $ () ->
     css_id = $(this).attr("id")
     splitted = css_id.replace("add_item", "").split("_")
     if splitted.length == 1
-      template_url = item_modal.find(".url_template_for_create_large").text()
+      template_url = item_modal.find(".url_template_for_create_category").text()
       url_for_create = template_url.replace("___PID___", project_id)
-      text_field_name = "large_item[name]"
+      text_field_name = "category[name]"
     else if splitted.length == 2
-      template_url = item_modal.find(".url_template_for_create_medium").text()
+      template_url = item_modal.find(".url_template_for_create_sub_category").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[1])
-      text_field_name = "medium_item[name]"
+      text_field_name = "sub_category[name]"
     else
-      template_url = item_modal.find(".url_template_for_create_small").text()
+      template_url = item_modal.find(".url_template_for_create_story").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[1]).replace("___MID___", splitted[2])
-      text_field_name = "small_item[name]"
+      text_field_name = "story[name]"
 
     item_modal.find(".url_for_save").text(url_for_create)
     item_modal.find(".method_for_save").text("POST")
     item_modal.find(".alert").addClass("hidden")
-    item_modal.find("#large_item_name").val("")
+    item_modal.find("#category_name").val("")
     item_modal.find(".btn-destroy").addClass("hidden")
-    item_modal.find("#large_item_name").attr("name", text_field_name)
+    item_modal.find("#category_name").attr("name", text_field_name)
     item_modal.modal("show")
     false
 
@@ -145,23 +145,23 @@ $ () ->
     css_id = $(this).attr("id")
     splitted = css_id.replace("item_name_", "").split("_")
     if splitted.length == 1
-      template_url = item_modal.find(".url_template_for_update_large").text()
+      template_url = item_modal.find(".url_template_for_update_category").text()
       url_for_update = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0])
-      text_field_name = "large_item[name]"
+      text_field_name = "category[name]"
     else if splitted.length == 2
-      template_url = item_modal.find(".url_template_for_update_medium").text()
+      template_url = item_modal.find(".url_template_for_update_sub_category").text()
       url_for_update = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1])
-      text_field_name = "medium_item[name]"
+      text_field_name = "sub_category[name]"
     else
-      template_url = item_modal.find(".url_template_for_update_small").text()
+      template_url = item_modal.find(".url_template_for_update_story").text()
       url_for_update = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1]).replace("___SID___", splitted[2])
-      text_field_name = "small_item[name]"
+      text_field_name = "story[name]"
 
     item_modal.find(".url_for_save").text(url_for_update)
     item_modal.find(".method_for_save").text("PUT")
     item_modal.find(".alert").addClass("hidden")
     item_modal.find(".btn-destroy").removeClass("hidden")
     orig_item_name = $(this).find(".plain_item_name").text()
-    item_modal.find("#large_item_name").val(orig_item_name)
-    item_modal.find("#large_item_name").attr("name", text_field_name)
+    item_modal.find("#category_name").val(orig_item_name)
+    item_modal.find("#category_name").attr("name", text_field_name)
     item_modal.modal("show")

@@ -1,7 +1,7 @@
-class SmallItem < ActiveRecord::Base
-  attr_accessible :medium_item_id, :name, :position
-  belongs_to :medium_item
-  acts_as_list scope: :medium_item
+class Story < ActiveRecord::Base
+  attr_accessible :sub_category_id, :name, :position
+  belongs_to :sub_category
+  acts_as_list scope: :sub_category
   has_many :subject_points, dependent: :destroy
   validates :name, presence: true
 
