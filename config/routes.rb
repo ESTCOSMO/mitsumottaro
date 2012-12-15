@@ -3,7 +3,7 @@ Mitsumoritaro::Application.routes.draw do
   resources :projects do
     resource :dashboard do
       member do
-        get "buffer_distributed" => 'dashboards#buffer_distributed', as: :buffer_distributed
+        get "convert" => 'dashboards#convert', as: :convert
       end
     end
     resources :project_tasks do

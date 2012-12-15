@@ -3,7 +3,7 @@ class DashboardsController < ApplicationController
     @project = Project.find(params[:project_id])
   end
 
-  def buffer_distributed
+  def convert
     @project = Project.find(params[:project_id])
   end
 end

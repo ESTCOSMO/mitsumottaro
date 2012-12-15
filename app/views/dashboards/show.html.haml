@@ -6,7 +6,7 @@
 %h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
 %p
   見積り出力
-  = link_to "[Office XML]", buffer_distributed_project_dashboard_path(@project, format: :xml)
+  = link_to "[Office XML]", convert_project_dashboard_path(@project, format: :xml)
 %p
 
 .dashboard-table
