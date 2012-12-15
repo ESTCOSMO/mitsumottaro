@@ -1,19 +1,19 @@
-deploy_point_form = (category_id, sub_category_id, story_id, project_subject_id, subject_point_id, point_50, point_90) ->
+deploy_point_form = (category_id, sub_category_id, story_id, project_task_id, task_point_id, point_50, point_90) ->
   project_id = $(".project_id").text()
   modal = $("#point-modal")
   form = modal.find("form")
   url_for_create = modal.find(".url_template_for_create").text().replace("___PID___", project_id).replace("___LID___", category_id).replace("___MID___", sub_category_id).replace("___SID___", story_id)
   modal.find(".url_for_create").text(url_for_create)
-  url_for_destroy = modal.find(".url_template_for_destroy").text().replace("___PID___", project_id).replace("___LID___", category_id).replace("___MID___", sub_category_id).replace("___SID___", story_id).replace("__SPID__", subject_point_id)
+  url_for_destroy = modal.find(".url_template_for_destroy").text().replace("___PID___", project_id).replace("___LID___", category_id).replace("___MID___", sub_category_id).replace("___SID___", story_id).replace("__SPID__", task_point_id)
   modal.find(".url_for_destroy").text(url_for_destroy)
-  form.find("#subject_point_project_subject_id").val(project_subject_id)
-  form.find("#subject_point_point_50").val(point_50)
-  form.find("#subject_point_point_90").val(point_90)
+  form.find("#task_point_project_task_id").val(project_task_id)
+  form.find("#task_point_point_50").val(point_50)
+  form.find("#task_point_point_90").val(point_90)
   modal.find(".alert").addClass("hidden")
   modal.modal "show"
 
 $ () ->
-  $("#new_subject_point").bind('ajax:success', (xhr, data, status) ->
+  $("#new_task_point").bind('ajax:success', (xhr, data, status) ->
       location.reload()
     ).bind('ajax:error', (xhr, data, status) ->
       messages = jQuery.parseJSON(data.responseText)
@@ -45,9 +45,9 @@ $ () ->
     form.find("input[name='_method']").val("DELETE")
 
   $('#point-modal').on 'shown', ->
-    $("#subject_point_point_50").focus()
+    $("#task_point_point_50").focus()
 
-  $('#subject_point_point_50').focus ->
+  $('#task_point_point_50').focus ->
     $(this).select()
 
   $(".point_area").on "click", () ->
@@ -58,9 +58,9 @@ $ () ->
     category_id = data[2]
     sub_category_id = data[3]
     story_id = data[4]
-    project_subject_id = data[5]
-    subject_point_id = data[6]
-    selector_suffix = "#{category_id}_#{sub_category_id}_#{story_id}_#{project_subject_id}_#{subject_point_id}"
+    project_task_id = data[5]
+    task_point_id = data[6]
+    selector_suffix = "#{category_id}_#{sub_category_id}_#{story_id}_#{project_task_id}_#{task_point_id}"
     point_50 = $("##{css_id_50}").text()
     point_90 = $("##{css_id_90}").text()
     if point_50 == "-"
@@ -68,7 +68,7 @@ $ () ->
     if point_90 == "-"
       point_90 = ""
     modalform = $("#point-modal").find("form")
-    deploy_point_form category_id, sub_category_id, story_id, project_subject_id, subject_point_id, point_50, point_90
+    deploy_point_form category_id, sub_category_id, story_id, project_task_id, task_point_id, point_50, point_90
 
   #
   # Item Modal (common)

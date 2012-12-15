@@ -6,11 +6,11 @@
 ,<%= sub_category.name %>,,,,,,
 <% sub_category.stories.each do |story| -%>
 ,,<%= story.name %>,,,,,
-<% @project.project_subjects.each do |ps| -%>
-<% s_point = story.subject_points.find_by_project_subject_id(ps.id) -%>
+<% @project.project_tasks.each do |pt| -%>
+<% s_point = story.task_points.find_by_project_task_id(pt.id) -%>
 <% if s_point -%>
 <% point = s_point.point_50 * ratio -%>
-,,,<%= ps.name %>,<%= sprintf("%10.2f",point) %>,<%= sprintf("%10.2f", point * @project.days_per_point) %>,<%= ps.price_per_day %>,<%= sprintf("%10.1f", point * @project.days_per_point * ps.price_per_day) %>
+,,,<%= pt.name %>,<%= sprintf("%10.2f",point) %>,<%= sprintf("%10.2f", point * @project.days_per_point) %>,<%= pt.price_per_day %>,<%= sprintf("%10.1f", point * @project.days_per_point * pt.price_per_day) %>
 <% end -%>
 <% end -%>
 <% end # story -%>

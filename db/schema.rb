@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121215074058) do
+ActiveRecord::Schema.define(:version => 20121215113701) do
 
   create_table "categories", :force => true do |t|
     t.integer  "project_id"
@@ -21,12 +21,12 @@ ActiveRecord::Schema.define(:version => 20121215074058) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "project_subjects", :force => true do |t|
+  create_table "project_tasks", :force => true do |t|
     t.integer  "project_id"
-    t.integer  "subject_id"
+    t.integer  "template_task_id"
     t.integer  "position"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.string   "name"
     t.integer  "price_per_day"
   end
@@ -54,16 +54,16 @@ ActiveRecord::Schema.define(:version => 20121215074058) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "subject_points", :force => true do |t|
+  create_table "task_points", :force => true do |t|
     t.integer  "story_id"
-    t.integer  "project_subject_id"
+    t.integer  "project_task_id"
     t.integer  "point_50"
     t.integer  "point_90"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
-  create_table "subjects", :force => true do |t|
+  create_table "template_tasks", :force => true do |t|
     t.string   "name"
     t.integer  "position"
     t.datetime "created_at",    :null => false

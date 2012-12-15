@@ -13,8 +13,8 @@ class SubCategory < ActiveRecord::Base
     stories.map(&:sum_of_point_50).inject(0, :+)
   end
 
-  def sum_of_point_50_by_project_subject_id(project_subject_id)
-    stories.map{|s| s.sum_of_point_50_by_project_subject_id(project_subject_id) }.inject(0, :+)
+  def sum_of_point_50_by_project_task_id(project_task_id)
+    stories.map{|s| s.sum_of_point_50_by_project_task_id(project_task_id) }.inject(0, :+)
   end
 
   def sum_of_square_of_diff

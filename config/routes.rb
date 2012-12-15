@@ -1,15 +1,15 @@
 Mitsumoritaro::Application.routes.draw do
-  resources :subjects
+  resources :template_tasks
   resources :projects do
     resource :dashboard do
       member do
         get "buffer_distributed" => 'dashboards#buffer_distributed', as: :buffer_distributed
       end
     end
-    resources :project_subjects do
+    resources :project_tasks do
       member do
-        get "move_higher" => 'project_subjects#move_higher', as: :move_higher
-        get "move_lower" => 'project_subjects#move_lower', as: :move_lower
+        get "move_higher" => 'project_tasks#move_higher', as: :move_higher
+        get "move_lower" => 'project_tasks#move_lower', as: :move_lower
       end
     end
     resources :categories, controller: :items do
@@ -27,7 +27,7 @@ Mitsumoritaro::Application.routes.draw do
             get "move_higher" => 'items#move_higher', as: :move_higher
             get "move_lower" => 'items#move_lower', as: :move_lower
           end
-          resources :subject_points
+          resources :task_points
         end
       end
     end

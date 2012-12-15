@@ -1,6 +1,6 @@
-- subjects_size = @project.project_subjects.size
+- task_count = @project.project_tasks.size
 %tr
-  %td.blank_row{colspan: "#{subjects_size * 2 + 5}"}
+  %td.blank_row{colspan: "#{task_count * 2 + 5}"}
 %tr
   %th{rowspan: 2}
     大項目
@@ -8,15 +8,15 @@
     中項目
   %th{rowspan: 2}
     小項目
-  - @project.project_subjects.each do |ps|
+  - @project.project_tasks.each do |ps|
     %th{colspan: 2}
       = ps.name
-      = ps.first? ? '' : (link_to '←', move_higher_project_project_subject_path(@project, ps))
-      = ps.last? ? '' : (link_to '→', move_lower_project_project_subject_path(@project, ps))
+      = ps.first? ? '' : (link_to '←', move_higher_project_project_task_path(@project, ps))
+      = ps.last? ? '' : (link_to '→', move_lower_project_project_task_path(@project, ps))
   %th{colspan: 2}
     = is_project_summary ? "合計" : "小計"
 %tr
-  - (subjects_size).times do
+  - (task_count).times do
     %th= "50%(90%)"
     %th= "50%+b"
   %th

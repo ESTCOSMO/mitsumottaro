@@ -1,9 +1,9 @@
 #point-modal.modal.hide
-  .url_template_for_create.hidden= project_category_sub_category_story_subject_points_path("___PID___", "___LID___", "___MID___", "___SID___")
-  .url_template_for_destroy.hidden= project_category_sub_category_story_subject_point_path("___PID___", "___LID___", "___MID___", "___SID___", "__SPID__")
+  .url_template_for_create.hidden= project_category_sub_category_story_task_points_path("___PID___", "___LID___", "___MID___", "___SID___")
+  .url_template_for_destroy.hidden= project_category_sub_category_story_task_point_path("___PID___", "___LID___", "___MID___", "___SID___", "__SPID__")
   .url_for_create.hidden
   .url_for_destroy.hidden
-  = form_for SubjectPoint.new, url: "#", method: :post, remote: true, html: { class: 'form-horizontal'} do |f|
+  = form_for TaskPoint.new, url: "#", method: :post, remote: true, html: { class: 'form-horizontal'} do |f|
     .modal-header
       %button.close{"type" => "button", "data-dissmiss" => "modal", "aria-hidden" => true}
         &times;
@@ -19,7 +19,7 @@
         = f.label :point_90, class: 'control-label'
         .controls
           = f.text_field :point_90, class: "text_field span2"
-      = f.hidden_field :project_subject_id
+      = f.hidden_field :project_task_id
       = hidden_field_tag :_method, "POST"
       .form-actions
         = submit_tag "保存", class: "btn btn-primary btn-create"

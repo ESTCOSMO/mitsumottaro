@@ -50,20 +50,20 @@
               <Cell><Data ss:Type="String"></Data></Cell>
               <Cell><Data ss:Type="String"><%= story.name %></Data></Cell>
             </Row>
-            <% @project.project_subjects.each do |ps| %>
-  	    <% s_point = story.subject_points.find_by_project_subject_id(ps.id) %>
+            <% @project.project_tasks.each do |pt| %>
+  	    <% s_point = story.task_points.find_by_project_task_id(pt.id) %>
               <% if s_point %>
                 <% point = s_point.point_50 * ratio %>
                 <Row>
                   <Cell><Data ss:Type="String"></Data></Cell>
                   <Cell><Data ss:Type="String"></Data></Cell>
                   <Cell><Data ss:Type="String"></Data></Cell>
-                  <Cell><Data ss:Type="String"><%= ps.name %></Data></Cell>
+                  <Cell><Data ss:Type="String"><%= pt.name %></Data></Cell>
                   <Cell><Data ss:Type="Number"><%= s_point.point_50 %></Data></Cell>
                   <Cell><Data ss:Type="Number"><%= point %></Data></Cell>
                   <Cell><Data ss:Type="Number"><%= point * @project.days_per_point %></Data></Cell>
-                  <Cell><Data ss:Type="Number"><%= ps.price_per_day %></Data></Cell>
-                  <Cell><Data ss:Type="Number"><%= point * @project.days_per_point * ps.price_per_day %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= pt.price_per_day %></Data></Cell>
+                  <Cell><Data ss:Type="Number"><%= point * @project.days_per_point * pt.price_per_day %></Data></Cell>
                 </Row>
               <% end %>
             <% end %>
