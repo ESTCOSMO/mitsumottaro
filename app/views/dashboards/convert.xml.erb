@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<% days_per_point_column = "R4C2" %>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:o="urn:schemas-microsoft-com:office:office"
   xmlns:x="urn:schemas-microsoft-com:office:excel"
@@ -12,6 +13,38 @@
       <Font ss:Bold="1" />
       <Interior ss:Color="#969696" ss:Pattern="Solid" />
     </Style>
+    <Style ss:ID="story_name">
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
+    </Style>
+    <Style ss:ID="story_noname">
+      <Borders>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
+    </Style>
+    <Style ss:ID="sub_category_name">
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#FCF8E3" ss:Pattern="Solid" />
+      <Font ss:Color="#C09853" />
+    </Style>
+    <Style ss:ID="sub_category_noname">
+      <Borders>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#FCF8E3" ss:Pattern="Solid" />
+      <Font ss:Color="#C09853" />
+    </Style>
     <Style ss:ID="default">
       <Borders>
 	<Border ss:Position="Bottom" ss:LineStyle="Continuous"/>
@@ -19,6 +52,7 @@
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
       </Borders>
+      <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
     </Style>
     <Style ss:ID="total">
       <Font ss:Bold="1" />
@@ -30,8 +64,22 @@
 	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
       </Borders>
     </Style>
-    <Style ss:ID="category">
-      <Interior ss:Color="#FAC090" ss:Pattern="Solid" />
+    <Style ss:ID="category_name">
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#D9EDF7" ss:Pattern="Solid" />
+      <Font ss:Color="#3A87AD" />
+    </Style>
+    <Style ss:ID="category_noname">
+      <Borders>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#D9EDF7" ss:Pattern="Solid" />
+      <Font ss:Color="#3A87AD" />
     </Style>
     <Style ss:ID="d1">
       <NumberFormat ss:Format="0.0_ " />
@@ -51,6 +99,7 @@
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
       </Borders>
+      <Interior ss:Color="#969696" ss:Pattern="Solid" />
     </Style>
     <Style ss:ID="money0">
       <NumberFormat ss:Format="&quot;¥&quot;#,##0;&quot;¥&quot;\-#,##0" />
@@ -70,6 +119,7 @@
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
       </Borders>
+      <Interior ss:Color="#969696" ss:Pattern="Solid" />
     </Style>
     <Style ss:ID="money1">
       <NumberFormat ss:Format="&quot;¥&quot;#,##0.0;&quot;¥&quot;\-#,##0.0" />
@@ -104,42 +154,46 @@
       </Row>
       <Row>
         <Cell ss:StyleID="default"><Data ss:Type="String">バッファ(人日)</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="Number"><%= @project.buffer * @project.days_per_point %></Data></Cell>
+        <Cell ss:StyleID="default" ss:Formula="=R[-1]C*R[-2]C"><Data ss:Type="Number"><%= @project.buffer * @project.days_per_point %></Data></Cell>
       </Row>
       <Row>
-        <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
+        <Cell ss:StyleID="default"><Data ss:Type="String">バッファ/50%計</Data></Cell>
+        <Cell ss:StyleID="default" ss:Formula="=R[-2]C/R[-4]C"><Data ss:Type="Number"><%= @project.buffer * @project.days_per_point %></Data></Cell>
       </Row>
-      <Row ss:StyleID="tableheader">
-        <Cell ss:StyleID="default"><Data ss:Type="String">大区分</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">中区分</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">小区分</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">科目</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">Point(50%)</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">Point(b込)</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">人日(50%)</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">人日(b込)</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">単価(円/人日)</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">小計(円)(50%)</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String">小計(円)(b込)</Data></Cell>
+      <Row>
+        <Cell><Data ss:Type="String"></Data></Cell>
+      </Row>
+      <Row>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">大区分</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">中区分</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">小区分</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">科目</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">Point(50%)</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">Point(b込)</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">人日(50%)</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">人日(b込)</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">単価(円/人日)</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">小計(円)(50%)</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">小計(円)(b込)</Data></Cell>
       </Row>
       <% row_count = 0 %>
       <% @project.categories.each do |category| %>
         <% row_count += 1 %>
-        <Row ss:StyleID="category">
-          <Cell><Data ss:Type="String"><%= category.name %></Data></Cell>
+        <Row>
+          <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String"><%= category.name %></Data></Cell>
         </Row>
         <% category.sub_categories.each do |sub_category| %>
           <% row_count += 1 %>
           <Row>
-            <Cell><Data ss:Type="String"></Data></Cell>
-            <Cell ss:StyleID="default"><Data ss:Type="String"><%= sub_category.name %></Data></Cell>
+            <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
+            <Cell ss:MergeAcross="9" ss:StyleID="sub_category_name"><Data ss:Type="String"><%= sub_category.name %></Data></Cell>
           </Row>
           <% sub_category.stories.each do |story| %>
             <% row_count += 1 %>
             <Row>
-              <Cell><Data ss:Type="String"></Data></Cell>
-              <Cell><Data ss:Type="String"></Data></Cell>
-              <Cell ss:StyleID="default"><Data ss:Type="String"><%= story.name %></Data></Cell>
+              <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
+              <Cell ss:StyleID="sub_category_noname"><Data ss:Type="String"></Data></Cell>
+              <Cell ss:MergeAcross="8" ss:StyleID="story_name"><Data ss:Type="String"><%= story.name %></Data></Cell>
             </Row>
             <% @project.project_tasks.each do |pt| %>
   	    <% s_point = story.task_points.find_by_project_task_id(pt.id) %>
@@ -147,14 +201,14 @@
                 <% point = s_point.point_50 * ratio %>
                 <% row_count += 1 %>
                 <Row>
-                  <Cell><Data ss:Type="String"></Data></Cell>
-                  <Cell><Data ss:Type="String"></Data></Cell>
-                  <Cell><Data ss:Type="String"></Data></Cell>
+                  <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
+                  <Cell ss:StyleID="sub_category_noname"><Data ss:Type="String"></Data></Cell>
+                  <Cell ss:StyleID="story_noname"><Data ss:Type="String"></Data></Cell>
                   <Cell ss:StyleID="default"><Data ss:Type="String"><%= pt.name %></Data></Cell>
                   <Cell ss:StyleID="default"><Data ss:Type="Number"><%= s_point.point_50 %></Data></Cell>
-                  <Cell ss:StyleID="d1"><Data ss:Type="Number"><%= point %></Data></Cell>
-                  <Cell ss:StyleID="d1"><Data ss:Type="Number"><%= s_point.point_50 * @project.days_per_point %></Data></Cell>
-                  <Cell ss:StyleID="d1"><Data ss:Type="Number"><%= point * @project.days_per_point %></Data></Cell>
+                  <Cell ss:StyleID="d1" ss:Formula="=(1+R7C2)*RC[-1]"><Data ss:Type="Number"><%= point %></Data></Cell>
+                  <Cell ss:StyleID="d1" ss:Formula="=RC[-2]*<%= days_per_point_column %>"><Data ss:Type="Number"><%= s_point.point_50 * @project.days_per_point %></Data></Cell>
+                  <Cell ss:StyleID="d1" ss:Formula="=RC[-2]*<%= days_per_point_column %>"><Data ss:Type="Number"><%= point * @project.days_per_point %></Data></Cell>
                   <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= pt.price_per_day %></Data></Cell>
                   <Cell ss:StyleID="money0" ss:Formula="=RC[-3]*RC[-1]"><Data ss:Type="Number"></Data></Cell>
                   <Cell ss:StyleID="money0" ss:Formula="=RC[-3]*RC[-2]"><Data ss:Type="Number"></Data></Cell>
@@ -166,34 +220,27 @@
       <% end # category %>
       <% @project.additional_costs.each do |ac| %>
         <% row_count += 1 %>
-        <Row ss:StyleID="category">
-          <Cell><Data ss:Type="String">その他費用</Data></Cell>
+        <Row>
+          <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String">その他費用</Data></Cell>
         </Row>
         <% row_count += 1 %>
         <Row>
-          <Cell><Data ss:Type="String"></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"><%= ac.name %></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
+          <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
+          <Cell ss:MergeAcross="7" ss:StyleID="default"><Data ss:Type="String"><%= ac.name %></Data></Cell>
           <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
           <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
         </Row>
       <% end %>
-      <Row ss:StyleID="total">
-        <Cell ss:StyleID="default"><Data ss:Type="String">合計</Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
+      <Row>
+        <Cell ss:StyleID="total"><Data ss:Type="String">合計</Data></Cell>
+        <Cell ss:StyleID="total"><Data ss:Type="String"></Data></Cell>
+        <Cell ss:StyleID="total"><Data ss:Type="String"></Data></Cell>
+        <Cell ss:StyleID="total"><Data ss:Type="String"></Data></Cell>
         <Cell ss:StyleID="d1_total" ss:Formula="=SUM(R[-<%= row_count %>]C:R[-1]C)"><Data ss:Type="Number"><%= @project.sum_of_point_50 %></Data></Cell>
         <Cell ss:StyleID="d1_total" ss:Formula="=SUM(R[-<%= row_count %>]C:R[-1]C)"><Data ss:Type="Number"><%= @project.sum_of_point_50 * ratio %></Data></Cell>
         <Cell ss:StyleID="d1_total" ss:Formula="=SUM(R[-<%= row_count %>]C:R[-1]C)"><Data ss:Type="Number"><%= @project.sum_of_point_50 * @project.days_per_point %></Data></Cell>
         <Cell ss:StyleID="d1_total" ss:Formula="=SUM(R[-<%= row_count %>]C:R[-1]C)"><Data ss:Type="Number"><%= @project.sum_of_point_50 * ratio * @project.days_per_point %></Data></Cell>
-        <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
+        <Cell ss:StyleID="total"><Data ss:Type="String"></Data></Cell>
         <Cell ss:StyleID="money0_total" ss:Formula="=SUM(R[-<%= row_count %>]C:R[-1]C)"><Data ss:Type="Number"><%= @project.total_price_50 + @project.additional_costs.sum(:price) %></Data></Cell>
         <Cell ss:StyleID="money0_total" ss:Formula="=SUM(R[-<%= row_count %>]C:R[-1]C)"><Data ss:Type="Number"><%= @project.total_price_with_buffer + @project.additional_costs.sum(:price) %></Data></Cell>
       </Row>
