@@ -1,6 +1,7 @@
 Mitsumoritaro::Application.routes.draw do
   resources :template_tasks
   resources :projects do
+    resources :additional_costs
     resource :dashboard do
       member do
         get "convert" => 'dashboards#convert', as: :convert

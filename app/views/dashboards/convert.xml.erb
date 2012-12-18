@@ -82,6 +82,21 @@
           <% end # story %>
         <% end # sub_category %>
       <% end # category %>
+      <% @project.additional_costs.each do |ac| %>
+        <Row>
+          <Cell><Data ss:Type="String"><%= ac.name %></Data></Cell>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="String"></Data></Cell>
+          <Cell><Data ss:Type="Number"><%= ac.price %></Data></Cell>
+          <Cell><Data ss:Type="Number"><%= ac.price %></Data></Cell>
+        </Row>
+      <% end %>
       <Row>
         <Cell><Data ss:Type="String">合計</Data></Cell>
         <Cell><Data ss:Type="String"></Data></Cell>
@@ -92,8 +107,8 @@
         <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 * @project.days_per_point %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= @project.sum_of_point_50 * ratio * @project.days_per_point %></Data></Cell>
         <Cell><Data ss:Type="String"></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= @project.total_price_50 %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= @project.total_price_with_buffer %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.total_price_50 + @project.additional_costs.sum(:price) %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= @project.total_price_with_buffer + @project.additional_costs.sum(:price) %></Data></Cell>
       </Row>
     </Table>
   </Worksheet>
