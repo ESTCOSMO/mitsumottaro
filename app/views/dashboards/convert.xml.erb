@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <% days_per_point_column = "R4C2" %>
+<% ratio_column = "R7C2" %>
 <Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:o="urn:schemas-microsoft-com:office:office"
   xmlns:x="urn:schemas-microsoft-com:office:excel"
@@ -38,7 +39,7 @@
       <Font ss:Color="#C09853" />
     </Style>
     <Style ss:ID="sub_category_noname">
-      <Borders>
+     <Borders>
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
       </Borders>
@@ -206,7 +207,7 @@
                   <Cell ss:StyleID="story_noname"><Data ss:Type="String"></Data></Cell>
                   <Cell ss:StyleID="default"><Data ss:Type="String"><%= pt.name %></Data></Cell>
                   <Cell ss:StyleID="default"><Data ss:Type="Number"><%= s_point.point_50 %></Data></Cell>
-                  <Cell ss:StyleID="d1" ss:Formula="=(1+R7C2)*RC[-1]"><Data ss:Type="Number"><%= point %></Data></Cell>
+                  <Cell ss:StyleID="d1" ss:Formula="=(1+<%= ratio_column %>)*RC[-1]"><Data ss:Type="Number"><%= point %></Data></Cell>
                   <Cell ss:StyleID="d1" ss:Formula="=RC[-2]*<%= days_per_point_column %>"><Data ss:Type="Number"><%= s_point.point_50 * @project.days_per_point %></Data></Cell>
                   <Cell ss:StyleID="d1" ss:Formula="=RC[-2]*<%= days_per_point_column %>"><Data ss:Type="Number"><%= point * @project.days_per_point %></Data></Cell>
                   <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= pt.price_per_day %></Data></Cell>
