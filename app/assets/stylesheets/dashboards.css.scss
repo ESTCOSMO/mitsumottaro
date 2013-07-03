@@ -56,4 +56,12 @@
   .point {
     text-align: right;
   }
+
+  .plain_item_remarks {
+    display: none;
+  }
+  .has_remarks {
+    color: #ff0000;
+    font-size: 0.8em;
+  }
 }

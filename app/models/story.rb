@@ -1,5 +1,5 @@
 class Story < ActiveRecord::Base
-  attr_accessible :sub_category_id, :name, :position
+  attr_accessible :sub_category_id, :name, :position, :remarks
   belongs_to :sub_category
   acts_as_list scope: :sub_category
   has_many :task_points, dependent: :destroy
