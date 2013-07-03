@@ -176,18 +176,21 @@
         <Cell ss:StyleID="tableheader"><Data ss:Type="String">単価(円/人日)</Data></Cell>
         <Cell ss:StyleID="tableheader"><Data ss:Type="String">小計(円)(50%)</Data></Cell>
         <Cell ss:StyleID="tableheader"><Data ss:Type="String">小計(円)(b込)</Data></Cell>
+        <Cell ss:StyleID="tableheader"><Data ss:Type="String">備考</Data></Cell>
       </Row>
       <% row_count = 0 %>
       <% @project.categories.each do |category| %>
         <% row_count += 1 %>
         <Row>
           <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String"><%= category.name %></Data></Cell>
+          <Cell ss:StyleID="category_name"><Data ss:Type="String"><%= category.remarks %></Data></Cell>
         </Row>
         <% category.sub_categories.each do |sub_category| %>
           <% row_count += 1 %>
           <Row>
             <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
             <Cell ss:MergeAcross="9" ss:StyleID="sub_category_name"><Data ss:Type="String"><%= sub_category.name %></Data></Cell>
+            <Cell ss:StyleID="sub_category_name"><Data ss:Type="String"><%= sub_category.remarks %></Data></Cell>
           </Row>
           <% sub_category.stories.each do |story| %>
             <% row_count += 1 %>
@@ -195,6 +198,7 @@
               <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
               <Cell ss:StyleID="sub_category_noname"><Data ss:Type="String"></Data></Cell>
               <Cell ss:MergeAcross="8" ss:StyleID="story_name"><Data ss:Type="String"><%= story.name %></Data></Cell>
+              <Cell ss:StyleID="story_name"><Data ss:Type="String"><%= story.remarks %></Data></Cell>
             </Row>
             <% @project.project_tasks.each do |pt| %>
   	    <% s_point = story.task_points.find_by_project_task_id(pt.id) %>
@@ -213,6 +217,7 @@
                   <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= pt.price_per_day %></Data></Cell>
                   <Cell ss:StyleID="money0" ss:Formula="=RC[-3]*RC[-1]"><Data ss:Type="Number"></Data></Cell>
                   <Cell ss:StyleID="money0" ss:Formula="=RC[-3]*RC[-2]"><Data ss:Type="Number"></Data></Cell>
+                  <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
                 </Row>
               <% end %>
             <% end %>
@@ -230,6 +235,7 @@
           <Cell ss:MergeAcross="7" ss:StyleID="default"><Data ss:Type="String"><%= ac.name %></Data></Cell>
           <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
           <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
+          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
         </Row>
       <% end %>
       <Row>
@@ -244,6 +250,7 @@
         <Cell ss:StyleID="total"><Data ss:Type="String"></Data></Cell>
         <Cell ss:StyleID="money0_total" ss:Formula="=SUM(R[-<%= row_count %>]C:R[-1]C)"><Data ss:Type="Number"><%= @project.total_price_50 + @project.additional_costs.sum(:price) %></Data></Cell>
         <Cell ss:StyleID="money0_total" ss:Formula="=SUM(R[-<%= row_count %>]C:R[-1]C)"><Data ss:Type="Number"><%= @project.total_price_with_buffer + @project.additional_costs.sum(:price) %></Data></Cell>
+        <Cell ss:StyleID="total"><Data ss:Type="String"></Data></Cell>
       </Row>
     </Table>
   </Worksheet>

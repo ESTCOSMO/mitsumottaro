@@ -118,21 +118,26 @@ $ () ->
       template_url = item_modal.find(".url_template_for_create_category").text()
       url_for_create = template_url.replace("___PID___", project_id)
       text_field_name = "category[name]"
+      text_field_remarks = "category[remarks]"
     else if splitted.length == 2
       template_url = item_modal.find(".url_template_for_create_sub_category").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[1])
       text_field_name = "sub_category[name]"
+      text_field_remarks = "sub_category[remarks]"
     else
       template_url = item_modal.find(".url_template_for_create_story").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[1]).replace("___MID___", splitted[2])
       text_field_name = "story[name]"
+      text_field_remarks = "story[remarks]"
 
     item_modal.find(".url_for_save").text(url_for_create)
     item_modal.find(".method_for_save").text("POST")
     item_modal.find(".alert").addClass("hidden")
     item_modal.find("#category_name").val("")
+    item_modal.find("#category_remarks").val("")
     item_modal.find(".btn-destroy").addClass("hidden")
     item_modal.find("#category_name").attr("name", text_field_name)
+    item_modal.find("#category_remarks").attr("name", text_field_remarks)
     item_modal.modal("show")
     false
 
@@ -148,20 +153,30 @@ $ () ->
       template_url = item_modal.find(".url_template_for_update_category").text()
       url_for_update = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0])
       text_field_name = "category[name]"
+      text_field_remarks = "category[remarks]"
     else if splitted.length == 2
       template_url = item_modal.find(".url_template_for_update_sub_category").text()
       url_for_update = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1])
       text_field_name = "sub_category[name]"
+      text_field_remarks = "sub_category[remarks]"
     else
       template_url = item_modal.find(".url_template_for_update_story").text()
       url_for_update = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1]).replace("___SID___", splitted[2])
       text_field_name = "story[name]"
+      text_field_remarks = "story[remarks]"
 
     item_modal.find(".url_for_save").text(url_for_update)
     item_modal.find(".method_for_save").text("PUT")
     item_modal.find(".alert").addClass("hidden")
     item_modal.find(".btn-destroy").removeClass("hidden")
     orig_item_name = $(this).find(".plain_item_name").text()
+    orig_item_remarks = $(this).find(".plain_item_remarks").text()
     item_modal.find("#category_name").val(orig_item_name)
     item_modal.find("#category_name").attr("name", text_field_name)
+    item_modal.find("#category_remarks").val(orig_item_remarks)
+    item_modal.find("#category_remarks").attr("name", text_field_remarks)
     item_modal.modal("show")
+
+  $('#item-modal').on 'shown', ->
+    $("#category_name").focus()
+

@@ -20,6 +20,10 @@
         = f.label :name, class: 'control-label'
         .controls
           = f.text_field :name, class: "text_field"
+      .control-group
+        = f.label :remarks, class: 'control-label'
+        .controls
+          = f.text_field :remarks, class: "text_field"
       .form-actions
         = submit_tag "保存", class: "btn btn-primary btn-save"
         = submit_tag "削除", class: "btn btn-destroy btn-danger"

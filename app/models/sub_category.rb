@@ -1,5 +1,5 @@
 class SubCategory < ActiveRecord::Base
-  attr_accessible :category_id, :name, :position
+  attr_accessible :category_id, :name, :position, :remarks
   belongs_to :category
   acts_as_list scope: :category
   has_many :stories, dependent: :destroy, order: :position

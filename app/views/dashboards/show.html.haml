@@ -27,6 +27,8 @@
       %tr
         %td.category.item_name{rowspan: "#{category.count_of_sub_categories + category.count_of_stories + 1}", id: "item_name_#{category.id}"}
           %span.plain_item_name= category.name
+          %span.has_remarks= category.remarks.blank? ? "" : "*"
+          %span.plain_item_remarks= category.remarks
           = category.first? ? '' : (link_to '↑', move_higher_project_category_path(@project, category))
           = category.last? ? '' : (link_to '↓', move_lower_project_category_path(@project, category))
         %td.category{colspan: 2}
@@ -43,6 +45,8 @@
         %tr
           %td.sub_category.item_name{rowspan: "#{sub_category.count_of_stories + 1}", id: "item_name_#{category.id}_#{sub_category.id}"}
             %span.plain_item_name= sub_category.name
+            %span.has_remarks= sub_category.remarks.blank? ? "" : "*"
+            %span.plain_item_remarks= sub_category.remarks
             = sub_category.first? ? '' : (link_to '↑', move_higher_project_category_sub_category_path(@project, category, sub_category))
             = sub_category.last? ? '' : (link_to '↓', move_lower_project_category_sub_category_path(@project, category, sub_category))
           %td.sub_category
@@ -59,6 +63,8 @@
           %tr
             %td.item_name{id: "item_name_#{category.id}_#{sub_category.id}_#{story.id}"}
               %span.plain_item_name= story.name
+              %span.has_remarks= story.remarks.blank? ? "" : "*"
+              %span.plain_item_remarks= story.remarks
               = story.first? ? '' : (link_to '↑', move_higher_project_category_sub_category_story_path(@project, category, sub_category, story))
               = story.last? ? '' : (link_to '↓', move_lower_project_category_sub_category_story_path(@project, category, sub_category, story))
             - @project.project_tasks.each do |ps|
