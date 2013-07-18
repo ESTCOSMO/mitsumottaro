@@ -8,6 +8,8 @@ class ProjectTasksController < ApplicationController
   def create
     @project.project_tasks.create!(params[:project_task])
     redirect_to project_project_tasks_path(@project)
+  rescue ActiveRecord::RecordInvalid => e
+    render json: e.record.errors.full_messages, status: :bad_request
   end
 
   def destroy

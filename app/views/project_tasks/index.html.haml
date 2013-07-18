@@ -46,7 +46,7 @@
       &times;
     %h3 種別
   .modal-body
-    = form_for [@project, @project.project_tasks.build], html: { class: 'form-horizontal', id: 'new_project_task_modal_form' } do |f|
+    = form_for [@project, @project.project_tasks.build], url: "#", remote: true, html: { class: 'form-horizontal', id: 'new_project_task_modal_form' } do |f|
       .alert.alert-error.hidden
       .control-group
         %label.control-label= "種別名"
