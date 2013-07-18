@@ -64,5 +64,5 @@
         = submit_tag "登録", class: "btn btn-primary btn-save"
         %button.btn.close_btn{type: "button"}
           閉じる
-      - @template_tasks.map do |t|
+      - @template_tasks.each do |t|
         = hidden_field_tag "template_tasks_price_#{t.id}", t.price_per_day
