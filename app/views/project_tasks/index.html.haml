@@ -49,7 +49,7 @@
     = form_for [@project, @project.project_tasks.build], url: "#", remote: true, html: { class: 'form-horizontal', id: 'new_project_task_modal_form' } do |f|
       .alert.alert-error.hidden
       .control-group
-        %label.control-label= "種別名"
+        %label.control-label= "テンプレート"
         .controls
           = select_tag :template_task_id, options_for_select(@template_tasks.map{|t| [t.name, t.id] })
       .control-group
