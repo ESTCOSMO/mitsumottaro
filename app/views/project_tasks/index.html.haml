@@ -52,7 +52,17 @@
         %label.control-label= "種別名"
         .controls
           = select_tag :template_task_id, options_for_select(@template_tasks.map{|t| [t.name, t.id] })
+      .control-group
+        = f.label :name, class: 'control-label'
+        .controls
+          = f.text_field :name, value: @template_tasks[0].name, class: "text_field"
+      .control-group
+        = f.label :price_per_day, class: 'control-label'
+        .controls
+          = f.number_field :price_per_day, value: @template_tasks[0].price_per_day, class: "number_field"
       .form-actions
         = submit_tag "登録", class: "btn btn-primary btn-save"
         %button.btn.close_btn{type: "button"}
           閉じる
+      - @template_tasks.map do |t|
+        = hidden_field_tag "template_tasks_price_#{t.id}", t.price_per_day

@@ -32,3 +32,9 @@ $ ->
        message_str += _.escape(m) + "<br>"
       )
       $("#edit-project-task-modal").find(".alert").removeClass("hidden").html(message_str))
+
+  $("#new-project-task-modal").find("select#template_task_id").change ->
+    model = $("#new-project-task-modal")
+    selected = model.find("select#template_task_id option:selected")
+    model.find("input[name=project_task\\[name\\]]").val selected.text()
+    model.find("input[name=project_task\\[price_per_day\\]]").val model.find("input[name=template_tasks_price_#{selected.val()}]").val()
