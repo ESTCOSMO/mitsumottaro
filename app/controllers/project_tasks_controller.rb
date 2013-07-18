@@ -6,11 +6,10 @@ class ProjectTasksController < ApplicationController
   end
 
   def create
-    template_task = TemplateTask.find(params[:template_task_id])
-    @project.project_tasks.create!(template_task_id: template_task.id,
-                                      name: template_task.name,
-                                      price_per_day: template_task.price_per_day)
+    @project.project_tasks.create!(params[:project_task])
     redirect_to project_project_tasks_path(@project)
+  rescue ActiveRecord::RecordInvalid => e
+    render json: e.record.errors.full_messages, status: :bad_request
   end
 
   def destroy
