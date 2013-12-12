@@ -24,4 +24,12 @@ class SubCategory < ActiveRecord::Base
   def total_price(ratio, days_per_point)
     stories.map{|m| m.total_price(ratio, days_per_point)}.inject(0, :+)
   end
+
+  def dup_deep(project_task_id_map)
+    sub_cat = dup
+    stories.each do |orig_story|
+      sub_cat.stories << orig_story.dup_deep(project_task_id_map)
+    end
+    sub_cat
+  end
 end

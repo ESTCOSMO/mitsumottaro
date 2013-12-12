@@ -20,4 +20,14 @@ class Story < ActiveRecord::Base
   def total_price(ratio, days_per_point)
     task_points.map{|sp| sp.point_50 * ratio * days_per_point * sp.project_task.price_per_day}.inject(0, :+)
   end
+
+  def dup_deep(project_task_id_map)
+    story = dup
+    task_points.each do |point|
+      new_point = point.dup
+      new_point.project_task_id = project_task_id_map[point.project_task_id]
+      story.task_points << new_point
+    end
+    story
+  end
 end

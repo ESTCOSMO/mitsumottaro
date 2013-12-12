@@ -1,6 +1,9 @@
 Mitsumoritaro::Application.routes.draw do
   resources :template_tasks
   resources :projects do
+    member do
+      post "dup" => 'projects#dup_form', as: :dup
+    end
     resources :additional_costs
     resource :dashboard do
       member do

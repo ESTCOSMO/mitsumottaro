@@ -28,4 +28,12 @@ class Category < ActiveRecord::Base
   def total_price(ratio, days_per_point)
     sub_categories.map{|sc| sc.total_price(ratio, days_per_point)}.inject(0, :+)
   end
+
+  def dup_deep(project_task_id_map)
+    cat = dup
+    sub_categories.each do |sub_cat|
+      cat.sub_categories << sub_cat.dup_deep(project_task_id_map)
+    end
+    cat
+  end
 end

@@ -80,4 +80,11 @@ class ProjectsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def dup_form
+    orig_project = Project.find(params[:id])
+    orig_project.dup_deep!
+
+    redirect_to root_url
+  end
 end

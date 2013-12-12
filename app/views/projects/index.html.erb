@@ -24,6 +24,8 @@
                       edit_project_path(project), :class => 'btn btn-mini' %>
           <%= link_to "科目設定",
                       project_project_tasks_path(project), :class => 'btn btn-mini' %>
+          <%= link_to "複製",
+                      dup_project_path(project), class: 'btn btn-mini', method: :post %>
           <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       project_path(project),
                       :method => :delete,
