@@ -180,3 +180,9 @@ $ () ->
   $('#item-modal').on 'shown', ->
     $("#category_name").focus()
 
+  #
+  # move item
+  #
+  $("[class=arrow]").on "click", ->
+    document.location.href = $(this).attr('href')
+    return false
