@@ -183,6 +183,6 @@ $ () ->
   #
   # move item
   #
-  $("[class=arrow]").on "click", ->
+  $(".arrow").on "click", ->
     document.location.href = $(this).attr('href')
     return false
