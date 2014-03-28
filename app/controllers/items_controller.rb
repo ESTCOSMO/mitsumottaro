@@ -43,14 +43,14 @@ class ItemsController < ApplicationController
     item = find_item_from_params
     item.move_higher
 
-    redirect_to project_dashboard_path(@project)
+    redirect_to project_dashboard_path(@project, anchor: make_anchor_from_params)
   end
 
   def move_lower
     item = find_item_from_params
     item.move_lower
 
-    redirect_to project_dashboard_path(@project)
+    redirect_to project_dashboard_path(@project, anchor: make_anchor_from_params)
   end
 
   private
@@ -69,6 +69,19 @@ class ItemsController < ApplicationController
       @project.categories.find(category_id).sub_categories.find(params[:id])
     else
       @project.categories.find(category_id).sub_categories.find(sub_category_id).stories.find(params[:id])
+    end
+  end
+
+  def make_anchor_from_params
+    category_id = params[:category_id]
+    sub_category_id = params[:sub_category_id]
+
+    if category_id.blank?
+      "category#{params[:id]}"
+    elsif sub_category_id.blank?
+      "sub_category#{params[:category_id]}-#{params[:id]}"
+    else
+      "item#{category_id}-#{sub_category_id}-#{params[:id]}"
     end
   end
 end
