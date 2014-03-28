@@ -75,13 +75,12 @@ class ItemsController < ApplicationController
   def make_anchor_from_params
     category_id = params[:category_id]
     sub_category_id = params[:sub_category_id]
-
     if category_id.blank?
-      "category#{params[:id]}"
+      view_context.make_anchor(params[:id])
     elsif sub_category_id.blank?
-      "sub_category#{params[:category_id]}-#{params[:id]}"
+      view_context.make_anchor(category_id, params[:id])
     else
-      "story#{category_id}-#{sub_category_id}-#{params[:id]}"
+      view_context.make_anchor(category_id, sub_category_id, params[:id])
     end
   end
 end
