@@ -29,8 +29,8 @@
           %span.plain_item_name= category.name
           %span.has_remarks= category.remarks.blank? ? "" : "*"
           %span.plain_item_remarks= category.remarks
-          = up_arrow_link_to_unless(category.first?, move_higher_project_category_path(@project, category), "category#{category.id}")
-          = down_arrow_link_to_unless(category.last?, move_lower_project_category_path(@project, category), "category#{category.id}")
+          = up_arrow_link_to_unless(category.first?, { project:@project, category:category })
+          = down_arrow_link_to_unless(category.last?, { project:@project, category:category })
         %td.category{colspan: 2}
           サマリー
           = link_to "[Add]", new_project_category_sub_category_path(@project, category), id: "add_item_#{category.id}"
@@ -47,8 +47,8 @@
             %span.plain_item_name= sub_category.name
             %span.has_remarks= sub_category.remarks.blank? ? "" : "*"
             %span.plain_item_remarks= sub_category.remarks
-            = up_arrow_link_to_unless(sub_category.first?, move_higher_project_category_sub_category_path(@project, category, sub_category), "sub_category#{category.id}-#{sub_category.id}")
-            = down_arrow_link_to_unless(sub_category.last?, move_lower_project_category_sub_category_path(@project, category, sub_category), "sub_category#{category.id}-#{sub_category.id}")
+            = up_arrow_link_to_unless(sub_category.first?, { project:@project, category:category, sub_category:sub_category })
+            = down_arrow_link_to_unless(sub_category.last?, { project:@project, category:category, sub_category:sub_category })
           %td.sub_category
             サマリー
             = link_to "[Add]", new_project_category_sub_category_story_path(@project, category, sub_category), id: "add_item_#{category.id}_#{sub_category.id}"
@@ -65,8 +65,8 @@
               %span.plain_item_name= story.name
               %span.has_remarks= story.remarks.blank? ? "" : "*"
               %span.plain_item_remarks= story.remarks
-              = up_arrow_link_to_unless(story.first?, move_higher_project_category_sub_category_story_path(@project, category, sub_category, story), "item#{category.id}-#{sub_category.id}-#{story.id}")
-              = down_arrow_link_to_unless(story.last?, move_lower_project_category_sub_category_story_path(@project, category, sub_category, story),"item#{category.id}-#{sub_category.id}-#{story.id}")
+              = up_arrow_link_to_unless(story.first?, { project:@project, category:category, sub_category:sub_category, story:story })
+              = down_arrow_link_to_unless(story.last?, { project:@project, category:category, sub_category:sub_category, story:story })
             - @project.project_tasks.each do |ps|
               - sp = story.task_points.find_by_project_task_id(ps.id)
               - class_suffix = "#{category.id}_#{sub_category.id}_#{story.id}_#{ps.id}_#{sp ? sp.id : 'new'}"

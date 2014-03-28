@@ -81,7 +81,7 @@ class ItemsController < ApplicationController
     elsif sub_category_id.blank?
       "sub_category#{params[:category_id]}-#{params[:id]}"
     else
-      "item#{category_id}-#{sub_category_id}-#{params[:id]}"
+      "story#{category_id}-#{sub_category_id}-#{params[:id]}"
     end
   end
 end
