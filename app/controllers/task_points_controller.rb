@@ -5,7 +5,7 @@ class TaskPointsController < ApplicationController
   def create
     ProjectTask.transaction do
       @task_point && @task_point.destroy
-      created_task_point = @story.task_points.create!(params[:task_point])
+      created_task_point = @story.task_points.create!(permitted_params_for_task_point)
       render nothing: true, status: :ok
     end
   rescue ActiveRecord::RecordInvalid => e
@@ -24,5 +24,10 @@ class TaskPointsController < ApplicationController
 
   def set_task_point_to_variable
     @task_point = @story.task_points.find_by_project_task_id(params[:task_point][:project_task_id])
+  end
+
+  private
+  def permitted_params_for_task_point
+    params.require(:task_point).permit(:point_50, :point_90, :project_task_id)
   end
 end
