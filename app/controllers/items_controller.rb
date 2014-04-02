@@ -6,11 +6,11 @@ class ItemsController < ApplicationController
     sub_category_id = params[:sub_category_id]
 
     if category_id.blank?
-      @project.categories.create!(params[:category])
+      @project.categories.create!(permitted_params_of_category)
     elsif sub_category_id.blank?
-      @project.categories.find(category_id).sub_categories.create!(params[:sub_category])
+      @project.categories.find(category_id).sub_categories.create!(permitted_params_of_sub_category)
     else
-      @project.categories.find(category_id).sub_categories.find(sub_category_id).stories.create!(params[:story])
+      @project.categories.find(category_id).sub_categories.find(sub_category_id).stories.create!(permitted_params_of_story)
     end
     render nothing: true, status: :ok
   rescue ActiveRecord::RecordInvalid => e
@@ -23,11 +23,11 @@ class ItemsController < ApplicationController
     category_id = params[:category_id]
     sub_category_id = params[:sub_category_id]
     if category_id.blank?
-      item.update_attributes!(params[:category])
+      item.update_attributes!(permitted_params_of_category)
     elsif sub_category_id.blank?
-      item.update_attributes!(params[:sub_category])
+      item.update_attributes!(permitted_params_of_sub_category)
     else
-      item.update_attributes!(params[:story])
+      item.update_attributes!(permitted_params_of_story)
     end
     render nothing: true, status: :ok
   rescue ActiveRecord::RecordInvalid => e
@@ -82,5 +82,18 @@ class ItemsController < ApplicationController
     else
       view_context.make_anchor(category_id, sub_category_id, params[:id])
     end
+  end
+
+  private
+  def permitted_params_of_category
+    params.require(:category).permit(:name, :remarks)
+  end
+
+  def permitted_params_of_sub_category
+    params.require(:sub_category).permit(:name, :remarks)
+  end
+
+  def permitted_params_of_story
+    params.require(:story).permit(:name, :remarks)
   end
 end

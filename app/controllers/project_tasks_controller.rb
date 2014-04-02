@@ -6,7 +6,7 @@ class ProjectTasksController < ApplicationController
   end
 
   def create
-    @project.project_tasks.create!(params[:project_task])
+    @project.project_tasks.create!(permitted_params_for_project_task)
     redirect_to project_project_tasks_path(@project)
   rescue ActiveRecord::RecordInvalid => e
     render json: e.record.errors.full_messages, status: :bad_request
@@ -18,7 +18,7 @@ class ProjectTasksController < ApplicationController
   end
 
   def update
-    @project.project_tasks.find(params[:id]).update_attributes!(params[:project_task])
+    @project.project_tasks.find(params[:id]).update_attributes!(permitted_params_for_project_task)
     redirect_to project_project_tasks_path(@project)
   rescue ActiveRecord::RecordInvalid => e
     render json: e.record.errors.full_messages, status: :bad_request
@@ -41,5 +41,9 @@ class ProjectTasksController < ApplicationController
   private
   def set_project_to_variable
     @project = Project.find(params[:project_id])
+  end
+
+  def permitted_params_for_project_task
+    params.require(:project_task).permit(:name, :price_per_day)
   end
 end
