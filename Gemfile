@@ -50,3 +50,6 @@ gem 'libv8', '~> 3.11.8'
 gem 'less-rails'
 gem 'haml-rails'
 gem 'underscore-rails'
+
+# temporary dependency to upgrade rails >=4
+gem 'protected_attributes'
