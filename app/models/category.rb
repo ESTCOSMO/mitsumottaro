@@ -1,5 +1,4 @@
 class Category < ActiveRecord::Base
-  attr_accessible :name, :position, :project_id, :remarks
   belongs_to :project
   acts_as_list :scope => :project
   has_many :sub_categories, dependent: :destroy, order: :position

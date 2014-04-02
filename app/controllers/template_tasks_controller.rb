@@ -38,7 +38,7 @@ class TemplateTasksController < ApplicationController
   # POST /template_tasks
   # POST /template_tasks.json
   def create
-    @template_task = TemplateTask.new(params[:template_task])
+    @template_task = TemplateTask.new(permitted_params_for_template_task)
 
     respond_to do |format|
       if @template_task.save
@@ -57,7 +57,7 @@ class TemplateTasksController < ApplicationController
     @template_task = TemplateTask.find(params[:id])
 
     respond_to do |format|
-      if @template_task.update_attributes(params[:template_task])
+      if @template_task.update_attributes(permitted_params_for_template_task)
         format.html { redirect_to @template_task, notice: 'TemplateTask was successfully updated.' }
         format.json { head :no_content }
       else
@@ -77,5 +77,10 @@ class TemplateTasksController < ApplicationController
       format.html { redirect_to template_tasks_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def permitted_params_for_template_task
+    params.require(:template_task).permit(:name, :price_per_day)
   end
 end

@@ -1,5 +1,4 @@
 class Project < ActiveRecord::Base
-  attr_accessible :days_per_point, :name, :project_tasks, :template_task_ids
   has_many :categories, dependent: :destroy, order: :position
   has_many :project_tasks, dependent: :destroy, order: :position
   has_many :additional_costs, dependent: :destroy, order: :position

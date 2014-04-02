@@ -1,5 +1,4 @@
 class TaskPoint < ActiveRecord::Base
-  attr_accessible :point_50, :point_90, :project_task_id, :story_id
   belongs_to :story
   belongs_to :project_task
   validates :project_task_id, presence: true

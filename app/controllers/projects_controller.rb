@@ -40,7 +40,7 @@ class ProjectsController < ApplicationController
   # POST /projects
   # POST /projects.json
   def create
-    @project = Project.new(params[:project])
+    @project = Project.new(permitted_params_for_project)
 
     respond_to do |format|
       if @project.save
@@ -59,7 +59,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
 
     respond_to do |format|
-      if @project.update_attributes(params[:project])
+      if @project.update_attributes(permitted_params_for_project)
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { head :no_content }
       else
@@ -86,5 +86,11 @@ class ProjectsController < ApplicationController
     orig_project.dup_deep!
 
     redirect_to root_url
+  end
+
+  private
+
+  def permitted_params_for_project
+    params.require(:project).permit(:name, :days_per_point)
   end
 end
