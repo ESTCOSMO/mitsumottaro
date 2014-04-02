@@ -8,8 +8,8 @@ Mitsumoritaro::Application.configure do
   config.cache_classes = true
 
   # Configure static asset server for tests with Cache-Control for performance
-  config.serve_static_assets = true
   config.static_cache_control = "public, max-age=3600"
+  config.serve_static_assets = true
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -25,9 +25,6 @@ Mitsumoritaro::Application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
-
-  # Raise exception on mass assignment protection for Active Record models
-  config.active_record.mass_assignment_sanitizer = :strict
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
