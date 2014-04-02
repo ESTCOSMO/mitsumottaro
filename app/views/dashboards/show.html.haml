@@ -2,19 +2,19 @@
 - buffer = @project.buffer
 - ratio = 1 + (buffer / total_point)
 .project_id.hidden= @project.id
-%h2= @project.name
-%h3 Total[50%]: #{total_point}  Buffer: #{sprintf("%10.1f",buffer)}
+%h2
+  = @project.name
 %p
-  見積り出力
-  = link_to "[Office XML]", convert_project_dashboard_path(@project, format: :xml)
-%p
+  %span.label Total[50%]: #{total_point} / Buffer: #{sprintf("%10.1f",buffer)}
+  = link_to "見積もり出力(Office XML)", convert_project_dashboard_path(@project, format: :xml), class: "btn btn-mini btn-info"
 
 .dashboard-table
-  = link_to "[Add]", "#", id: "add_item"
   %table.table.table-condensed.table-bordered
     = render partial: 'table_header', locals: {is_project_summary: true}
     %tr
-      %td.project.item_name{colspan: 3} プロジェクトサマリ
+      %td.project.item_name{colspan: 3}
+        プロジェクトサマリ
+        = link_to "+", "#", id: "add_item", class: "btn btn-mini"
       - @project.project_tasks.each do |ps|
         - p_task_total = @project.sum_of_point_50_by_project_task_id(ps.id)
         %td.project.subtotal= p_task_total
@@ -33,7 +33,7 @@
           = down_arrow_link_to_unless(category.last?, { project:@project, category:category })
         %td.category{colspan: 2}
           サマリー
-          = link_to "[Add]", new_project_category_sub_category_path(@project, category), id: "add_item_#{category.id}"
+          = link_to "+", new_project_category_sub_category_path(@project, category), id: "add_item_#{category.id}", class: "btn btn-mini"
         - @project.project_tasks.each do |ps|
           - cat_task_total = category.sum_of_point_50_by_project_task_id(ps.id)
           %td.category.subtotal= cat_task_total
@@ -51,7 +51,7 @@
             = down_arrow_link_to_unless(sub_category.last?, { project:@project, category:category, sub_category:sub_category })
           %td.sub_category
             サマリー
-            = link_to "[Add]", new_project_category_sub_category_story_path(@project, category, sub_category), id: "add_item_#{category.id}_#{sub_category.id}"
+            = link_to "+", new_project_category_sub_category_story_path(@project, category, sub_category), id: "add_item_#{category.id}_#{sub_category.id}", class: "btn btn-mini"
           - @project.project_tasks.each do |ps|
             - subcat_task_total = ps.task_points.where(story_id: sub_category.stories.pluck(:id)).sum(:point_50)
             %td.sub_category.subtotal= subcat_task_total
