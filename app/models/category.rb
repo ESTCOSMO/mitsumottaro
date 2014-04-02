@@ -1,7 +1,7 @@
 class Category < ActiveRecord::Base
   belongs_to :project
   acts_as_list :scope => :project
-  has_many :sub_categories, dependent: :destroy, order: :position
+  has_many :sub_categories, -> { order(:position) }, dependent: :destroy
   validates :name, presence: true
 
   def sum_of_point_50

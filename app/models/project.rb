@@ -1,8 +1,8 @@
 class Project < ActiveRecord::Base
-  has_many :categories, dependent: :destroy, order: :position
-  has_many :project_tasks, dependent: :destroy, order: :position
-  has_many :additional_costs, dependent: :destroy, order: :position
-  has_many :template_tasks, through: :project_tasks, order: "project_tasks.position"
+  has_many :categories, -> { order(:position) }, dependent: :destroy
+  has_many :project_tasks, -> { order(:position) }, dependent: :destroy
+  has_many :additional_costs, -> { order(:position) }, dependent: :destroy
+  has_many :template_tasks,-> { order("project_tasks.position") }, through: :project_tasks
   accepts_nested_attributes_for :project_tasks, allow_destroy: true
   validates :name, presence: true
 

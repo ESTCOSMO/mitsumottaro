@@ -1,7 +1,7 @@
 class SubCategory < ActiveRecord::Base
   belongs_to :category
   acts_as_list scope: :category
-  has_many :stories, dependent: :destroy, order: :position
+  has_many :stories, -> { order(:position) }, dependent: :destroy
   validates :name, presence: true
 
   def count_of_stories
