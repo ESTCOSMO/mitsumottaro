@@ -6,8 +6,9 @@
   = @project.name
 %p
   %span.label Total[50%]: #{total_point} / Buffer: #{sprintf("%10.1f",buffer)}
-  = link_to "見積もり出力(Office XML)", convert_project_dashboard_path(@project, format: :xml), class: "btn btn-mini btn-info"
-
+  = link_to(convert_project_dashboard_path(@project, format: :xml), class: "btn btn-mini btn-info") do
+    %i.icon-download-alt
+    見積もり出力(Office XML)
 .dashboard-table
   %table.table.table-condensed.table-bordered
     = render partial: 'table_header', locals: {is_project_summary: true}
