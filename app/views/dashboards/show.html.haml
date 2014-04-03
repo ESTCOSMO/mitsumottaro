@@ -5,7 +5,7 @@
 %h2
   = @project.name
 %p
-  %span.label Total[50%]: #{total_point} / Buffer: #{sprintf("%10.1f",buffer)}
+  %span.label{style: "padding:4px"} Total[50%]: #{total_point} / Buffer: #{sprintf("%10.1f",buffer)}
   = link_to(convert_project_dashboard_path(@project, format: :xml), class: "btn btn-mini btn-info") do
     %i.icon-download-alt
     見積もり出力(Office XML)
