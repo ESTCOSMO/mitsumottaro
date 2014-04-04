@@ -26,7 +26,6 @@ class TaskPointsController < ApplicationController
     @task_point = @story.task_points.find_by_project_task_id(params[:task_point][:project_task_id])
   end
 
-  private
   def permitted_params_for_task_point
     params.require(:task_point).permit(:point_50, :point_90, :project_task_id)
   end

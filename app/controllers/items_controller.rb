@@ -84,7 +84,6 @@ class ItemsController < ApplicationController
     end
   end
 
-  private
   def permitted_params_of_category
     params.require(:category).permit(:name, :remarks)
   end
