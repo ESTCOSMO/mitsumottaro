@@ -18,7 +18,7 @@
         <td><%= link_to project.id, project_path(project) %></td>
         <td><%= link_to project.name, project_dashboard_path(project)  %></td>
         <td><%= project.days_per_point %></td>
-        <td><%=l project.created_at, format: :long %></td>
+        <td><%=l project.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_project_path(project), :class => 'btn btn-mini' %>
