@@ -25,14 +25,6 @@ describe TemplateTasksController do
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested template_task as @template_task" do
-      template_task = TemplateTask.create! valid_attributes
-      get :show, {:id => template_task.to_param}, valid_session
-      assigns(:template_task).should eq(template_task)
-    end
-  end
-
   describe "GET new" do
     it "assigns a new template_task as @template_task" do
       get :new, {}, valid_session
@@ -62,9 +54,9 @@ describe TemplateTasksController do
         assigns(:template_task).should be_persisted
       end
 
-      it "redirects to the created template_task" do
+      it "redirects to index" do
         post :create, {:template_task => valid_attributes}, valid_session
-        response.should redirect_to(TemplateTask.last)
+        response.should redirect_to(template_tasks_url)
       end
     end
 
@@ -103,10 +95,10 @@ describe TemplateTasksController do
         assigns(:template_task).should eq(template_task)
       end
 
-      it "redirects to the template_task" do
+      it "redirects to index" do
         template_task = TemplateTask.create! valid_attributes
         put :update, {:id => template_task.to_param, :template_task => valid_attributes}, valid_session
-        response.should redirect_to(template_task)
+        response.should redirect_to(template_tasks_url)
       end
     end
 
