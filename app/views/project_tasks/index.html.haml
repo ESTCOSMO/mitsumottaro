@@ -7,7 +7,7 @@
   - @project.project_tasks.each do |ps|
     %tr
       %td= ps.name
-      %td.number= ps.price_per_day
+      %td.number= number_with_delimiter(ps.price_per_day)
       %td
         = link_to 'Edit', '#', class: 'btn btn-mini', id: "btn-edit-project-task_#{ps.id}"
         .hidden.project_task_name= ps.name

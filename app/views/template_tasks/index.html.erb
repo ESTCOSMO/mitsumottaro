@@ -16,7 +16,7 @@
       <tr>
         <td><%= link_to template_task.id, template_task_path(template_task) %></td>
         <td><%= template_task.name %></td>
-        <td><%= template_task.price_per_day %></td>
+        <td><%= number_with_delimiter(template_task.price_per_day) %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_template_task_path(template_task), :class => 'btn btn-mini' %>
