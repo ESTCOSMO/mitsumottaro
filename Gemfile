@@ -39,7 +39,7 @@ gem 'jquery-rails'
 
 group :development, :test do
   gem 'rspec-rails'
-  gem 'debugger'
+#  gem 'debugger'
 end
 
 gem 'acts_as_list'

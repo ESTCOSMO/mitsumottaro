@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Project < ActiveRecord::Base
   has_many :categories, -> { order(:position) }, dependent: :destroy
   has_many :project_tasks, -> { order(:position) }, dependent: :destroy
