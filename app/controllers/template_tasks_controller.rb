@@ -8,17 +8,6 @@ class TemplateTasksController < ApplicationController
     end
   end
 
-  # GET /template_tasks/1
-  # GET /template_tasks/1.json
-  def show
-    @template_task = TemplateTask.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @template_task }
-    end
-  end
-
   # GET /template_tasks/new
   # GET /template_tasks/new.json
   def new
@@ -42,7 +31,7 @@ class TemplateTasksController < ApplicationController
 
     respond_to do |format|
       if @template_task.save
-        format.html { redirect_to @template_task, notice: 'TemplateTask was successfully created.' }
+        format.html { redirect_to template_tasks_path, notice: 'TemplateTask was successfully created.' }
         format.json { render json: @template_task, status: :created, location: @template_task }
       else
         format.html { render action: "new" }
@@ -58,7 +47,7 @@ class TemplateTasksController < ApplicationController
 
     respond_to do |format|
       if @template_task.update_attributes(permitted_params_for_template_task)
-        format.html { redirect_to @template_task, notice: 'TemplateTask was successfully updated.' }
+        format.html { redirect_to template_tasks_path, notice: 'TemplateTask was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
