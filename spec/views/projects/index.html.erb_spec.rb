@@ -6,12 +6,12 @@ describe "projects/index" do
       stub_model(Project,
         :name => "Name",
         :days_per_point => "9.99",
-        :created_at => Time.strptime('2014/03/03 10:00:00', '%Y/%m/%d %T')
+        :created_at =>  Time.zone.parse('2014/03/03 10:00:00')
       ),
       stub_model(Project,
         :name => "Name",
         :days_per_point => "9.99",
-        :created_at => Time.strptime('2014/03/03 10:00:00', '%Y/%m/%d %T')
+        :created_at =>  Time.zone.parse('2014/03/03 10:00:00')
       )
     ])
   end
