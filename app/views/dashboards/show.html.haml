@@ -15,7 +15,8 @@
     %tr
       %td.project.item_name{colspan: 3}
         プロジェクトサマリ
-        = link_to "+", "#", id: "add_item", class: "btn btn-mini"
+        = link_to "#", id: "add_item", style: "color:#B94A48" do
+          %i.icon-plus
       - @project.project_tasks.each do |ps|
         - p_task_total = @project.sum_of_point_50_by_project_task_id(ps.id)
         %td.project.subtotal= p_task_total
@@ -34,7 +35,8 @@
           = down_arrow_link_to_unless(category.last?, { project:@project, category:category })
         %td.category{colspan: 2}
           サマリー
-          = link_to "+", new_project_category_sub_category_path(@project, category), id: "add_item_#{category.id}", class: "btn btn-mini"
+          = link_to new_project_category_sub_category_path(@project, category), id: "add_item_#{category.id}", style: "color:#3A87AD" do
+            %i.icon-plus
         - @project.project_tasks.each do |ps|
           - cat_task_total = category.sum_of_point_50_by_project_task_id(ps.id)
           %td.category.subtotal= cat_task_total
@@ -52,7 +54,8 @@
             = down_arrow_link_to_unless(sub_category.last?, { project:@project, category:category, sub_category:sub_category })
           %td.sub_category
             サマリー
-            = link_to "+", new_project_category_sub_category_story_path(@project, category, sub_category), id: "add_item_#{category.id}_#{sub_category.id}", class: "btn btn-mini"
+            = link_to new_project_category_sub_category_story_path(@project, category, sub_category), id: "add_item_#{category.id}_#{sub_category.id}", style: "color: #C09853" do
+              %i.icon-plus
           - @project.project_tasks.each do |ps|
             - subcat_task_total = ps.task_points.where(story_id: sub_category.stories.pluck(:id)).sum(:point_50)
             %td.sub_category.subtotal= subcat_task_total

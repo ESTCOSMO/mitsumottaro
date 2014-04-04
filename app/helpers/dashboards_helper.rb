@@ -15,7 +15,11 @@ module DashboardsHelper
       path = move_higher_project_category_path(project, category)
       anchor_name = make_anchor(category.id)
     end
-    link_to_unless(condition, '↑', path, name: anchor_name, class: 'arrow'){ }
+    unless condition
+      link_to path, name: anchor_name, class: 'arrow', style: 'color:silver' do
+        raw "<i class='icon-arrow-up'></i>"
+      end
+    end
   end
   def down_arrow_link_to_unless(condition, params={})
     project = params[:project]
@@ -32,7 +36,11 @@ module DashboardsHelper
       path = move_lower_project_category_path(project, category)
       anchor_name = make_anchor(category.id)
     end
-    link_to_unless(condition, '↓', path, name: anchor_name, class: 'arrow'){ }
+    unless condition
+      link_to path, name: anchor_name, class: 'arrow', style: 'color:silver' do
+        raw "<i class='icon-arrow-down'></i>"
+      end
+    end
   end
   def make_anchor(category_id, sub_category_id = nil, story_id = nil)
     if story_id.present?
