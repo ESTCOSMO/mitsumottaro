@@ -1,0 +1,15 @@
+language: ruby
+
+before_script:
+  - "rake db:create db:migrate"
+
+before_install:
+  - gem install bundler
+
+bundler_args: --without development production
+
+rvm:
+  - 2.1.0
+
+gemfile:
+  - Gemfile
