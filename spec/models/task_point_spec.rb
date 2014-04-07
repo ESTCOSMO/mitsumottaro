@@ -52,6 +52,4 @@ describe TaskPoint do
       it{ should eq 0 }
     end
   end
-
-  
 end
