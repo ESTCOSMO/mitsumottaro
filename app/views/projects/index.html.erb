@@ -5,7 +5,6 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:days_per_point) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
@@ -15,7 +14,6 @@
   <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <td><%= link_to project.id, project_path(project) %></td>
         <td><%= link_to project.name, project_dashboard_path(project)  %></td>
         <td><%= project.days_per_point %></td>
         <td><%=l project.created_at %></td>
