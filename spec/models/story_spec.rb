@@ -3,8 +3,7 @@ require 'spec_helper'
 
 describe Story do
   before do
-    @story = Story.new( sub_category_id: 1, name: "Story", position: 1, remarks: "備考")
-    @story.task_points.build( project_task_id: 1, point_50: 20, point_90: 50 )
+    @story = Story.new
   end
   subject { @story }
   it { should respond_to(:name) }
@@ -12,17 +11,25 @@ describe Story do
   it { should respond_to(:remarks) }
   it { should respond_to(:task_points) }
 
-  it { should be_valid }
-
-  describe "when name is not present" do
-    before { @story.name = "" }
-    it{ should_not be_valid }
+  describe "story validation" do
+    before do
+      @story = Story.new( sub_category_id: 1, name: "Story", position: 1, remarks: "備考")
+    end
+    subject { @story }
+    it { should be_valid }
+    context "when name is not present" do
+      before { @story.name = "" }
+      it{ should_not be_valid }
+    end
   end
 
   describe "when story destroy" do
     before do
+      @story = Story.new( sub_category_id: 1, name: "Story", position: 1, remarks: "備考")
+      @story.task_points.build( project_task_id: 1, point_50: 20, point_90: 50 )
       @story.save!
     end
+    subject { @story }
     it "storyを削したらtask_pointsも削除されること" do
       TaskPoint.where(story_id: @story.id).size.should eq 1
       @story.destroy!
