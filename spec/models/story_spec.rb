@@ -61,12 +61,6 @@ describe Story do
       subject{ @story.total_price(1.2, 0.5) }
       it{ should eq 2700000 }
     end
-    after do
-      @story.destroy!
-      @project_task1.destroy!
-      @project_task2.destroy!
-      @project_task3.destroy!
-    end
   end
 
   describe "dup_deep" do
