@@ -14,17 +14,17 @@ describe AdditionalCost do
     subject { @addtional_cost }
     it { should be_valid }
 
-    context "when name is not present" do
+    context "when name is not present," do
       before { @addtional_cost.name = " " }
       it{ should_not be_valid }
     end
 
-    context "when price is not present" do
+    context "when price is not present," do
       before { @addtional_cost.price = " " }
       it{ should_not be_valid }
     end
 
-    context "when position is not present" do
+    context "when position is not present," do
       before { @addtional_cost.position = " " }
       it{ should be_valid }
     end
