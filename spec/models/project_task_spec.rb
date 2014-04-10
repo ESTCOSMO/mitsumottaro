@@ -2,29 +2,34 @@
 require 'spec_helper'
 
 describe ProjectTask do
-  before { @project_task = ProjectTask.new }
-  subject { @project_task }
-
-  it { should respond_to(:name) }
-  it { should respond_to(:position) }
-  it { should respond_to(:price_per_day) }
-  it { should respond_to(:task_points) }
+  describe "field definitions" do
+    subject { ProjectTask.new }
+    it { should respond_to(:name) }
+    it { should respond_to(:position) }
+    it { should respond_to(:price_per_day) }
+    it { should respond_to(:task_points) }
+  end
 
   describe "validation" do
-    before { @project_task = ProjectTask.new( project_id: 1, template_task_id: 1, name: "試験", position: 1, price_per_day: 40000) }
-    subject { @project_task }
-    it { should be_valid }
-
-    context "when name is not present," do
-      before { @project_task.name = "" }
-      it{ should_not be_valid }
+    context "when input valid data," do
+      subject { ProjectTask.new(project_id: 1, template_task_id: 1, name: "試験", position: 1, price_per_day: 40000) }
+      it { should be_valid }
     end
-
-    context "when price_per_day is not present," do
-      before { @project_task.price_per_day = "" }
+    context "when name is not present," do
+      subject { ProjectTask.new(name: " ") }
       it{ should_not be_valid }
+      it{ should have(1).error_on(:name) }
+    end
+    context "when price_per_day is not present," do
+      subject { ProjectTask.new(price_per_day: " ") }
+      it{ should have(1).error_on(:price_per_day) }
+    end
+    context "when position is not present," do
+      subject { ProjectTask.new(position: " ") }
+      it{ should_not have(1).error_on(:position) }
     end
   end
+
   context "when project_task destroy," do
     before do
       @project_task = ProjectTask.new( project_id: 1, template_task_id: 1, name: "試験", position: 1, price_per_day: 40000)

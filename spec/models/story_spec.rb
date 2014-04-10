@@ -2,24 +2,22 @@
 require 'spec_helper'
 
 describe Story do
-  before do
-    @story = Story.new
+  describe "field definitions" do
+    subject { Story.new }
+    it { should respond_to(:name) }
+    it { should respond_to(:position) }
+    it { should respond_to(:remarks) }
+    it { should respond_to(:task_points) }
   end
-  subject { @story }
-  it { should respond_to(:name) }
-  it { should respond_to(:position) }
-  it { should respond_to(:remarks) }
-  it { should respond_to(:task_points) }
 
   describe "validation" do
-    before do
-      @story = Story.new( sub_category_id: 1, name: "Story", position: 1, remarks: "備考")
+    context "when input valid data," do
+      subject { Story.new(sub_category_id: 1, name: "Story", position: 1, remarks: "備考") }
+      it { should be_valid }
     end
-    subject { @story }
-    it { should be_valid }
     context "when name is not present," do
-      before { @story.name = "" }
-      it{ should_not be_valid }
+      subject { Story.new(name: "") }
+      it{ should have(1).error_on(:name) }
     end
   end
 

@@ -1,40 +1,36 @@
 require 'spec_helper'
 
 describe TaskPoint do
-  before { @task_point = TaskPoint.new }
-  subject { @task_point }
-
-  it { should respond_to(:project_task_id) }
-  it { should respond_to(:point_50) }
-  it { should respond_to(:point_90) }
+  describe "field definitions" do
+    subject { TaskPoint.new }
+    it { should respond_to(:project_task_id) }
+    it { should respond_to(:point_50) }
+    it { should respond_to(:point_90) }
+  end
 
   describe "validation" do
-    before { @task_point = TaskPoint.new(story_id: 1, project_task_id: 1, point_50: 20, point_90: 50) }
-    subject { @task_point }
-    it { should be_valid }
-
+    context "when input valid data," do
+      subject { TaskPoint.new(story_id: 1, project_task_id: 1, point_50: 20, point_90: 50) }
+      it { should be_valid }
+    end
     context "when project_task_id is not present," do
-      before { @task_point.project_task_id = "" }
-      it{ should_not be_valid }
+      subject { TaskPoint.new(project_task_id: " ") }
+      it{ should have(1).error_on(:project_task_id) }
     end
-
     context "when point_50 is not numeric," do
-      before { @task_point.point_50 = "abc" }
+      subject { TaskPoint.new(point_50: "abc") }
       it{ should_not be_valid }
     end
-
     context "when point_50 is not integer," do
-      before { @task_point.point_50 = 14.5 }
+      subject { TaskPoint.new(point_50: 14.5) }
       it{ should_not be_valid }
     end
-
     context "when point_90 is not numeric," do
-      before { @task_point.point_90 = "abc" }
+      subject { TaskPoint.new(point_90: "abc") }
       it{ should_not be_valid }
     end
-
     context "when point_90 is not integer," do
-      before { @task_point.point_90 = 8.5 }
+      subject { TaskPoint.new(point_90: 8.5) }
       it{ should_not be_valid }
     end
   end
