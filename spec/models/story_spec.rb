@@ -31,18 +31,15 @@ describe Story do
   end
 
   describe "sum of point" do
+    let(:project_task1){ ProjectTask.create(name:"要件定義", price_per_day: 50000) }
+    let(:project_task2){ ProjectTask.create(name:"設計", price_per_day: 40000) }
+    let(:project_task3){ ProjectTask.create(name:"試験", price_per_day: 45000) }
     before do
-      @project_task1 = ProjectTask.new(name:"要件定義", price_per_day: 50000)
-      @project_task1.save!
-      @project_task2 = ProjectTask.new(name:"設計", price_per_day: 40000)
-      @project_task2.save!
-      @project_task3 = ProjectTask.new(name:"試験", price_per_day: 45000)
-      @project_task3.save!
       @story = Story.new( sub_category_id: 1, name: "Story", position: 1, remarks: "備考")
-      @story.task_points.build( project_task_id: @project_task1.id, point_50: 10, point_90: 40 )
-      @story.task_points.build( project_task_id: @project_task1.id, point_50: 20, point_90: 45 )
-      @story.task_points.build( project_task_id: @project_task2.id, point_50: 30, point_90: 50 )
-      @story.task_points.build( project_task_id: @project_task3.id, point_50: 40, point_90: 60 )
+      @story.task_points.build( project_task_id: project_task1.id, point_50: 10, point_90: 40 )
+      @story.task_points.build( project_task_id: project_task1.id, point_50: 20, point_90: 45 )
+      @story.task_points.build( project_task_id: project_task2.id, point_50: 30, point_90: 50 )
+      @story.task_points.build( project_task_id: project_task3.id, point_50: 40, point_90: 60 )
       @story.save!
     end
     describe "sum_of_point_50 method" do
