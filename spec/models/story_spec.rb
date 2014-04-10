@@ -28,7 +28,7 @@ describe Story do
       @story.save!
     end
     subject { @story }
-    it "storyを削したらtask_pointsも削除されること" do
+    it "storyを削除したらtask_pointsも削除されること" do
       TaskPoint.where(story_id: @story.id).size.should eq 1
       @story.destroy!
       TaskPoint.where(story_id: @story.id).size.should eq 0
