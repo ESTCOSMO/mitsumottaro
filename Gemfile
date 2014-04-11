@@ -39,7 +39,18 @@ gem 'jquery-rails'
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'guard-rspec'
 #  gem 'debugger'
+end
+
+group :test do
+  # Uncomment this line on OS X.
+  #gem 'growl'
+  # Uncomment these lines on Linux.
+  #gem 'libnotify'
+  # Uncomment these lines on Windows.
+  # gem 'rb-notifu'
+  # gem 'win32console'
 end
 
 gem 'acts_as_list'
