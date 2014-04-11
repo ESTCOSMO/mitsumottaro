@@ -40,7 +40,10 @@ gem 'jquery-rails'
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
-#  gem 'debugger'
+  gem 'spork-rails'
+  gem 'guard-spork'
+  gem 'childprocess'
+  #  gem 'debugger'
 end
 
 group :test do
