@@ -164,9 +164,8 @@ describe Project do
       it{ should eq 12.609520212918492 }
     end
     describe "total_price_with_buffer method" do
-      subject{ @project.total_price_with_buffer }
-      it{ should eq 1525336.654733634 }
-      # it{ should eq 1525336.6547336343 }
+      subject{ @project.total_price_with_buffer.to_f }
+      it{ should eq 1525336.6547336343 }
     end
     describe "total_price_50 method" do
       subject{ @project.total_price_50 }
