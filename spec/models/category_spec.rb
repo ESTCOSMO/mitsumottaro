@@ -155,7 +155,61 @@ describe Category do
     end
   end
 
-  describe "dup_deep" do
-    pending "項目複製のテストを実装すること"
+  describe "dup_deep method: " do
+    let(:story1) do
+      story = Story.new(name: "Story1")
+      story.task_points.build(project_task_id: 1, point_50: 3, point_90: 5)
+      story.task_points.build(project_task_id: 2, point_50: 5, point_90: 8)
+      story
+    end
+    let(:story2) do
+      story = Story.new(name: "Story2")
+      story.task_points.build(project_task_id: 1, point_50: 1, point_90: 2)
+      story
+    end
+    let(:sub_category1) do
+      sub_category = SubCategory.new(name: "SubCategory1")
+      sub_category.stories << story1
+      sub_category
+    end
+    let(:sub_category2) do
+      sub_category = SubCategory.new(name: "SubCategory2")
+      sub_category.stories << story2
+      sub_category
+    end
+    let(:org_category) do
+      category = Category.new(name: "Category1")
+      category.sub_categories << sub_category1
+      category.sub_categories << sub_category2
+      category
+    end
+    before do
+      @project_task_id_map = { 1 => 11, 2 => 12 }
+      @new_category = org_category.dup_deep(@project_task_id_map)
+    end
+    context "check category value, " do
+      subject{ @new_category }
+      its(:name){ should eq "Category1" }
+    end
+    context "check children's values, " do
+      subject { @new_category.sub_categories }
+      it{ should have(2).items }
+      it "値がコピーされていること" do
+        @new_category.sub_categories.each_with_index do |sub_category, i|
+          org_sub_category = org_category.sub_categories[i]
+          sub_category.name.should eq org_sub_category.name
+          sub_category.stories.each_with_index do |story, j|
+            org_story = org_sub_category.stories[j]
+            story.name.should eq org_story.name
+            story.task_points.each_with_index do |tp, k|
+              org_tp = org_story.task_points[k]
+              tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
+              tp.point_50.should eq org_tp.point_50
+              tp.point_90.should eq org_tp.point_90
+            end
+          end
+        end
+      end
+    end
   end
 end
