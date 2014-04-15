@@ -107,7 +107,47 @@ describe SubCategory do
     end
   end
 
-  describe "dup_deep" do
-    pending "項目複製のテストを実装すること"
+  describe "dup_deep method: " do
+    let(:story1) do
+      story = Story.new(name: "Story1")
+      story.task_points.build(project_task_id: 1, point_50: 3, point_90: 5)
+      story.task_points.build(project_task_id: 2, point_50: 5, point_90: 8)
+      story
+    end
+    let(:story2) do
+      story = Story.new(name: "Story2")
+      story.task_points.build(project_task_id: 1, point_50: 1, point_90: 2)
+      story
+    end
+    let(:org_sub_category) do
+      sub_category = SubCategory.new(name: "SubCategory1")
+      sub_category.stories << story1
+      sub_category.stories << story2
+      sub_category
+    end
+    before do
+      @project_task_id_map = { 1 => 11, 2 => 12 }
+      @new_sub_category = org_sub_category.dup_deep(@project_task_id_map)
+    end
+    context "check sub_category value, " do
+      subject{ @new_sub_category }
+      its(:name){ should eq "SubCategory1" }
+    end
+    context "check children's values, " do
+      subject { @new_sub_category.stories }
+      it{ should have(2).items }
+      it "値がコピーされていること" do
+        @new_sub_category.stories.each_with_index do |story, i|
+          org_story = org_sub_category.stories[i]
+          story.name.should eq org_story.name
+          story.task_points.each_with_index do |tp, j|
+            org_tp = org_story.task_points[j]
+            tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
+            tp.point_50.should eq org_tp.point_50
+            tp.point_90.should eq org_tp.point_90
+          end
+        end
+      end
+    end
   end
 end
