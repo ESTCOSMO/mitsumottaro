@@ -173,7 +173,196 @@ describe Project do
     end
   end
 
-  describe "dup_deep" do
-    pending "項目複製のテストを実装すること"
+  describe "項目のコピーを確認する, " do
+    let(:template_task1){ TemplateTask.create(name:"要件定義テンプレート", price_per_day: 55000) }
+    let(:template_task2){ TemplateTask.create(name:"設計テンプレート", price_per_day: 45000) }
+    let(:project_task1){ ProjectTask.create(name:"要件定義", template_task_id: template_task1.id, price_per_day: 50000) }
+    let(:project_task2){ ProjectTask.create(name:"設計", template_task_id: template_task2.id, price_per_day: 40000) }
+    let(:story1) do
+      story = Story.new(name: "Story1")
+      story.task_points.build(project_task_id: project_task1.id, point_50: 3, point_90: 5)
+      story.task_points.build(project_task_id: project_task2.id, point_50: 5, point_90: 8)
+      story
+    end
+    let(:story2) do
+      story = Story.new(name: "Story2")
+      story.task_points.build(project_task_id: project_task1.id, point_50: 1, point_90: 2)
+      story
+    end
+    let(:sub_category1) do
+      sub_category = SubCategory.new(name: "SubCategory1")
+      sub_category.stories << story1
+      sub_category
+    end
+    let(:sub_category2) do
+      sub_category = SubCategory.new(name: "SubCategory2")
+      sub_category.stories << story2
+      sub_category
+    end
+    let(:category1) do
+      category = Category.new(name: "Category1")
+      category.sub_categories << sub_category1
+      category.sub_categories << sub_category2
+      category
+    end
+    let(:additional_cost1){ AdditionalCost.create(name: "Additional", price: 40000)}
+    let(:org_project) do
+      project = Project.new(name: "Test Project", days_per_point: 0.5)
+      project.categories << category1
+      project.project_tasks << project_task1
+      project.project_tasks << project_task2
+      project.additional_costs << additional_cost1
+      project.save!
+      project
+    end
+    describe "dup_project! method: " do
+      subject{ org_project.dup_project! }
+      its(:name) { should eq "Test Project (コピー)" }
+      its(:days_per_point) { should eq 0.5 }
+      its(:categories) { should be_empty }
+      its(:project_tasks) { should be_empty }
+      its(:additional_costs) { should be_empty }
+      its(:template_tasks) { should be_empty }
+    end
+    describe "dup_additional_costs! method: " do
+      before do
+        @new_project = Project.new(name: 'DupProject')
+        org_project.dup_additional_costs!(@new_project)
+      end
+      subject{ @new_project.additional_costs }
+      it{ should have(1).items }
+      it "値がコピーされていること" do
+        @new_project.additional_costs.each_with_index do |ac, idx|
+          ac.name.should eq org_project.additional_costs[idx].name
+          ac.price.should eq org_project.additional_costs[idx].price
+        end
+      end
+    end
+    describe "dup_project_tasks! method: " do
+      before do
+        @new_project = Project.new(name: 'DupProject')
+        @project_task_id_map = org_project.dup_project_tasks!(@new_project)
+      end
+      context "check project_tasks value, " do
+        subject{ @new_project.project_tasks }
+        it { should have(2).items }
+        it "値がコピーされていること" do
+          @new_project.project_tasks.each_with_index do |pt, idx|
+            pt.name.should eq org_project.project_tasks[idx].name
+            pt.price_per_day.should eq org_project.project_tasks[idx].price_per_day
+          end
+        end
+      end
+      context "check template_tasks value, " do
+        subject{ @new_project.template_tasks }
+        it { should have(2).items }
+        it "値がコピーされていること" do
+          @new_project.template_tasks.each_with_index do |tt, idx|
+            tt.name.should eq org_project.template_tasks[idx].name
+            tt.price_per_day.should eq org_project.template_tasks[idx].price_per_day
+          end
+        end
+      end
+      describe "check project_task_id_map, " do
+        subject{ @project_task_id_map }
+        it { should have(2).items }
+        it "新旧ProjectTaskIdの組み合わせが保存されていること" do
+          @project_task_id_map[org_project.project_tasks[0].id].should eq @new_project.project_tasks[0].id
+          @project_task_id_map[org_project.project_tasks[1].id].should eq @new_project.project_tasks[1].id
+        end
+      end
+    end
+    describe "dup_categories_deep! method: " do
+      before do
+        @new_project = Project.new(name: 'DupProject')
+        @project_task_id_map = org_project.dup_project_tasks!(@new_project)
+        org_project.dup_categories_deep!(@new_project, @project_task_id_map)
+      end
+      subject{ @new_project.categories }
+      it{ should have(1).items }
+      it "値がコピーされていること" do
+        @new_project.categories.each_with_index do |category, i|
+          org_category = org_project.categories[i]
+          category.name.should eq org_category.name
+          category.sub_categories.each_with_index do |sub_category, j|
+            org_sub_category = org_category.sub_categories[j]
+            sub_category.name.should eq org_sub_category.name
+            sub_category.stories.each_with_index do |story, k|
+              org_story = org_sub_category.stories[k]
+              story.name.should eq org_story.name
+              story.task_points.each_with_index do |tp, l|
+                org_tp = org_story.task_points[l]
+                tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
+                tp.point_50.should eq org_tp.point_50
+                tp.point_90.should eq org_tp.point_90
+              end
+            end
+          end
+        end
+      end
+    end
+    describe "dup_deep! method: " do
+      before do
+        @new_project = org_project.dup_deep!
+      end
+      context "check project values, " do
+        subject{ @new_project }
+        its(:name) { should eq "Test Project (コピー)" }
+        its(:days_per_point) { should eq 0.5 }
+      end
+      context "check additional_cost values, " do
+        subject{ @new_project.additional_costs }
+        it{ should have(1).items }
+        it "値がコピーされていること" do
+          @new_project.additional_costs.each_with_index do |ac, idx|
+            ac.name.should eq org_project.additional_costs[idx].name
+            ac.price.should eq org_project.additional_costs[idx].price
+          end
+        end
+      end
+      context "check project_tasks values, " do
+        subject{ @new_project.project_tasks }
+        it { should have(2).items }
+        it "値がコピーされていること" do
+          @new_project.project_tasks.each_with_index do |pt, idx|
+            pt.name.should eq org_project.project_tasks[idx].name
+            pt.price_per_day.should eq org_project.project_tasks[idx].price_per_day
+          end
+        end
+      end
+      context "check template_tasks value, " do
+        subject{ @new_project.template_tasks }
+        it { should have(2).items }
+        it "値がコピーされていること" do
+          @new_project.template_tasks.each_with_index do |tt, idx|
+            tt.name.should eq org_project.template_tasks[idx].name
+            tt.price_per_day.should eq org_project.template_tasks[idx].price_per_day
+          end
+        end
+      end
+      context "check categories value, " do
+        subject{ @new_project.categories }
+        it{ should have(1).items }
+        it "値がコピーされていること" do
+          @new_project.categories.each_with_index do |category, i|
+            org_category = org_project.categories[i]
+            category.name.should eq org_category.name
+            category.sub_categories.each_with_index do |sub_category, j|
+              org_sub_category = org_category.sub_categories[j]
+              sub_category.name.should eq org_sub_category.name
+              sub_category.stories.each_with_index do |story, k|
+                org_story = org_sub_category.stories[k]
+                story.name.should eq org_story.name
+                story.task_points.each_with_index do |tp, l|
+                  org_tp = org_story.task_points[l]
+                  tp.point_50.should eq org_tp.point_50
+                  tp.point_90.should eq org_tp.point_90
+                end
+              end
+            end
+          end
+        end
+      end
+    end
   end
 end
