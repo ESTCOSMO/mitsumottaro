@@ -55,6 +55,7 @@ group :test do
   # gem 'rb-notifu'
   # gem 'win32console'
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
 
 gem 'acts_as_list'
