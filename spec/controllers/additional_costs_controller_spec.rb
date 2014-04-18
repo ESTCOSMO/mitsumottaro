@@ -63,4 +63,60 @@ describe AdditionalCostsController do
       end
     end
   end
+
+  describe "POST 'upadte'" do
+    before do
+      @additional_cost = @project.additional_costs.build(name: 'Additional', price: 10000)
+      @additional_cost.save!
+    end
+    context "when input correct data, " do
+      before do
+        post 'update', {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: 20000 }}
+      end
+      describe "check redirect path" do
+        subject{ response }
+        it{ should redirect_to project_additional_costs_url(@project) }
+      end
+      describe "check saved data" do
+        subject{ AdditionalCost.where(project_id: @project.id).first }
+        its(:name){ should eq "EditedAdditional" }
+        its(:price){ should eq 20000 }
+      end
+    end
+    context "when name is empty, " do
+      before do
+        post 'update', {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: '', price: 20000 }}
+      end
+      describe "check response template" do
+        subject{ response }
+        it{ should render_template "edit" }
+      end
+    end
+    context "when price is empty, " do
+      before do
+        post 'update', {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: '' }}
+      end
+      describe "check response template" do
+        subject{ response }
+        it{ should render_template "edit" }
+      end
+    end
+  end
+  describe "POST 'destroy'" do
+    before do
+      @additional_cost = @project.additional_costs.build(name: 'Additional', price: 10000)
+      @additional_cost.save!
+    end
+    before do
+      delete 'destroy', {  project_id: @project.id, id: @additional_cost.id }
+    end
+    describe "check redirect path" do
+      subject{ response }
+      it{ should redirect_to project_additional_costs_url(@project) }
+    end
+    describe "check deleted data" do
+      subject{ AdditionalCost.where(project_id: @project.id) }
+      its(:size){ should eq 0 }
+    end
+  end
 end
