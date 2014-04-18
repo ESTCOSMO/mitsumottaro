@@ -5,17 +5,17 @@ module DashboardsHelper
     category = params[:category]
     sub_category = params[:sub_category]
     story = params[:story]
-    if story.present?
-      path = move_higher_project_category_sub_category_story_path(project, category, sub_category, story)
-      anchor_name = make_anchor(category.id, sub_category.id, story.id)
-    elsif sub_category.present?
-      path = move_higher_project_category_sub_category_path(project, category, sub_category)
-      anchor_name = make_anchor(category.id, sub_category.id)
-    else
-      path = move_higher_project_category_path(project, category)
-      anchor_name = make_anchor(category.id)
-    end
     unless condition
+      if story.present?
+        path = move_higher_project_category_sub_category_story_path(project, category, sub_category, story)
+        anchor_name = make_anchor(category.id, sub_category.id, story.id)
+      elsif sub_category.present?
+        path = move_higher_project_category_sub_category_path(project, category, sub_category)
+        anchor_name = make_anchor(category.id, sub_category.id)
+      else
+        path = move_higher_project_category_path(project, category)
+        anchor_name = make_anchor(category.id)
+      end
       link_to path, name: anchor_name, class: 'arrow', style: 'color:silver' do
         raw "<i class='icon-arrow-up'></i>"
       end
@@ -26,17 +26,17 @@ module DashboardsHelper
     category = params[:category]
     sub_category = params[:sub_category]
     story = params[:story]
-    if story.present?
-      path = move_lower_project_category_sub_category_story_path(project, category, sub_category, story)
-      anchor_name = make_anchor(category.id, sub_category.id, story.id)
-    elsif sub_category.present?
-      path = move_lower_project_category_sub_category_path(project, category, sub_category)
-      anchor_name = make_anchor(category.id, sub_category.id)
-    else
-      path = move_lower_project_category_path(project, category)
-      anchor_name = make_anchor(category.id)
-    end
     unless condition
+      if story.present?
+        path = move_lower_project_category_sub_category_story_path(project, category, sub_category, story)
+        anchor_name = make_anchor(category.id, sub_category.id, story.id)
+      elsif sub_category.present?
+        path = move_lower_project_category_sub_category_path(project, category, sub_category)
+        anchor_name = make_anchor(category.id, sub_category.id)
+      else
+        path = move_lower_project_category_path(project, category)
+        anchor_name = make_anchor(category.id)
+      end
       link_to path, name: anchor_name, class: 'arrow', style: 'color:silver' do
         raw "<i class='icon-arrow-down'></i>"
       end
