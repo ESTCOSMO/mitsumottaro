@@ -29,4 +29,38 @@ describe AdditionalCostsController do
     it{ should be_success }
   end
 
+  describe "POST 'create'" do
+    context "when input correct data, " do
+      before do
+        post 'create', {  project_id: @project.id, additional_cost:{ name: 'Additional', price: 10000 }}
+      end
+      describe "check redirect path" do
+        subject{ response }
+        it{ should redirect_to project_additional_costs_url(@project) }
+      end
+      describe "check saved data" do
+        subject{ AdditionalCost.where(project_id: @project.id).first }
+        its(:name){ should eq "Additional" }
+        its(:price){ should eq 10000 }
+      end
+    end
+    context "when name is empty, " do
+      before do
+        post 'create', {  project_id: @project.id, additional_cost:{ name: '', price: 10000 }}
+      end
+      describe "check response template" do
+        subject{ response }
+        it{ should render_template "new" }
+      end
+    end
+    context "when price is empty, " do
+      before do
+        post 'create', {  project_id: @project.id, additional_cost:{ name: 'Additional', price: '' }}
+      end
+      describe "check response template" do
+        subject{ response }
+        it{ should render_template "new" }
+      end
+    end
+  end
 end
