@@ -8,13 +8,13 @@ describe AdditionalCostsController do
   end
 
   describe "GET 'index'" do
-    before{ get 'index', { project_id: @project.id } }
+    before{ get :index, { project_id: @project.id } }
     subject{ response }
     it{ should be_success }
   end
 
   describe "GET 'new'" do
-    before{ get 'new', { project_id: @project.id } }
+    before{ get :new, { project_id: @project.id } }
     subject{ response }
     it{ should be_success }
   end
@@ -23,7 +23,7 @@ describe AdditionalCostsController do
     before do
       @additional_cost = @project.additional_costs.build(name: 'Additional', price: 10000)
       @additional_cost.save!
-      get 'edit', { project_id: @project.id , id: @additional_cost.id }
+      get :edit, { project_id: @project.id , id: @additional_cost.id }
     end
     subject{ response }
     it{ should be_success }
@@ -32,7 +32,7 @@ describe AdditionalCostsController do
   describe "POST 'create'" do
     context "when input correct data, " do
       before do
-        post 'create', {  project_id: @project.id, additional_cost:{ name: 'Additional', price: 10000 }}
+        post :create, {  project_id: @project.id, additional_cost:{ name: 'Additional', price: 10000 }}
       end
       describe "check redirect path" do
         subject{ response }
@@ -46,7 +46,7 @@ describe AdditionalCostsController do
     end
     context "when name is empty, " do
       before do
-        post 'create', {  project_id: @project.id, additional_cost:{ name: '', price: 10000 }}
+        post :create, {  project_id: @project.id, additional_cost:{ name: '', price: 10000 }}
       end
       describe "check response template" do
         subject{ response }
@@ -55,7 +55,7 @@ describe AdditionalCostsController do
     end
     context "when price is empty, " do
       before do
-        post 'create', {  project_id: @project.id, additional_cost:{ name: 'Additional', price: '' }}
+        post :create, {  project_id: @project.id, additional_cost:{ name: 'Additional', price: '' }}
       end
       describe "check response template" do
         subject{ response }
@@ -71,7 +71,7 @@ describe AdditionalCostsController do
     end
     context "when input correct data, " do
       before do
-        post 'update', {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: 20000 }}
+        post :update, {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: 20000 }}
       end
       describe "check redirect path" do
         subject{ response }
@@ -85,7 +85,7 @@ describe AdditionalCostsController do
     end
     context "when name is empty, " do
       before do
-        post 'update', {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: '', price: 20000 }}
+        post :update, {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: '', price: 20000 }}
       end
       describe "check response template" do
         subject{ response }
@@ -94,7 +94,7 @@ describe AdditionalCostsController do
     end
     context "when price is empty, " do
       before do
-        post 'update', {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: '' }}
+        post :update, {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: '' }}
       end
       describe "check response template" do
         subject{ response }
@@ -108,7 +108,7 @@ describe AdditionalCostsController do
       @additional_cost.save!
     end
     before do
-      delete 'destroy', {  project_id: @project.id, id: @additional_cost.id }
+      delete :destroy, {  project_id: @project.id, id: @additional_cost.id }
     end
     describe "check redirect path" do
       subject{ response }
