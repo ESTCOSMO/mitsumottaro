@@ -103,7 +103,7 @@ describe AdditionalCostsController do
     end
   end
 
-  describe "POST 'destroy'" do
+  describe "DELETE 'destroy'" do
     before do
       @additional_cost = @project.additional_costs.build(name: 'Additional', price: 10000)
       @additional_cost.save!
