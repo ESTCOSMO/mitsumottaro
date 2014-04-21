@@ -78,11 +78,11 @@ describe Project do
   end
 
   describe "sum_of_point" do
-    let(:project_task1){ ProjectTask.create(name:"要件定義", price_per_day: 50000) }
-    let(:project_task2){ ProjectTask.create(name:"設計", price_per_day: 40000) }
-    let(:project_task3){ ProjectTask.create(name:"試験", price_per_day: 45000) }
-    let(:project_task4){ ProjectTask.create(name:"マニュアル", price_per_day: 30000) }
-    let(:project_task5){ ProjectTask.create(name:"導入", price_per_day: 55000) }
+    let(:project_task1){ FactoryGirl.create(:project_task1, price_per_day: 50000) }
+    let(:project_task2){ FactoryGirl.create(:project_task2, price_per_day: 40000) }
+    let(:project_task3){ FactoryGirl.create(:project_task3, price_per_day: 45000) }
+    let(:project_task4){ FactoryGirl.create(:project_task4, price_per_day: 30000) }
+    let(:project_task5){ FactoryGirl.create(:project_task5, price_per_day: 55000) }
     let(:story1) do
       story = Story.new(name: "Story1")
       story.task_points.build(project_task_id: project_task1.id, point_50: 3, point_90: 5)
@@ -174,10 +174,10 @@ describe Project do
   end
 
   describe "項目のコピーを確認する, " do
-    let(:template_task1){ TemplateTask.create(name:"要件定義テンプレート", price_per_day: 55000) }
-    let(:template_task2){ TemplateTask.create(name:"設計テンプレート", price_per_day: 45000) }
-    let(:project_task1){ ProjectTask.create(name:"要件定義", template_task_id: template_task1.id, price_per_day: 50000) }
-    let(:project_task2){ ProjectTask.create(name:"設計", template_task_id: template_task2.id, price_per_day: 40000) }
+    let(:template_task1){ FactoryGirl.create(:template_task1) }
+    let(:template_task2){ FactoryGirl.create(:template_task2) }
+    let(:project_task1){ FactoryGirl.create(:project_task1, template_task_id: template_task1.id, price_per_day: 50000) }
+    let(:project_task2){ FactoryGirl.create(:project_task2, template_task_id: template_task2.id, price_per_day: 40000) }
     let(:story1) do
       story = Story.new(name: "Story1")
       story.task_points.build(project_task_id: project_task1.id, point_50: 3, point_90: 5)

@@ -36,9 +36,9 @@ describe Story do
   end
 
   describe "sum of point" do
-    let(:project_task1){ ProjectTask.create(name:"要件定義", price_per_day: 50000) }
-    let(:project_task2){ ProjectTask.create(name:"設計", price_per_day: 40000) }
-    let(:project_task3){ ProjectTask.create(name:"試験", price_per_day: 45000) }
+    let(:project_task1){ FactoryGirl.create(:project_task1, price_per_day: 50000) }
+    let(:project_task2){ FactoryGirl.create(:project_task2, price_per_day: 40000) }
+    let(:project_task3){ FactoryGirl.create(:project_task3, price_per_day: 45000) }
     before do
       @story = Story.new( sub_category_id: 1, name: "Story", position: 1, remarks: "備考")
       @story.task_points.build( project_task_id: project_task1.id, point_50: 10, point_90: 40 )

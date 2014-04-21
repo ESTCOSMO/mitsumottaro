@@ -54,6 +54,8 @@ group :test do
   # Uncomment these lines on Windows.
   # gem 'rb-notifu'
   # gem 'win32console'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
 
 gem 'acts_as_list'
