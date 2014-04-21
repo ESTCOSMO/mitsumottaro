@@ -65,8 +65,34 @@ describe Story do
     end
   end
 
-  describe "dup_deep" do
-    pending "項目複製のテストを実装すること"
+  describe "dup_deep method: " do
+    let(:org_story) do
+      story = Story.new(name: "Story1")
+      story.task_points.build(project_task_id: 1, point_50: 3, point_90: 5)
+      story.task_points.build(project_task_id: 2, point_50: 5, point_90: 8)
+      story
+    end
+    before do
+      @project_task_id_map = { 1 => 11, 2 => 12 }
+      @new_story = org_story.dup_deep(@project_task_id_map)
+    end
+    context "check story value, " do
+      subject{ @new_story }
+      its(:name){ should eq "Story1" }
+    end
+    context "check task_points counts, " do
+      subject { @new_story.task_points }
+      it{ should have(2).items }
+    end
+    context "check task_points values, " do
+      specify do
+        @new_story.task_points.each_with_index do |tp, i|
+          org_tp = org_story.task_points[i]
+          tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
+          tp.point_50.should eq org_tp.point_50
+          tp.point_90.should eq org_tp.point_90
+        end
+      end
+    end
   end
-
 end
