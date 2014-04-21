@@ -133,10 +133,12 @@ describe SubCategory do
       subject{ @new_sub_category }
       its(:name){ should eq "SubCategory1" }
     end
-    context "check children's values, " do
+    context "check stories counts, " do
       subject { @new_sub_category.stories }
       it{ should have(2).items }
-      it "値がコピーされていること" do
+    end
+    context "check stories values, " do
+      specify do
         @new_sub_category.stories.each_with_index do |story, i|
           org_story = org_sub_category.stories[i]
           story.name.should eq org_story.name

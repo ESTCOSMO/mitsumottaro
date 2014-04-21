@@ -229,12 +229,16 @@ describe Project do
         @new_project = Project.new(name: 'DupProject')
         org_project.dup_additional_costs!(@new_project)
       end
-      subject{ @new_project.additional_costs }
-      it{ should have(1).items }
-      it "値がコピーされていること" do
-        @new_project.additional_costs.each_with_index do |ac, idx|
-          ac.name.should eq org_project.additional_costs[idx].name
-          ac.price.should eq org_project.additional_costs[idx].price
+      context "check additional_costs counts" do
+        subject{ @new_project.additional_costs }
+        it{ should have(1).items }
+      end
+      context "check additional_costs values" do
+        specify do
+          @new_project.additional_costs.each_with_index do |ac, idx|
+            ac.name.should eq org_project.additional_costs[idx].name
+            ac.price.should eq org_project.additional_costs[idx].price
+          end
         end
       end
     end
@@ -253,20 +257,24 @@ describe Project do
           end
         end
       end
-      context "check template_tasks value, " do
+      context "check template_tasks counts, " do
         subject{ @new_project.template_tasks }
         it { should have(2).items }
-        it "値がコピーされていること" do
+      end
+      context "check template_tasks value, " do
+        specify do
           @new_project.template_tasks.each_with_index do |tt, idx|
             tt.name.should eq org_project.template_tasks[idx].name
             tt.price_per_day.should eq org_project.template_tasks[idx].price_per_day
           end
         end
       end
-      describe "check project_task_id_map, " do
+      context "check project_task_id_map counts, " do
         subject{ @project_task_id_map }
         it { should have(2).items }
-        it "新旧ProjectTaskIdの組み合わせが保存されていること" do
+      end
+      context "check project_task_id_map values, " do
+        specify do
           @project_task_id_map[org_project.project_tasks[0].id].should eq @new_project.project_tasks[0].id
           @project_task_id_map[org_project.project_tasks[1].id].should eq @new_project.project_tasks[1].id
         end
@@ -278,23 +286,27 @@ describe Project do
         @project_task_id_map = org_project.dup_project_tasks!(@new_project)
         org_project.dup_categories_deep!(@new_project, @project_task_id_map)
       end
-      subject{ @new_project.categories }
-      it{ should have(1).items }
-      it "値がコピーされていること" do
-        @new_project.categories.each_with_index do |category, i|
-          org_category = org_project.categories[i]
-          category.name.should eq org_category.name
-          category.sub_categories.each_with_index do |sub_category, j|
-            org_sub_category = org_category.sub_categories[j]
-            sub_category.name.should eq org_sub_category.name
-            sub_category.stories.each_with_index do |story, k|
-              org_story = org_sub_category.stories[k]
-              story.name.should eq org_story.name
-              story.task_points.each_with_index do |tp, l|
-                org_tp = org_story.task_points[l]
-                tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
-                tp.point_50.should eq org_tp.point_50
-                tp.point_90.should eq org_tp.point_90
+      context "check categories counts, " do
+        subject{ @new_project.categories }
+        it{ should have(1).items }
+      end
+      context "check categories and children's item values, " do
+        specify do
+          @new_project.categories.each_with_index do |category, i|
+            org_category = org_project.categories[i]
+            category.name.should eq org_category.name
+            category.sub_categories.each_with_index do |sub_category, j|
+              org_sub_category = org_category.sub_categories[j]
+              sub_category.name.should eq org_sub_category.name
+              sub_category.stories.each_with_index do |story, k|
+                org_story = org_sub_category.stories[k]
+                story.name.should eq org_story.name
+                story.task_points.each_with_index do |tp, l|
+                  org_tp = org_story.task_points[l]
+                  tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
+                  tp.point_50.should eq org_tp.point_50
+                  tp.point_90.should eq org_tp.point_90
+                end
               end
             end
           end
@@ -310,30 +322,36 @@ describe Project do
         its(:name) { should eq "Test Project (コピー)" }
         its(:days_per_point) { should eq 0.5 }
       end
-      context "check additional_cost values, " do
+      context "check additional_costs counts" do
         subject{ @new_project.additional_costs }
         it{ should have(1).items }
-        it "値がコピーされていること" do
+      end
+      context "check additional_cost values, " do
+        specify do
           @new_project.additional_costs.each_with_index do |ac, idx|
             ac.name.should eq org_project.additional_costs[idx].name
             ac.price.should eq org_project.additional_costs[idx].price
           end
         end
       end
-      context "check project_tasks values, " do
+      context "check project_tasks counts, " do
         subject{ @new_project.project_tasks }
         it { should have(2).items }
-        it "値がコピーされていること" do
+      end
+      context "check project_tasks values, " do
+        specify do
           @new_project.project_tasks.each_with_index do |pt, idx|
             pt.name.should eq org_project.project_tasks[idx].name
             pt.price_per_day.should eq org_project.project_tasks[idx].price_per_day
           end
         end
       end
-      context "check template_tasks value, " do
+      context "check template_tasks counts, " do
         subject{ @new_project.template_tasks }
         it { should have(2).items }
-        it "値がコピーされていること" do
+      end
+      context "check template_tasks values, " do
+        specify do
           @new_project.template_tasks.each_with_index do |tt, idx|
             tt.name.should eq org_project.template_tasks[idx].name
             tt.price_per_day.should eq org_project.template_tasks[idx].price_per_day
@@ -343,7 +361,9 @@ describe Project do
       context "check categories value, " do
         subject{ @new_project.categories }
         it{ should have(1).items }
-        it "値がコピーされていること" do
+      end
+      context "check categories and children's item values, " do
+        specify do
           @new_project.categories.each_with_index do |category, i|
             org_category = org_project.categories[i]
             category.name.should eq org_category.name

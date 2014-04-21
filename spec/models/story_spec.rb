@@ -80,10 +80,12 @@ describe Story do
       subject{ @new_story }
       its(:name){ should eq "Story1" }
     end
-    context "check task_points values, " do
+    context "check task_points counts, " do
       subject { @new_story.task_points }
       it{ should have(2).items }
-      it "値がコピーされていること" do
+    end
+    context "check task_points values, " do
+      specify do
         @new_story.task_points.each_with_index do |tp, i|
           org_tp = org_story.task_points[i]
           tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
