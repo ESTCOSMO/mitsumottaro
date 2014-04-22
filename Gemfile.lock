@@ -204,6 +204,7 @@ DEPENDENCIES
   acts_as_list
   childprocess
   coffee-rails (>= 3.2.1)
+  coffee-script
   database_cleaner
   factory_girl_rails
   guard-rspec
@@ -214,6 +215,7 @@ DEPENDENCIES
   libv8 (~> 3.11.8)
   rails (= 4.1.0)
   rspec-rails
+  sass
   sass-rails (>= 3.2.3)
   simplecov
   spork-rails
