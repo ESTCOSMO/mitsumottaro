@@ -52,8 +52,8 @@ describe ProjectTasksController do
 
   describe "POST 'update'" do
     before do
-      @project_task = ProjectTask.new(project_id: @project.id, name: "SampleTask", price_per_day: 40000 )
-      @project_task.save!
+      @project_task = @project.project_tasks.build(name: "SampleTask", price_per_day: 40000)
+      @project.save!
     end
     context "when input correct data, " do
       before do
@@ -94,10 +94,8 @@ describe ProjectTasksController do
 
   describe "DELETE 'destroy'" do
     before do
-      @project_task = ProjectTask.new(project_id: @project.id, name: "SampleTask", price_per_day: 40000 )
-      @project_task.save!
-    end
-    before do
+      @project_task = @project.project_tasks.build(name: "SampleTask", price_per_day: 40000)
+      @project.save!
       delete :destroy, { project_id: @project.id, id: @project_task.id }
     end
     describe "check redirect path" do
@@ -107,6 +105,50 @@ describe ProjectTasksController do
     describe "check deleted data" do
       subject{ ProjectTask.where(project_id: @project.id)}
       its(:size){ should eq 0 }
+    end
+  end
+
+  describe "GET 'move_higher'" do
+    before do
+      @project_task1 = @project.project_tasks.build(name: "SampleTask1", price_per_day: 40000, position: 1)
+      @project_task2 = @project.project_tasks.build(name: "SampleTask2", price_per_day: 50000, position: 2)
+      @project_task3 = @project.project_tasks.build(name: "SampleTask3", price_per_day: 60000, position: 3)
+      @project.save!
+      get :move_higher, { project_id: @project.id, id: @project_task2.id }
+    end
+    describe "check redirect path" do
+      subject{ response }
+      it{  should redirect_to project_dashboard_path(@project) }
+    end
+    describe "check items order" do
+      before{ @project_tasks = ProjectTask.where(project_id: @project.id).order(:position) }
+      specify do
+        @project_tasks[0].should eq @project_task2
+        @project_tasks[1].should eq @project_task1
+        @project_tasks[2].should eq @project_task3
+      end
+    end
+  end
+
+  describe "GET 'move_lower'" do
+    before do
+      @project_task1 = @project.project_tasks.build(name: "SampleTask1", price_per_day: 40000, position: 1)
+      @project_task2 = @project.project_tasks.build(name: "SampleTask2", price_per_day: 50000, position: 2)
+      @project_task3 = @project.project_tasks.build(name: "SampleTask3", price_per_day: 60000, position: 3)
+      @project.save!
+      get :move_lower, { project_id: @project.id, id: @project_task2.id }
+    end
+    describe "check redirect path" do
+      subject{ response }
+      it{  should redirect_to project_dashboard_path(@project) }
+    end
+    describe "check items order" do
+      before{ @project_tasks = ProjectTask.where(project_id: @project.id).order(:position) }
+      specify do
+        @project_tasks[0].should eq @project_task1
+        @project_tasks[1].should eq @project_task3
+        @project_tasks[2].should eq @project_task2
+      end
     end
   end
 end
