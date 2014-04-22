@@ -10,6 +10,7 @@ describe ProjectTasksController do
     before{ get :index, { project_id: @project.id } }
     subject{ response }
     it { should be_success }
+    it{ should render_template(:index) }
   end
 
   describe "POST 'create'" do
