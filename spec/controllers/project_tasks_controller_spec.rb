@@ -103,8 +103,8 @@ describe ProjectTasksController do
       it{  should redirect_to project_project_tasks_path(@project) }
     end
     describe "check deleted data" do
-      subject{ ProjectTask.where(project_id: @project.id)}
-      its(:size){ should eq 0 }
+      subject{ ProjectTask.where(project_id: @project.id).size}
+      it{ should eq 0 }
     end
   end
 

@@ -116,8 +116,8 @@ describe AdditionalCostsController do
       it{ should redirect_to project_additional_costs_url(@project) }
     end
     describe "check deleted data" do
-      subject{ AdditionalCost.where(project_id: @project.id) }
-      its(:size){ should eq 0 }
+      subject{ AdditionalCost.where(project_id: @project.id).size }
+      it{ should eq 0 }
     end
   end
 end

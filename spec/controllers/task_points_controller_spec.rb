@@ -78,8 +78,8 @@ describe TaskPointsController do
         it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
       end
       describe "check deleted data" do
-        subject{ TaskPoint.where( project_task_id: project_task.id) }
-        its(:size){ should eq 0 }
+        subject{ TaskPoint.where( project_task_id: project_task.id).size }
+        it{ should eq 0 }
       end
     end
   end
