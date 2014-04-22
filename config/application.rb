@@ -1,6 +1,8 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'coffee_script'
+require 'sass'
 
 Bundler.require(*Rails.groups)
 
