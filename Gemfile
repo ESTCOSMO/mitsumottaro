@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.4'
+gem 'rails', '4.1.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -66,4 +66,6 @@ gem 'libv8', '~> 3.11.8'
 gem 'less-rails'
 gem 'haml-rails'
 gem 'underscore-rails'
-
+group :test do
+  gem 'simplecov', require: false
+end
