@@ -66,4 +66,6 @@ gem 'libv8', '~> 3.11.8'
 gem 'less-rails'
 gem 'haml-rails'
 gem 'underscore-rails'
-
+group :test do
+  gem 'simplecov', require: false
+end
