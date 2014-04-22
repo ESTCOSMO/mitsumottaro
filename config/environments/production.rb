@@ -59,4 +59,5 @@ Mitsumoritaro::Application.configure do
   config.eager_load = true
 
   config.log_formatter = ::Logger::Formatter.new
+  config.active_record.dump_schema_after_migration = false
 end
