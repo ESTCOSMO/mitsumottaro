@@ -165,7 +165,7 @@ describe Project do
     end
     describe "total_price_with_buffer method" do
       subject{ @project.total_price_with_buffer.to_f }
-      it{ should eq 1525336.6547336343 }
+      it{ should be_within(1.0e-05).of(1525336.65473) }
     end
     describe "total_price_50 method" do
       subject{ @project.total_price_50 }
