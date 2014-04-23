@@ -2,34 +2,71 @@ require "spec_helper"
 
 describe TemplateTasksController do
   describe "routing" do
-
-    it "routes to #index" do
-      get("/template_tasks").should route_to("template_tasks#index")
+    describe "routes to #index" do
+      context "when using url," do
+        subject{ { get:"/template_tasks" } }
+        it{ should be_routable }
+        it{ should route_to(controller: "template_tasks", action: "index") }
+      end
+      context "when using prefix_path," do
+        subject{ { get: template_tasks_path } }
+        it{ should be_routable }
+        it{ should route_to(controller: "template_tasks", action: "index") }
+      end
     end
 
-    it "routes to #new" do
-      get("/template_tasks/new").should route_to("template_tasks#new")
+    describe "routes to #new" do
+      context "when using url," do
+        subject{ { get:"/template_tasks/new" } }
+        it{ should be_routable }
+        it{ should route_to(controller: "template_tasks", action: "new") }
+      end
+      context "when using prefix_path," do
+        subject{ { get: new_template_task_path } }
+        it{ should be_routable }
+        it{ should route_to(controller: "template_tasks", action: "new") }
+      end
     end
 
-    it "routes to #show" do
-      get("/template_tasks/1").should route_to("template_tasks#show", :id => "1")
+    describe "routes to #show" do
+      context "when using url," do
+        subject{ { get:"/template_tasks/1" } }
+        it{ should be_routable }
+        it{ should route_to(controller: "template_tasks", action: "show", id: "1") }
+      end
+      context "when using prefix_path," do
+        subject{ { get: template_task_path(id: 1) } }
+        it{ should be_routable }
+        it{ should route_to(controller: "template_tasks", action: "show", id: "1") }
+      end
     end
 
-    it "routes to #edit" do
-      get("/template_tasks/1/edit").should route_to("template_tasks#edit", :id => "1")
+    describe "routes to #edit" do
+      context "when using url," do
+        subject{ { get:"/template_tasks/1/edit" } }
+        it{ should be_routable }
+        it{ should route_to(controller: "template_tasks", action: "edit", id: "1") }
+      end
+      context "when using prefix_path," do
+        subject{ { get: edit_template_task_path(id: 1) } }
+        it{ should be_routable }
+        it{ should route_to(controller: "template_tasks", action: "edit", id: "1") }
+      end
     end
 
-    it "routes to #create" do
-      post("/template_tasks").should route_to("template_tasks#create")
+    describe "routes to #create" do
+      subject{ { post: "/template_tasks" } }
+      it{ should route_to(controller: "template_tasks", action: "create") }
     end
 
-    it "routes to #update" do
-      put("/template_tasks/1").should route_to("template_tasks#update", :id => "1")
+    describe "routes to #update" do
+      subject{ { put: "/template_tasks/1" } }
+      it{ should route_to(controller: "template_tasks", action: "update", id: "1") }
     end
 
-    it "routes to #destroy" do
-      delete("/template_tasks/1").should route_to("template_tasks#destroy", :id => "1")
+    describe "routes to #destroy" do
+      subject{ { delete: "/template_tasks/1" } }
+      it{ should route_to(controller: "template_tasks", action: "destroy", id: "1") }
     end
-
   end
 end
