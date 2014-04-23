@@ -40,9 +40,8 @@ gem 'jquery-rails'
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
-  gem 'spork-rails'
-  gem 'guard-spork'
-  gem 'childprocess'
+  gem 'spring'
+  gem 'spring-commands-rspec'
   #  gem 'debugger'
 end
 
