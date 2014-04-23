@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 module DashboardsHelper
-  def up_arrow_link_to_unless(condition, params={})
-    project = params[:project]
-    category = params[:category]
-    sub_category = params[:sub_category]
-    story = params[:story]
+  def up_arrow_link_to_unless(condition, args={})
+    project = args[:project]
+    category = args[:category]
+    sub_category = args[:sub_category]
+    story = args[:story]
     unless condition
       if story.present?
         path = move_higher_project_category_sub_category_story_path(project, category, sub_category, story)
@@ -21,11 +21,11 @@ module DashboardsHelper
       end
     end
   end
-  def down_arrow_link_to_unless(condition, params={})
-    project = params[:project]
-    category = params[:category]
-    sub_category = params[:sub_category]
-    story = params[:story]
+  def down_arrow_link_to_unless(condition, args={})
+    project = args[:project]
+    category = args[:category]
+    sub_category = args[:sub_category]
+    story = args[:story]
     unless condition
       if story.present?
         path = move_lower_project_category_sub_category_story_path(project, category, sub_category, story)
