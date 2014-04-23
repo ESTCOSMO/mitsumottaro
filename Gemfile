@@ -69,3 +69,5 @@ gem 'underscore-rails'
 group :test do
   gem 'simplecov', require: false
 end
+
+gem 'angularjs-rails'
