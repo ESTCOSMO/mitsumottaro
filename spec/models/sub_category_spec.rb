@@ -94,7 +94,7 @@ describe SubCategory do
       it{ should eq 34 }
     end
     describe "sum_of_point_50_by_project_task_id method" do
-      subject{ @sub_category.sum_of_point_50_by_project_task_id(1) }
+      subject{ @sub_category.sum_of_point_50_by_project_task_id(project_task1.id) }
       it{ should eq 9 }
     end
     describe "sum_of_square_of_diff method" do

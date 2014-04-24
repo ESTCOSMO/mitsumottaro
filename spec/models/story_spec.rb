@@ -52,7 +52,7 @@ describe Story do
       it{ should eq 100 }
     end
     describe "sum_of_point_50_by_project_task_id method" do
-      subject{ @story.sum_of_point_50_by_project_task_id(1) }
+      subject{ @story.sum_of_point_50_by_project_task_id(project_task1.id) }
       it{ should eq 30 }
     end
     describe "sum_of_square_of_diff method" do

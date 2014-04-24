@@ -1,6 +1,8 @@
 language: ruby
 
 before_script:
+  - "rm -vf config/database.yml"
+  - "cp -v config/travis/database.yml.travis.${DB} config/database.yml"
   - "rake db:create db:migrate"
 
 before_install:
@@ -12,6 +14,11 @@ rvm:
   - 2.1.0
   - 2.0.0
   - 1.9.3
+
+env:
+  - DB=mysql
+  - DB=postgres
+  - DB=sqlite
 
 gemfile:
   - Gemfile
