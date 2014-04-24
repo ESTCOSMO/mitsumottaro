@@ -19,7 +19,7 @@ describe TaskPointsController do
   describe "POST 'create'" do
     context "when input correct data, " do
       before do
-        post :create,
+        xhr :post, :create,
              project_id: project.id, category_id: category.id,
              sub_category_id: sub_category.id, story_id: story.id,
              task_point:{ point_50: 5, point_90: 11, project_task_id: project_task.id }
@@ -40,7 +40,7 @@ describe TaskPointsController do
     end
     context "when point_50 is empty, " do
       before do
-        post :create,
+        xhr :post, :create,
         project_id: project.id, category_id: category.id,
         sub_category_id: sub_category.id, story_id: story.id,
         task_point:{ point_50: "", point_90: 11, project_task_id: project_task.id }
@@ -52,7 +52,7 @@ describe TaskPointsController do
     end
     context "when point_90 is empty, " do
       before do
-        post :create,
+        xhr :post, :create,
         project_id: project.id, category_id: category.id,
         sub_category_id: sub_category.id, story_id: story.id,
         task_point:{ point_50: 3, point_90: "", project_task_id: project_task.id }
@@ -67,7 +67,7 @@ describe TaskPointsController do
   describe "DELETE 'destroy'" do
     context "when input correct data, " do
       before do
-        delete :destroy,
+        xhr :delete, :destroy,
              project_id: project.id, category_id: category.id,
              sub_category_id: sub_category.id, story_id: story.id,
              id: task_point.id,

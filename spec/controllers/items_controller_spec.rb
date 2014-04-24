@@ -4,11 +4,11 @@ describe ItemsController do
   before do
     @project = Project.create(name: "Project", days_per_point: 1.0 )
   end
-  describe "POST 'create':" do
+  describe "xhr POST 'create':" do
     context "case to create category, " do
       context "when input correct data, " do
         before do
-          post :create, { project_id: @project.id, category: { name: "SampleCategory", remarks: "Test"} }
+          xhr :post, :create, { project_id: @project.id, category: { name: "SampleCategory", remarks: "Test"} }
         end
         describe "check response status" do
           subject{ response.status }
@@ -22,7 +22,7 @@ describe ItemsController do
       end
       context "when name is empty, " do
         before do
-          post :create, { project_id: @project.id, category: { name: "", remarks: "Test"} }
+          xhr :post, :create, { project_id: @project.id, category: { name: "", remarks: "Test"} }
         end
         describe "check response status" do
           subject{ response.status }
@@ -37,7 +37,7 @@ describe ItemsController do
       end
       context "when input correct data, " do
         before do
-          post :create, { project_id: @project.id, category_id: @category.id,
+          xhr :post, :create, { project_id: @project.id, category_id: @category.id,
                           sub_category: { name: "SampleSubCategory", remarks: "Test"} }
         end
         describe "check response status" do
@@ -52,7 +52,7 @@ describe ItemsController do
       end
       context "when name is empty, " do
         before do
-          post :create, { project_id: @project.id, category_id: @category.id,
+          xhr :post, :create, { project_id: @project.id, category_id: @category.id,
                           sub_category: { name: "", remarks: "Test"} }
         end
         describe "check response status" do
@@ -69,7 +69,7 @@ describe ItemsController do
       end
       context "when input correct data, " do
         before do
-          post :create, { project_id: @project.id, category_id: @category.id, sub_category_id: @sub_category.id,
+          xhr :post, :create, { project_id: @project.id, category_id: @category.id, sub_category_id: @sub_category.id,
                           story: { name: "SampleStory", remarks: "Test"} }
         end
         describe "check response status" do
@@ -84,7 +84,7 @@ describe ItemsController do
       end
       context "when name is empty, " do
         before do
-          post :create, { project_id: @project.id, category_id: @category.id, sub_category_id: @sub_category.id,
+          xhr :post, :create, { project_id: @project.id, category_id: @category.id, sub_category_id: @sub_category.id,
                           story: { name: "", remarks: "Test"} }
         end
         describe "check response status" do
@@ -104,7 +104,7 @@ describe ItemsController do
     context "case to update category, " do
       context "when input correct data, " do
         before do
-          put :update, { project_id: @project.id, id: @category.id,
+          xhr :put, :update, { project_id: @project.id, id: @category.id,
                          category: { name: "UpdateCategory", remarks: "Test"} }
         end
         describe "check response status" do
@@ -119,7 +119,7 @@ describe ItemsController do
       end
       context "when name is empty, " do
         before do
-          put :update, { project_id: @project.id, id: @category.id,
+          xhr :put, :update, { project_id: @project.id, id: @category.id,
                          category: { name: "", remarks: "Test"} }
         end
         describe "check response status" do
@@ -131,7 +131,7 @@ describe ItemsController do
     context "case to update sub_category, " do
       context "when input correct data, " do
         before do
-          put :update, { project_id: @project.id, category_id: @category.id, id: @sub_category.id,
+          xhr :put, :update, { project_id: @project.id, category_id: @category.id, id: @sub_category.id,
                          sub_category: { name: "UpdateSubCategory", remarks: "Test"} }
         end
         describe "check response status" do
@@ -146,7 +146,7 @@ describe ItemsController do
       end
       context "when name is empty, " do
         before do
-          put :update, { project_id: @project.id, category_id: @category.id, id: @sub_category.id,
+          xhr :put, :update, { project_id: @project.id, category_id: @category.id, id: @sub_category.id,
                          sub_category: { name: "", remarks: "Test"} }
         end
         describe "check response status" do
@@ -158,7 +158,7 @@ describe ItemsController do
     context "case to update story, " do
       context "when input correct data, " do
         before do
-          put :update, { project_id: @project.id, category_id: @category.id,
+          xhr :put, :update, { project_id: @project.id, category_id: @category.id,
                          sub_category_id: @sub_category.id, id: @story.id,
                          story: { name: "UpdateStory", remarks: "Test"} }
         end
@@ -174,7 +174,7 @@ describe ItemsController do
       end
       context "when name is empty, " do
         before do
-          put :update, { project_id: @project.id, category_id: @category.id,
+          xhr :put, :update, { project_id: @project.id, category_id: @category.id,
                          sub_category_id: @sub_category.id, id: @story.id,
                          story: { name: "", remarks: "Test"} }
         end
@@ -194,7 +194,7 @@ describe ItemsController do
     end
     context "case to destroy category, " do
       before do
-        delete :destroy, { project_id: @project.id, id: @category.id }
+        xhr :delete, :destroy, { project_id: @project.id, id: @category.id }
       end
       describe "check response status" do
         subject{ response.status }
@@ -207,7 +207,7 @@ describe ItemsController do
     end
     context "case to destroy sub_category, " do
       before do
-        delete :destroy, { project_id: @project.id, category_id: @category.id, id: @sub_category.id }
+        xhr :delete, :destroy, { project_id: @project.id, category_id: @category.id, id: @sub_category.id }
       end
       describe "check response status" do
         subject{ response.status }
@@ -220,7 +220,7 @@ describe ItemsController do
     end
     context "case to destroy story, " do
       before do
-        delete :destroy, { project_id: @project.id, category_id: @category.id,
+        xhr :delete, :destroy, { project_id: @project.id, category_id: @category.id,
                            sub_category_id: @sub_category.id, id: @story.id }
       end
       describe "check response status" do
