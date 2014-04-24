@@ -20,16 +20,19 @@ Mitsumoritaro::Application.routes.draw do
       member do
         get "move_higher" => 'items#move_higher', as: :move_higher
         get "move_lower" => 'items#move_lower', as: :move_lower
+        post "copy" => 'items#copy', as: :copy
       end
       resources :sub_categories, controller: :items do
         member do
           get "move_higher" => 'items#move_higher', as: :move_higher
           get "move_lower" =>  'items#move_lower', as: :move_lower
+          post "copy" => 'items#copy', as: :copy
         end
         resources :stories, controller: :items do
           member do
             get "move_higher" => 'items#move_higher', as: :move_higher
             get "move_lower" => 'items#move_lower', as: :move_lower
+            post "copy" => 'items#copy', as: :copy
           end
           resources :task_points
         end

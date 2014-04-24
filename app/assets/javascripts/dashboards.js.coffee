@@ -185,4 +185,59 @@ $ () ->
   #
   $(".arrow").on "click", ->
     document.location.href = $(this).attr('href')
-    return false
+    false
+
+  #
+  # copy item
+  #
+  $("[id^=copy_item_]").on "click", ->
+    item_copy_modal = $("#item-copy-modal")
+    project_id = $(".project_id").text()
+    css_id = $(this).attr("id")
+    splitted = css_id.replace("copy_item_", "").split("_")
+    #if splitted.length == 1
+    #  template_url = item_modal.find(".url_template_for_create_category").text()
+    #  url_for_create = template_url.replace("___PID___", project_id)
+    #  text_field_name = "category[name]"
+    #  text_field_remarks = "category[remarks]"
+    #else if splitted.length == 2
+    #  template_url = item_modal.find(".url_template_for_create_sub_category").text()
+    #  url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[1])
+    #  text_field_name = "sub_category[name]"
+    #  text_field_remarks = "sub_category[remarks]"
+    #else
+    item_name_id = css_id.replace("copy_item", "item_name")
+    item_name = $("##{item_name_id}").find(".plain_item_name").text()
+    template_url = item_copy_modal.find(".url_template_for_copy_story").text()
+    url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[1]).replace("___MID___", splitted[2])
+    category_options = item_copy_modal.find(".category_options").html()
+    item_copy_modal.find(".url_for_save").text(url_for_create)
+    item_copy_modal.find(".method_for_save").text("POST")
+    item_copy_modal.find(".alert").addClass("hidden")
+    item_copy_modal.find("#item_name").text(item_name)
+    item_copy_modal.find("#category_id").append(category_options)
+    item_copy_modal.modal("show")
+    false
+
+  $('#item-copy-modal').on 'shown', ->
+    $("#item-copy-modal").find("input[type=select]").focus()
+
+  $("#item-copy-modal").find("button.close, button.close_btn").on "click", () ->
+    $("#item-copy-modal").modal "hide"
+
+  $("#item_copy_modal_form").on('ajax:success', (xhr, data, status) ->
+      location.reload()
+    ).bind('ajax:error', (xhr, data, status) ->
+      messages = jQuery.parseJSON(data.responseText)
+      message_str = ""
+      messages.forEach((m, i) ->
+       message_str += _.escape(m) + "<br>"
+      )
+      $("#item-copy-modal").find(".alert").removeClass("hidden").html(message_str))
+
+  $("#item-copy-modal").find(".btn-save").on "click", ->
+    item_modal = $("#item-copy-modal")
+    action = item_modal.find(".url_for_save").text()
+    method = item_modal.find(".method_for_save").text()
+    item_modal.find("form").attr("action", action)
+    item_modal.find("input[name=_method]").val(method)

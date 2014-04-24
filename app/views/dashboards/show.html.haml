@@ -71,6 +71,8 @@
               %span.plain_item_remarks= story.remarks
               = up_arrow_link_to_unless(story.first?, { project:@project, category:category, sub_category:sub_category, story:story })
               = down_arrow_link_to_unless(story.last?, { project:@project, category:category, sub_category:sub_category, story:story })
+              %span.item_deep_copy{id: "copy_item_#{category.id}_#{sub_category.id}_#{story.id}", style: "color:#B94A48"}
+                %i.icon-file
             - @project.project_tasks.each do |ps|
               - sp = story.task_points.find_by_project_task_id(ps.id)
               - class_suffix = "#{category.id}_#{sub_category.id}_#{story.id}_#{ps.id}_#{sp ? sp.id : 'new'}"
@@ -88,3 +90,4 @@
 
 = render 'point_modal'
 = render 'item_modal'
+= render 'item_copy_modal'
