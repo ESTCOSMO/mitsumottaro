@@ -60,11 +60,13 @@ class ItemsController < ApplicationController
     puts copy_item.name
     copy_item.name = copy_item.name + "（コピー）"
 
+    category_id = params[:category_id]
+    sub_category_id = params[:sub_category_id]
     dst_category_id = params[:dst_category_id]
     dst_sub_category_id = params[:dst_sub_category_id]
-    if dst_category_id.blank?
+    if category_id.blank?
       @project.categories << copy_item
-    elsif dst_sub_category_id.blank?
+    elsif sub_category_id.blank?
       @project.categories.find(dst_category_id).sub_categories << copy_item
     else
       @project.categories.find(dst_category_id).sub_categories.find(dst_sub_category_id).stories << copy_item
@@ -72,6 +74,7 @@ class ItemsController < ApplicationController
     @project.save!
     render nothing: true, status: :ok
   rescue ActiveRecord::RecordInvalid => e
+    puts e
     render json: e.record.errors.full_messages, status: :bad_request
   end
 
