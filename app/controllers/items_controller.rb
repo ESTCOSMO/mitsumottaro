@@ -63,7 +63,9 @@ class ItemsController < ApplicationController
     dst_category_id = params[:dst_category_id]
     dst_sub_category_id = params[:dst_sub_category_id]
     if dst_category_id.blank?
+      @project.categories << copy_item
     elsif dst_sub_category_id.blank?
+      @project.categories.find(dst_category_id).sub_categories << copy_item
     else
       @project.categories.find(dst_category_id).sub_categories.find(dst_sub_category_id).stories << copy_item
     end

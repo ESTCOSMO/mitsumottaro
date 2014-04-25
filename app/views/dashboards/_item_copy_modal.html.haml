@@ -12,20 +12,20 @@
       &times;
     %h3 項目コピー
   .modal-body
-    = form_tag "#", remote: true, html: { class: 'form-horizontal', id: 'item_copy_modal_form' } do
+    = form_tag "#", remote: true, class: 'form-horizontal', id: 'item_copy_modal_form' do
       = hidden_field_tag "_method", "POST"
       .alert.alert-error.hidden
       %p
         %strong{id: 'item_name'}
-      .control-group
-        = label_tag :category_id, "大項目", class: 'control-label'
+      .control-group.dst_category
+        = label_tag :dst_category_id, "大項目", class: 'control-label'
         .controls
-          = select_tag :category_id, nil, include_blank: true
-      .control-group
-        = label_tag :sub_category_id, "中項目", class: 'control-label'
+          = select_tag :dst_category_id, nil, include_blank: true
+      .control-group.dst_sub_category
+        = label_tag :dst_sub_category_id, "中項目", class: 'control-label'
         .controls
-          = select_tag :sub_category_id, nil, include_blank: true
+          = select_tag :dst_sub_category_id, nil, include_blank: true
       .form-actions
-        = submit_tag "保存", class: "btn btn-primary btn-save"
+        = submit_tag "コピー", class: "btn btn-primary btn-save"
         %button.btn.close_btn{type: "button"}
           閉じる
