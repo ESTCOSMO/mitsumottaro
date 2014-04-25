@@ -55,6 +55,21 @@ describe ItemsController do
       end
     end
 
+    describe "routes to #copy," do
+      context "when using url," do
+        subject{ { post:"/projects/1/categories/2/copy" } }
+        it{ should be_routable }
+        it{ should route_to(controller: "items", action: "copy",
+                            project_id: "1", id: "2") }
+      end
+      context "when using prefix_path," do
+        subject{ { post: copy_project_category_path(project_id: 1, id: 2) } }
+        it{ should be_routable }
+        it{ should route_to(controller: "items", action: "copy",
+                            project_id: "1", id: "2") }
+      end
+    end
+
     # 以下、Routing定義はされているがControllerでの定義がない
     describe "routes to #index," do
       context "when using url," do
