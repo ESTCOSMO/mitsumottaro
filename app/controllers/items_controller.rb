@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class ItemsController < ApplicationController
   before_filter :set_project_to_variable
 
@@ -51,6 +52,25 @@ class ItemsController < ApplicationController
     item.move_lower
 
     redirect_to project_dashboard_path(@project, anchor: make_anchor_from_params)
+  end
+
+  def copy
+    item = find_item_from_params
+    copy_item = item.dup_deep(@project.org_project_task_id_map)
+    puts copy_item.name
+    copy_item.name = copy_item.name + "（コピー）"
+
+    dst_category_id = params[:dst_category_id]
+    dst_sub_category_id = params[:dst_sub_category_id]
+    if dst_category_id.blank?
+    elsif dst_sub_category_id.blank?
+    else
+      @project.categories.find(dst_category_id).sub_categories.find(dst_sub_category_id).stories << copy_item
+    end
+    @project.save!
+    render nothing: true, status: :ok
+  rescue ActiveRecord::RecordInvalid => e
+    render json: e.record.errors.full_messages, status: :bad_request
   end
 
   private
