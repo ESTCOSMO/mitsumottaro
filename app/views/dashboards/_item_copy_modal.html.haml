@@ -2,8 +2,9 @@
   .url_template_for_copy_category.hidden= copy_project_category_path("___PID___", "___LID___")
   .url_template_for_copy_sub_category.hidden= copy_project_category_sub_category_path("___PID___", "___LID___", "___MID___")
   .url_template_for_copy_story.hidden= copy_project_category_sub_category_story_path("___PID___", "___LID___", "___MID___", "___SID___")
-  .category_options.hidden= options_for_select(cat1: 1, cat2: 2) #Project.find("___PID___").categories.map{ |c| [c.name, c.id] }
-  .sub_category_options.hidden= {}#Category.find("___LID___").sub_categories.map{ |s| [s.name, s.id] }
+  .category_options.hidden= options_from_collection_for_select(Project.find(@project.id).categories, 'id', 'name')
+  - @sub_category_options_list = Project.find(10).categories.map{ |c| { c.id => options_from_collection_for_select(c.sub_categories, 'id', 'name')} }.reduce({}){ |res, h| res[h.keys.first] = h[h.keys.first]; res }
+  .sub_category_options_list.hidden= @sub_category_options_list.to_json.html_safe
   .url_for_save.hidden
   .method_for_save.hidden
   .modal-header

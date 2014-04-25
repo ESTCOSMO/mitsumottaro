@@ -209,7 +209,7 @@ $ () ->
     item_name_id = css_id.replace("copy_item", "item_name")
     item_name = $("##{item_name_id}").find(".plain_item_name").text()
     template_url = item_copy_modal.find(".url_template_for_copy_story").text()
-    url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[1]).replace("___MID___", splitted[2])
+    url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1]).replace("___SID___", splitted[2])
     category_options = item_copy_modal.find(".category_options").html()
     item_copy_modal.find(".url_for_save").text(url_for_create)
     item_copy_modal.find(".method_for_save").text("POST")
@@ -225,6 +225,21 @@ $ () ->
   $("#item-copy-modal").find("button.close, button.close_btn").on "click", () ->
     $("#item-copy-modal").modal "hide"
 
+  $("#item-copy-modal").find(".btn-save").on "click", ->
+    item_copy_modal = $("#item-copy-modal")
+    action = item_copy_modal.find(".url_for_save").text()
+    method = item_copy_modal.find(".method_for_save").text()
+    item_copy_modal.find("form").attr("action", action)
+    item_copy_modal.find("input[name=_method]").val(method)
+
+  $("#item-copy-modal").find("#category_id").on "change", ->
+    item_copy_modal = $("#item-copy-modal")
+    item_copy_modal.find("#sub_category_id").empty()
+    selected_category_id = item_copy_modal.find("#category_id").val()
+    if selected_category_id
+      sub_category_options_list = JSON.parse(item_copy_modal.find(".sub_category_options_list").html())
+      item_copy_modal.find("#sub_category_id").append(sub_category_options_list[selected_category_id])
+
   $("#item_copy_modal_form").on('ajax:success', (xhr, data, status) ->
       location.reload()
     ).bind('ajax:error', (xhr, data, status) ->
@@ -234,10 +249,3 @@ $ () ->
        message_str += _.escape(m) + "<br>"
       )
       $("#item-copy-modal").find(".alert").removeClass("hidden").html(message_str))
-
-  $("#item-copy-modal").find(".btn-save").on "click", ->
-    item_modal = $("#item-copy-modal")
-    action = item_modal.find(".url_for_save").text()
-    method = item_modal.find(".method_for_save").text()
-    item_modal.find("form").attr("action", action)
-    item_modal.find("input[name=_method]").val(method)
