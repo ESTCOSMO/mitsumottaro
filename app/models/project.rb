@@ -58,7 +58,7 @@ class Project < ActiveRecord::Base
   end
 
   def dup_project_tasks!(new_proj)
-    project_task_id_map = org_project_task_id_map
+    project_task_id_map = {}
     project_tasks.each do |orig_pt|
       pt = orig_pt.dup
       pt.project = new_proj
