@@ -37,6 +37,17 @@ Mitsumoritaro::Application.routes.draw do
     end
   end
 
+  namespace :api do
+    resources :projects do
+      resources :categories do
+        resources :sub_categories do
+          resources :stories do
+            resources :task_points
+          end
+        end
+      end
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

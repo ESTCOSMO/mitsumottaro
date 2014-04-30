@@ -71,3 +71,5 @@ group :test do
 end
 
 gem 'angularjs-rails'
+gem 'slim-rails'
+gem 'active_model_serializers'

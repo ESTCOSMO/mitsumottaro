@@ -16,5 +16,8 @@
 //= require underscore
 //= require angular
 //= require angular-animate
+//= require angular-route
 //= require angular-resource
+//= require angularjs/mitsumottaro_app
+//= require angularjs/routes
 //= require_tree .

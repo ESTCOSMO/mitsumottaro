@@ -65,3 +65,120 @@
     font-size: 0.8em;
   }
 }
+
+.dashboard-view {
+  ul {
+    font-size: 11px;
+  }
+
+  ul.category {
+    list-style: none;
+    margin: 0;
+    color: #3A87AD;
+    background-color: #D9EDF7;
+    li:hover {
+      background-color: #D9E1F6;
+    }
+  }
+
+  ul.sub_category {
+    list-style: none;
+    margin: 0 0 0 50px;
+    color: #C09853;
+    background-color: #FCF8E3;
+    li:hover {
+      background-color: #FCF8D3;
+    }
+  }
+  ul.story {
+    list-style: none;
+    color: #333;
+    margin: 0 0 0 50px;
+    background-color: white;
+    li:hover {
+      background-color: #DCDCDC;
+    }
+  }
+  ul.point {
+    list-style: none;
+    float:right;
+    background-color: white;
+    li {
+      float: left;
+      width: 49px;
+      text-align: center;
+      border-left: 1px solid #dddddd;
+      border-bottom: 1px solid #dddddd;
+    }
+    li:hover {
+      background-color: #DCDCDC;
+    }
+    li.buffered-point {
+      background-color: #ffffff;
+      color: blue;
+    }
+  }
+
+  ul.headers {
+    list-style: none;
+    float: right;
+    margin-bottom: 0;
+    background-color: #ffffff;
+    color: #000;
+    li {
+      float: left;
+      width: 99px;
+      text-align: center;
+      border-left: 1px solid #dddddd;
+      border-bottom: 1px solid #dddddd;
+    }
+  }
+
+  ul.header_points {
+    background-color: #ffffff;
+    color: #000;
+  }
+
+  .summary {
+    border: 1px solid #dddddd;
+  }
+
+
+  ul.summary-point, ul.header_points {
+    list-style: none;
+    float: right;
+    margin-bottom: 0;
+    font-weight: bold;
+    li {
+      float: left;
+      width: 49px;
+      text-align: center;
+      border-left: 1px solid #dddddd;
+      border-bottom: 1px solid #dddddd;
+    }
+  }
+  .summary-title {
+    width: 100%;
+  }
+
+  .project-summary {
+    background-color: pink;
+  }
+
+  li.point5090 {
+    cursor: pointer;
+  }
+
+  .item-name {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  [contenteditable] {
+    background-color: #eee;
+    padding: 0 2px;
+  }
+  span.ng-invalid {
+    border: 2px solid #ff0000;
+  }
+
+}
