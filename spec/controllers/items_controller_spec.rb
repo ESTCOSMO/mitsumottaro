@@ -386,7 +386,7 @@ describe ItemsController do
     end
     context "case to copy category, " do
       before do
-        xhr :post, :copy, { project_id: @project.id, id: @category1.id }
+        xhr :post, :copy, { project_id: @project.id, id: @category1.id, dst_item_form: { type: 'category' }}
       end
       describe "check response status" do
         subject{ response.status }
@@ -415,7 +415,7 @@ describe ItemsController do
     end
     context "case to copy sub_category, " do
       before do
-        xhr :post, :copy, { project_id: @project.id, category_id: @category1.id, id: @sub_category1.id, dst_category_id: @category2.id }
+        xhr :post, :copy, { project_id: @project.id, category_id: @category1.id, id: @sub_category1.id, dst_item_form: { type: 'sub_category', category_id: @category2.id } }
       end
       describe "check response status" do
         subject{ response.status }
@@ -441,7 +441,7 @@ describe ItemsController do
     end
     context "case to copy story, " do
       before do
-        xhr :post, :copy, { project_id: @project.id, category_id: @category1.id, sub_category_id: @sub_category1.id, id: @story1.id, dst_category_id: @category2.id, dst_sub_category_id: @sub_category2.id }
+        xhr :post, :copy, { project_id: @project.id, category_id: @category1.id, sub_category_id: @sub_category1.id, id: @story1.id, dst_item_form: { type: 'story', category_id: @category2.id, sub_category_id: @sub_category2.id } }
       end
       describe "check response status" do
         subject{ response.status }
