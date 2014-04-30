@@ -57,13 +57,13 @@ class ItemsController < ApplicationController
   def copy
     item = find_item_from_params
     copy_item = item.dup_deep(@project.org_project_task_id_map)
-    puts copy_item.name
     copy_item.name = copy_item.name + "（コピー）"
 
     category_id = params[:category_id]
     sub_category_id = params[:sub_category_id]
-    dst_category_id = params[:dst_category_id]
-    dst_sub_category_id = params[:dst_sub_category_id]
+    dst_copy_item = CopyItem.new(params[:copy_item])
+    dst_category_id = dst_copy_item.category_id
+    dst_sub_category_id = dst_copy_item.sub_category_id
     if category_id.blank?
       @project.categories << copy_item
     elsif sub_category_id.blank?
