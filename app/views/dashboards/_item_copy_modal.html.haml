@@ -2,7 +2,6 @@
   .url_template_for_copy_category.hidden= copy_project_category_path("___PID___", "___LID___")
   .url_template_for_copy_sub_category.hidden= copy_project_category_sub_category_path("___PID___", "___LID___", "___MID___")
   .url_template_for_copy_story.hidden= copy_project_category_sub_category_story_path("___PID___", "___LID___", "___MID___", "___SID___")
-  .category_options.hidden= options_from_collection_for_select(Project.find(@project.id).categories, 'id', 'name')
   - @sub_category_options_list = Project.find(@project.id).categories.map{ |c| { c.id => options_from_collection_for_select(c.sub_categories, 'id', 'name')} }.reduce({}){ |res, h| res[h.keys.first] = h[h.keys.first]; res }
   .sub_category_options_list.hidden= @sub_category_options_list.to_json.html_safe
   .url_for_save.hidden
@@ -21,7 +20,7 @@
       .control-group.dst_category
         = f.label :category_id, "大項目", class: 'control-label'
         .controls
-          = f.select :category_id, [], include_blank: true
+          = f.select :category_id, options_from_collection_for_select(Project.find(@project.id).categories, 'id', 'name'), include_blank: true
       .control-group.dst_sub_category
         = f.label :sub_category_id, "中項目", class: 'control-label'
         .controls
