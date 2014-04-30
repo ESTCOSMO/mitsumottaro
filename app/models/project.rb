@@ -68,6 +68,14 @@ class Project < ActiveRecord::Base
     project_task_id_map
   end
 
+  def org_project_task_id_map
+    project_task_id_map = {}
+    project_tasks.each do |orig_pt|
+      project_task_id_map[orig_pt.id] = orig_pt.id
+    end
+    project_task_id_map
+  end
+
   def dup_categories_deep!(new_proj, project_task_id_map)
     categories.each do |orig_cat|
       new_proj.categories << orig_cat.dup_deep(project_task_id_map)
