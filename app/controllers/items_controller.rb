@@ -73,9 +73,6 @@ class ItemsController < ApplicationController
     end
     @project.save!
     render nothing: true, status: :ok
-  rescue ActiveRecord::RecordInvalid => e
-    puts e
-    render json: e.record.errors.full_messages, status: :bad_request
   end
 
   private
