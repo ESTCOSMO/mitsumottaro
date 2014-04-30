@@ -12,7 +12,7 @@
       &times;
     %h3 項目コピー
   .modal-body
-    = form_for CopyItem.new, url: "#", remote: true, html: { class: 'form-horizontal', id: 'item_copy_modal_form'} do |f|
+    = form_for DstItemForm.new, url: "#", remote: true, html: { class: 'form-horizontal', id: 'item_copy_modal_form'} do |f|
       = f.hidden_field :type
       = hidden_field_tag "_method", "POST"
       .alert.alert-error.hidden

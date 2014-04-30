@@ -1,4 +1,4 @@
-class CopyItem
+class DstItemForm
   include ActiveModel::Model
   attr_accessor :category_id, :sub_category_id, :type
   validates :type, presence: true
