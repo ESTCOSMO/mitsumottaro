@@ -61,18 +61,24 @@ class ItemsController < ApplicationController
 
     category_id = params[:category_id]
     sub_category_id = params[:sub_category_id]
-    dst_copy_item = CopyItem.new(params[:copy_item])
-    dst_category_id = dst_copy_item.category_id
-    dst_sub_category_id = dst_copy_item.sub_category_id
-    if category_id.blank?
-      @project.categories << copy_item
-    elsif sub_category_id.blank?
-      @project.categories.find(dst_category_id).sub_categories << copy_item
+    dst_params = CopyItem.new(params[:copy_item])
+    if dst_params.valid?
+
+      dst_category_id = dst_params.category_id
+      dst_sub_category_id = dst_params.sub_category_id
+
+      if category_id.blank?
+        @project.categories << copy_item
+      elsif sub_category_id.blank?
+        @project.categories.find(dst_category_id).sub_categories << copy_item
+      else
+        @project.categories.find(dst_category_id).sub_categories.find(dst_sub_category_id).stories << copy_item
+      end
+      @project.save!
+      render nothing: true, status: :ok
     else
-      @project.categories.find(dst_category_id).sub_categories.find(dst_sub_category_id).stories << copy_item
+      render json: dst_params.errors.full_messages, status: :bad_request
     end
-    @project.save!
-    render nothing: true, status: :ok
   end
 
   private

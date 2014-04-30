@@ -198,6 +198,7 @@ $ () ->
     item_name_id = css_id.replace("copy-item", "item_name")
     item_name = $("##{item_name_id}").find(".plain_item_name").text()
     if splitted.length == 1
+      item_copy_modal.find("#copy_item_type").val("category")
       template_url = item_copy_modal.find(".url_template_for_copy_category").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0])
       category_options = item_copy_modal.find(".category_options").html()
@@ -206,6 +207,7 @@ $ () ->
       item_copy_modal.find(".dst_sub_category").hide()
       item_copy_modal.find("#copy_item_sub_category_id").empty()
     else if splitted.length == 2
+      item_copy_modal.find("#copy_item_type").val("sub_category")
       template_url = item_copy_modal.find(".url_template_for_copy_sub_category").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1])
       category_options = item_copy_modal.find(".category_options").html()
@@ -215,6 +217,7 @@ $ () ->
       item_copy_modal.find(".dst_sub_category").hide()
       item_copy_modal.find("#copy_item_sub_category_id").empty()
     else
+      item_copy_modal.find("#copy_item_type").val("story")
       template_url = item_copy_modal.find(".url_template_for_copy_story").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1]).replace("___SID___", splitted[2])
       category_options = item_copy_modal.find(".category_options").html()
