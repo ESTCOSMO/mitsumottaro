@@ -16,6 +16,12 @@ class Api::StoriesController < ApplicationController
     render json: story.as_json(includes_in_json), status: :ok
   end
 
+  def destroy
+    story = Project.find(params[:project_id]).categories.find(params[:category_id]).sub_categories.find(params[:sub_category_id]).stories.find(params[:id])
+    story.destroy
+    render json: {}, status: :ok
+  end
+
   def move_higher
     move(:move_higher)
   end

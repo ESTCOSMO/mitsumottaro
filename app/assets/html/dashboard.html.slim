@@ -69,9 +69,9 @@ p.dashboard-summary
                   i.icon-arrow-up
                 a.category-operation-btn ng-click="moveLower(project, category)"
                   i.icon-arrow-down
-                a.category-operation-btn ng-click="editRemarks(project, category)"
+                a#aaa.category-operation-btn ng-click="$(this).popover('toggle')" data-content="aaaa"
                   i.icon-tag
-                a.category-operation-btn ng-click="removeCategory(project, category)"
+                a.category-operation-btn ng-click="removeCategory(project, category)" ng-confirm-click="本当に削除しますか?"
                   i.icon-remove
               ul.clearfix.summary-point
                 li ng-repeat-start="task in project.project_tasks"
@@ -82,13 +82,12 @@ p.dashboard-summary
                   | {{sumOfCategoryPoints("50", category)}}
                 li.total
                   | {{sumOfCategoryPoints("50", category) * cachedRatio | number: 1}}
-              / .clearfix
         li
           ul.clearfix.sub_category
             li.summary-area ng-repeat-start="sub_category in category.sub_categories | orderBy:subCategoriesOrder"
               .summary
                 .summary-title
-                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
+                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
                   span
                     a.subcategory-operation-btn ng-click="createStory(project, category, sub_category)"
                       i.icon-plus
@@ -97,9 +96,9 @@ p.dashboard-summary
                       i.icon-arrow-up
                     a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)"
                       i.icon-arrow-down
-                    a.category-operation-btn ng-click="editRemarks(project, category, sub_category)"
+                    a.subcategory-operation-btn ng-click="editRemarks(project, category, sub_category)"
                       i.icon-tag
-                    a.category-operation-btn ng-click="removeSubCategory(project, category, sub_category)"
+                    a.subcategory-operation-btn ng-click="removeSubCategory(project, category, sub_category)" ng-confirm-click="本当に削除しますか?"
                       i.icon-remove
                   ul.clearfix.summary-point
                     li ng-repeat-start="task in project.project_tasks"
@@ -115,22 +114,22 @@ p.dashboard-summary
             li
               ul.story
                 li ng-repeat="story in sub_category.stories | orderBy:storiesOrder"
-                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
+                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
                   span
                     a.story-operation-btn ng-click="moveHigher(project, category, sub_category, story)"
                       i.icon-arrow-up
                     a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)"
                       i.icon-arrow-down
-                    a.category-operation-btn ng-click="editRemarks(project, category, sub_category, story)"
+                    a.story-operation-btn ng-click="editRemarks(project, category, sub_category, story)"
                       i.icon-tag
-                    a.category-operation-btn ng-click="removeStory(project, category, sub_category, story)"
+                    a.story-operation-btn ng-click="removeStory(project, category, sub_category, story)" ng-confirm-click="本当に削除しますか?"
                       i.icon-remove
 
                   ul.point
                     li.point5090 ng-repeat-start="project_task in project.project_tasks"
-                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_50" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '50')"  ng-pattern="/^\d*$/" ng-model-options="{ updateOn: 'blur' }" no-err-msg="true"
+                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_50" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '50')"  ng-pattern="/^\d*$/" ng-model-options="{ updateOn: 'blur' }" no-err-msg="true" ng-keypress="ignoreEnterKey($event)"
                       | (
-                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_90" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '90')" ng-pattern="/^\d*$/"  ng-model-options="{ updateOn: 'blur' }" no-err-msg="true"
+                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_90" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '90')" ng-pattern="/^\d*$/"  ng-model-options="{ updateOn: 'blur' }" no-err-msg="true" ng-keypress="ignoreEnterKey($event)"
                       | )
                     li.buffered-point ng-repeat-end="true"
                       span ng-if="bufferedPointOfStoryTask(project_task.id, story) != null"

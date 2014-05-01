@@ -15,6 +15,11 @@ class Api::CategoriesController < ApplicationController
     render json: cat.as_json(includes_in_json), status: :ok
   end
 
+  def destroy
+    cat = Project.find(params[:project_id]).categories.find(params[:id]).destroy
+    render json: {}, status: :ok
+  end
+
   def move_higher
     move(:move_higher)
   end

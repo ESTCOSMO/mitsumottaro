@@ -95,15 +95,48 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
       c.name = category.name
       c.$update {project_id: project.id, id: category.id}
 
+  $scope.updateCategoryRemarks = (project, category) ->
+    Category.get {project_id: project.id, id: category.id} , (c, getResponseHeaders) ->
+      c.remarks = category.remarks
+      c.$update {project_id: project.id, id: category.id}
+
+  $scope.removeCategory = (project, category) ->
+    Category.get { project_id: project.id, id: category.id } , (c, getResponseHeaders) ->
+      c.$remove {project_id: project.id, id: category.id }, (r, deleteResponse) ->
+        idx = project.categories.indexOf(category)
+        project.categories.splice(idx, 1)
+
   $scope.updateSubCategoryName = (project, category, sub_category) ->
     SubCategory.get {project_id: project.id, category_id: category.id, id: sub_category.id} , (sc, getResponseHeaders) ->
       sc.name = sub_category.name
       sc.$update {project_id: project.id, category_id: category.id, id: sub_category.id }
 
+  $scope.updateSubCategoryRemarks = (project, category, sub_category) ->
+    SubCategory.get {project_id: project.id, category_id: category.id, id: sub_category.id} , (sc, getResponseHeaders) ->
+      sc.remarks = sub_category.remarks
+      sc.$update {project_id: project.id, category_id: category.id, id: sub_category.id }
+
+  $scope.removeSubCategory = (project, category, sub_category) ->
+    SubCategory.get {project_id: project.id, category_id: category.id, id: sub_category.id} , (sc, getResponseHeaders) ->
+      sc.$remove {project_id: project.id, category_id: category.id, id: sub_category.id }, (r, deleteResponse) ->
+        idx = category.sub_categories.indexOf(sub_category)
+        category.sub_categories.splice(idx, 1)
+
   $scope.updateStoryName = (project, category, sub_category, story) ->
     Story.get {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id} , (s, getResponseHeaders) ->
       s.name = story.name
       s.$update {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id }
+
+  $scope.updateStoryRemarks = (project, category, sub_category, story) ->
+    Story.get {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id} , (s, getResponseHeaders) ->
+      s.remarks = story.remarks
+      s.$update {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id }
+
+  $scope.removeStory = (project, category, sub_category, story) ->
+    Story.get {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id} , (s, getResponseHeaders) ->
+      s.$remove {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id }, (result, deleteResponse) ->
+        idx = sub_category.stories.indexOf(sub_category)
+        sub_category.stories.splice(idx, 1)
 
   $scope.updatePoint = (project, category, sub_category, story, point, point_type) ->
     newpoint = new TaskPoint
