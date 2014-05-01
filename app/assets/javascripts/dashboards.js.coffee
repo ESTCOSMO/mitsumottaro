@@ -198,31 +198,30 @@ $ () ->
     item_name_id = css_id.replace("copy_item", "item_name")
     item_name = $("##{item_name_id}").find(".plain_item_name").text()
     if splitted.length == 1
+      item_copy_modal.find("#dst_item_form_type").val("category")
       template_url = item_copy_modal.find(".url_template_for_copy_category").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0])
       category_options = item_copy_modal.find(".category_options").html()
       item_copy_modal.find(".dst_category").hide()
-      item_copy_modal.find("#dst_category_id").empty()
       item_copy_modal.find(".dst_sub_category").hide()
-      item_copy_modal.find("#dst_sub_category_id").empty()
     else if splitted.length == 2
+      item_copy_modal.find("#dst_item_form_type").val("sub_category")
       template_url = item_copy_modal.find(".url_template_for_copy_sub_category").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1])
       category_options = item_copy_modal.find(".category_options").html()
       item_copy_modal.find(".dst_category").show()
-      item_copy_modal.find("#dst_category_id").empty()
-      item_copy_modal.find("#dst_category_id").append(category_options)
+      item_copy_modal.find("#dst_item_form_category_id").val('')
       item_copy_modal.find(".dst_sub_category").hide()
-      item_copy_modal.find("#dst_sub_category_id").empty()
     else
+      item_copy_modal.find("#dst_item_form_type").val("story")
       template_url = item_copy_modal.find(".url_template_for_copy_story").text()
       url_for_create = template_url.replace("___PID___", project_id).replace("___LID___", splitted[0]).replace("___MID___", splitted[1]).replace("___SID___", splitted[2])
       category_options = item_copy_modal.find(".category_options").html()
       item_copy_modal.find(".dst_category").show()
-      item_copy_modal.find("#dst_category_id").empty()
-      item_copy_modal.find("#dst_category_id").append(category_options)
+      item_copy_modal.find("#dst_item_form_category_id").val('')
       item_copy_modal.find(".dst_sub_category").show()
 
+    item_copy_modal.find("#dst_item_form_sub_category_id").empty()
     item_copy_modal.find(".url_for_save").text(url_for_create)
     item_copy_modal.find(".method_for_save").text("POST")
     item_copy_modal.find(".alert").addClass("hidden")
@@ -243,13 +242,13 @@ $ () ->
     item_copy_modal.find("form").attr("action", action)
     item_copy_modal.find("input[name=_method]").val(method)
 
-  $("#item-copy-modal").find("#dst_category_id").on "change", ->
+  $("#item-copy-modal").find("#dst_item_form_category_id").on "change", ->
     item_copy_modal = $("#item-copy-modal")
-    item_copy_modal.find("#dst_sub_category_id").empty()
-    selected_category_id = item_copy_modal.find("#dst_category_id").val()
+    item_copy_modal.find("#dst_item_form_sub_category_id").empty()
+    selected_category_id = item_copy_modal.find("#dst_item_form_category_id").val()
     if selected_category_id
       sub_category_options_list = JSON.parse(item_copy_modal.find(".sub_category_options_list").html())
-      item_copy_modal.find("#dst_sub_category_id").append(sub_category_options_list[selected_category_id])
+      item_copy_modal.find("#dst_item_form_sub_category_id").append(sub_category_options_list[selected_category_id])
 
   $("#item_copy_modal_form").on('ajax:success', (xhr, data, status) ->
       location.reload()

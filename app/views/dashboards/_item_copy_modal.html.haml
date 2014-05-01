@@ -2,8 +2,7 @@
   .url_template_for_copy_category.hidden= copy_project_category_path("___PID___", "___LID___")
   .url_template_for_copy_sub_category.hidden= copy_project_category_sub_category_path("___PID___", "___LID___", "___MID___")
   .url_template_for_copy_story.hidden= copy_project_category_sub_category_story_path("___PID___", "___LID___", "___MID___", "___SID___")
-  .category_options.hidden= options_from_collection_for_select(Project.find(@project.id).categories, 'id', 'name')
-  - @sub_category_options_list = Project.find(10).categories.map{ |c| { c.id => options_from_collection_for_select(c.sub_categories, 'id', 'name')} }.reduce({}){ |res, h| res[h.keys.first] = h[h.keys.first]; res }
+  - @sub_category_options_list = Project.find(@project.id).categories.map{ |c| { c.id => options_from_collection_for_select(c.sub_categories, 'id', 'name')} }.reduce({}){ |res, h| res[h.keys.first] = h[h.keys.first]; res }
   .sub_category_options_list.hidden= @sub_category_options_list.to_json.html_safe
   .url_for_save.hidden
   .method_for_save.hidden
@@ -12,19 +11,20 @@
       &times;
     %h3 項目コピー
   .modal-body
-    = form_tag "#", remote: true, class: 'form-horizontal', id: 'item_copy_modal_form' do
+    = form_for DstItemForm.new, url: "#", remote: true, html: { class: 'form-horizontal', id: 'item_copy_modal_form'} do |f|
+      = f.hidden_field :type
       = hidden_field_tag "_method", "POST"
       .alert.alert-error.hidden
       %p
         %strong{id: 'item_name'}
       .control-group.dst_category
-        = label_tag :dst_category_id, "大項目", class: 'control-label'
+        = f.label :category_id, "大項目", class: 'control-label'
         .controls
-          = select_tag :dst_category_id, nil, include_blank: true
+          = f.select :category_id, options_from_collection_for_select(Project.find(@project.id).categories, 'id', 'name'), include_blank: true
       .control-group.dst_sub_category
-        = label_tag :dst_sub_category_id, "中項目", class: 'control-label'
+        = f.label :sub_category_id, "中項目", class: 'control-label'
         .controls
-          = select_tag :dst_sub_category_id, nil, include_blank: true
+          = f.select :sub_category_id, [], include_blank: true
       .form-actions
         = submit_tag "コピー", class: "btn btn-primary btn-save"
         %button.btn.close_btn{type: "button"}
