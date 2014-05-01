@@ -1,18 +1,23 @@
 - url = ::Mitsumoritaro::Application.routes.url_helpers
 h2
   | {{project.name}}
-p
-  | 50%: {{sumOfProjectPoints("50", project)}} |  90%: {{sumOfProjectPoints("90", project)}} | buffer: {{buffer() | number:1}} | ratio: {{ratio() | number:1}}
 
+p.dashboard-summary
+  span.label.summary-label
+    | Total[50%]: {{sumOfProjectPoints("50", project)}} / Buffer: {{buffer() | number:1}} / ratio: {{ratio() | number:1}}
+  span
+    a.btn.btn-mini.btn-info href="#{url.convert_project_dashboard_path('___PID___', format: :xml).gsub('___PID___', '{{project.id}}')}"
+      i.icon-download-alt
+      | 見積もりダウンロード (MS Office XML形式)
 .dashboard-view
-  .project-summary-area
-    .summary
+  ul
+    li.project-summary-area.clearfix
       ul.clearfix.headers
         li ng-repeat="task in project.project_tasks"
           | {{task.name}}
-          a href="#{url.move_higher_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}"
+          a.project-task-operation-btn href="#{url.move_higher_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}"
             i.icon-arrow-left
-          a href="#{url.move_lower_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}"
+          a.project-task-operation-btn href="#{url.move_lower_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}"
             i.icon-arrow-right
         li 合計
       .clearfix
@@ -25,114 +30,120 @@ p
         li b込
       .clearfix
       .summary-title.project-summary
-        | プロジェクトサマリ
-        a ng-click="createCategory(project)"
+        span プロジェクトサマリ
+        a.project-operation-btn ng-click="createCategory(project)"
           i.icon-plus
         ul.clearfix.summary-point
           li ng-repeat-start="task in project.project_tasks"
             | {{sumOfProjectPoints("50", project, { projectTaskId: task.id })}}
           li ng-repeat-end="true"
             | {{sumOfProjectPoints("50", project, { projectTaskId: task.id }) * cachedRatio |number: 1}}
-          li
+          li.total
             | {{sumOfProjectPoints("50", project)}}
-          li
+          li.total
             | {{sumOfProjectPoints("50", project) * cachedRatio | number: 1}}
-      .clearfix
-  ul.clearfix.category
-    li.summary-area ng-repeat-start="category in project.categories | orderBy:categoriesOrder"
-      .summary
-        ul.clearfix.headers
-          li ng-repeat="task in project.project_tasks"
-            | {{task.name}}
-          li 小計
-        .clearfix
-        ul.clearfix.header_points
-          li ng-repeat-start="task in project.project_tasks"
-            | 50%
-          li ng-repeat-end="true"
-            | b込
-          li 50%
-          li b込
-        .clearfix
-        .summary-title
-          span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
-          span
-            | {{sumOfCategoryPoints("50", category)}}({{sumOfCategoryPoints("50", category) * cachedRatio | number:2}})
-          span
-            a ng-click="createSubCategory(project, category)"
-              i.icon-plus
-          span
-            a ng-click="moveHigher(project, category)"
-              i.icon-arrow-up
-            a ng-click="moveLower(project, category)"
-              i.icon-arrow-down
-          ul.clearfix.summary-point
-            li ng-repeat-start="task in project.project_tasks"
-              | {{sumOfCategoryPoints("50", category, { projectTaskId: task.id })}}
-            li ng-repeat-end="true"
-              | {{sumOfCategoryPoints("50", category, { projectTaskId: task.id }) * cachedRatio |number: 1}}
-            li
-              | {{sumOfCategoryPoints("50", category)}}
-            li
-              | {{sumOfCategoryPoints("50", category) * cachedRatio | number: 1}}
-          .clearfix
     li
-      ul.clearfix.sub_category
-        li.summary-area ng-repeat-start="sub_category in category.sub_categories | orderBy:subCategoriesOrder"
+      ul.clearfix.category
+        li.summary-area ng-repeat-start="category in project.categories | orderBy:categoriesOrder"
           .summary
-            .summary-title
-              span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
+            ul.clearfix.headers
+              li ng-repeat="task in project.project_tasks"
+                | {{task.name}}
+              li 小計
+            / .clearfix
+            ul.clearfix.header_points
+              li ng-repeat-start="task in project.project_tasks"
+                | 50(90)
+              li ng-repeat-end="true"
+                | b込
+              li 50%
+              li b込
+            .clearfix.blank
+            .clearfix.summary-title.category-summary-title
+              span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
               span
-                | {{sumOfSubCategoryPoints("50", sub_category)}}({{sumOfSubCategoryPoints("50", sub_category) * cachedRatio | number:2}})
-              span
-                a ng-click="createStory(project, category, sub_category)"
+                a.category-operation-btn ng-click="createSubCategory(project, category)"
                   i.icon-plus
               span
-                a ng-click="moveHigher(project, category, sub_category)"
+                a.category-operation-btn ng-click="moveHigher(project, category)"
                   i.icon-arrow-up
-                a ng-click="moveLower(project, category, sub_category)"
+                a.category-operation-btn ng-click="moveLower(project, category)"
                   i.icon-arrow-down
+                a.category-operation-btn ng-click="editRemarks(project, category)"
+                  i.icon-tag
+                a.category-operation-btn ng-click="removeCategory(project, category)"
+                  i.icon-remove
               ul.clearfix.summary-point
                 li ng-repeat-start="task in project.project_tasks"
-                  | {{sumOfSubCategoryPoints("50", sub_category, { projectTaskId: task.id })}}
+                  | {{sumOfCategoryPoints("50", category, { projectTaskId: task.id })}}
                 li ng-repeat-end="true"
-                  | {{sumOfSubCategoryPoints("50", sub_category, { projectTaskId: task.id }) * cachedRatio |number: 1}}
-                li
-                  | {{sumOfSubCategoryPoints("50", sub_category)}}
-                li
-                  | {{sumOfSubCategoryPoints("50", sub_category) * cachedRatio | number: 1}}
-
-          .clearfix
+                  | {{sumOfCategoryPoints("50", category, { projectTaskId: task.id }) * cachedRatio |number: 1}}
+                li.total
+                  | {{sumOfCategoryPoints("50", category)}}
+                li.total
+                  | {{sumOfCategoryPoints("50", category) * cachedRatio | number: 1}}
+              / .clearfix
         li
-          ul.story
-            li ng-repeat="story in sub_category.stories | orderBy:storiesOrder"
-              span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
-              span
-                | {{sumOfStoryPoints("50", story)}}({{sumOfStoryPoints("50", story) * cachedRatio | number:2}})
-              span
-                a ng-click="moveHigher(project, category, sub_category, story)"
-                  i.icon-arrow-up
-                a ng-click="moveLower(project, category, sub_category, story)"
-                  i.icon-arrow-down
-
-              ul.point
-                li.point5090 ng-repeat-start="project_task in project.project_tasks"
-                  span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_50" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '50')"  ng-pattern="/^\d*$/" ng-model-options="{ updateOn: 'blur' }" no-err-msg="true"
-                  | (
-                  span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_90" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '90')" ng-pattern="/^\d*$/"  ng-model-options="{ updateOn: 'blur' }" no-err-msg="true"
-                  | )
-                li.buffered-point ng-repeat-end="true"
-                  span ng-if="bufferedPointOfStoryTask(project_task.id, story) != null"
-                    | {{bufferedPointOfStoryTask(project_task.id, story)| number: 1}}
-                  span ng-if="bufferedPointOfStoryTask(project_task.id, story) == null"
-                    | -
-                li
-                  | {{sumOfStoryPoints("50", story)}}
-                li
-                  | {{sumOfStoryPoints("50", story) * cachedRatio | number: 1}}
+          ul.clearfix.sub_category
+            li.summary-area ng-repeat-start="sub_category in category.sub_categories | orderBy:subCategoriesOrder"
+              .summary
+                .summary-title
+                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
+                  span
+                    a.subcategory-operation-btn ng-click="createStory(project, category, sub_category)"
+                      i.icon-plus
+                  span
+                    a.subcategory-operation-btn ng-click="moveHigher(project, category, sub_category)"
+                      i.icon-arrow-up
+                    a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)"
+                      i.icon-arrow-down
+                    a.category-operation-btn ng-click="editRemarks(project, category, sub_category)"
+                      i.icon-tag
+                    a.category-operation-btn ng-click="removeSubCategory(project, category, sub_category)"
+                      i.icon-remove
+                  ul.clearfix.summary-point
+                    li ng-repeat-start="task in project.project_tasks"
+                      | {{sumOfSubCategoryPoints("50", sub_category, { projectTaskId: task.id })}}
+                    li ng-repeat-end="true"
+                      | {{sumOfSubCategoryPoints("50", sub_category, { projectTaskId: task.id }) * cachedRatio |number: 1}}
+                    li.total
+                      | {{sumOfSubCategoryPoints("50", sub_category)}}
+                    li.total
+                      | {{sumOfSubCategoryPoints("50", sub_category) * cachedRatio | number: 1}}
 
               .clearfix
+            li
+              ul.story
+                li ng-repeat="story in sub_category.stories | orderBy:storiesOrder"
+                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
+                  span
+                    a.story-operation-btn ng-click="moveHigher(project, category, sub_category, story)"
+                      i.icon-arrow-up
+                    a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)"
+                      i.icon-arrow-down
+                    a.category-operation-btn ng-click="editRemarks(project, category, sub_category, story)"
+                      i.icon-tag
+                    a.category-operation-btn ng-click="removeStory(project, category, sub_category, story)"
+                      i.icon-remove
+
+                  ul.point
+                    li.point5090 ng-repeat-start="project_task in project.project_tasks"
+                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_50" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '50')"  ng-pattern="/^\d*$/" ng-model-options="{ updateOn: 'blur' }" no-err-msg="true"
+                      | (
+                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_90" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '90')" ng-pattern="/^\d*$/"  ng-model-options="{ updateOn: 'blur' }" no-err-msg="true"
+                      | )
+                    li.buffered-point ng-repeat-end="true"
+                      span ng-if="bufferedPointOfStoryTask(project_task.id, story) != null"
+                        | {{bufferedPointOfStoryTask(project_task.id, story)| number: 1}}
+                      span ng-if="bufferedPointOfStoryTask(project_task.id, story) == null"
+                        | -
+                    li.total
+                      | {{sumOfStoryPoints("50", story)}}
+                    li.total
+                      | {{sumOfStoryPoints("50", story) * cachedRatio | number: 1}}
+
+                  .clearfix
+            li ng-repeat-end="true"
         li ng-repeat-end="true"
-    li ng-repeat-end="true"
 
 
