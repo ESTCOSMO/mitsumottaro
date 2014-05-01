@@ -1,4 +1,4 @@
-angular.module('projectsControllers').controller 'ProjectsController', ['$scope', 'Project', 'Category','SubCategory', 'Story', 'TaskPoint', '$routeParams', '$sce', ($scope, Project, Category, SubCategory, Story, TaskPoint, $routeParams, $sce) ->
+angular.module('projectsControllers').controller 'ProjectsController', ['$scope', 'Project', 'Category','SubCategory', 'Story', 'TaskPoint', 'MoveHigherCategory', 'MoveLowerCategory', 'MoveHigherSubCategory', 'MoveLowerSubCategory', 'MoveHigherStory', 'MoveLowerStory', '$routeParams', '$sce', ($scope, Project, Category, SubCategory, Story, TaskPoint, MoveHigherCategory, MoveLowerCategory, MoveHigherSubCategory, MoveLowerSubCategory, MoveHigherStory, MoveLowerStory, $routeParams, $sce) ->
   $scope.project = Project.get({id: $routeParams.id})
   $scope.saveCategory = saveCategory
   $scope.trustAsHtml = (html_code) -> $sce.trustAsHtml(html_code)
@@ -169,4 +169,65 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
       , 0)
     else
       0
+
+  createMakeHigherLowerResource = (isHigher, project, category, sub_category, story) ->
+    if story
+      resource = if isHigher then new MoveHigherStory else new MoveLowerStory
+      resource.project_id = project.id
+      resource.category_id = category.id
+      resource.sub_category_id = sub_category.id
+      resource.id = story.id
+    else if sub_category
+      resource = if isHigher then new MoveHigherSubCategory else new MoveLowerSubCategory
+      resource.project_id = project.id
+      resource.category_id = category.id
+      resource.id = sub_category.id
+    else
+      resource = if isHigher then new MoveHigherCategory else new MoveLowerCategory
+      resource.project_id = project.id
+      resource.id = category.id
+    resource
+
+  $scope.moveHigher = (project, category, sub_category, story) ->
+    resource = createMakeHigherLowerResource(true, project, category, sub_category, story)
+    resource.$update (updated, postHeaders) ->
+      if story
+        moveHigher(sub_category.stories, story)
+      else if sub_category
+        moveHigher(category.sub_categories, sub_category)
+      else
+        moveHigher(project.categories, category)
+
+  $scope.moveLower = (project, category, sub_category, story) ->
+    resource = createMakeHigherLowerResource(false, project, category, sub_category, story)
+    resource.$update (updated, postHeaders) ->
+      if story
+        moveLower(sub_category.stories, story)
+      else if sub_category
+        moveLower(category.sub_categories, sub_category)
+      else
+        moveLower(project.categories, category)
+
+  moveHigher = (collection, current) ->
+    orig_position = parseInt(current.position)
+    if orig_position > 1
+      prev = collection.filter((item) -> parseInt(item.position) == (orig_position - 1))[0]
+      current.position = orig_position - 1
+      prev.position = orig_position
+
+  moveLower = (collection, current) ->
+    orig_position = parseInt(current.position)
+    if orig_position < collection.length
+      next = collection.filter((item) -> parseInt(item.position) == (orig_position + 1))[0]
+      current.position = orig_position + 1
+      next.position = orig_position
+
+  $scope.categoriesOrder = (a) -> parseInt(a.position)
+  $scope.subCategoriesOrder = (a) -> parseInt(a.position)
+  $scope.storiesOrder =  (a) -> parseInt(a.position)
+
+  $scope.ignoreEnterKey = (e) ->
+    code = if e.keyCode then e.keyCode else e.which
+    if code == 13
+      e.preventDefault()
 ]

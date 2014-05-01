@@ -27,7 +27,7 @@ p
             | {{sumOfProjectPoints("50", project, { projectTaskId: task.id }) * ratio() |number: 1}}
       .clearfix
   ul.clearfix.category
-    li.summary-area ng-repeat-start="category in project.categories"
+    li.summary-area ng-repeat-start="category in project.categories | orderBy:categoriesOrder"
       .summary
         ul.clearfix.headers
           li ng-repeat="task in project.project_tasks"
@@ -40,12 +40,17 @@ p
             | b込
         .clearfix
         .summary-title
-          span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
+          span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
           span
             | {{sumOfCategoryPoints("50", category)}}({{sumOfCategoryPoints("50", category) * ratio() | number:2}})
           span
             a ng-click="createSubCategory(project, category)"
               i.icon-plus
+          span
+            a ng-click="moveHigher(project, category)"
+              i.icon-arrow-up
+            a ng-click="moveLower(project, category)"
+              i.icon-arrow-down
           ul.clearfix.summary-point
             li ng-repeat-start="task in project.project_tasks"
               | {{sumOfCategoryPoints("50", category, { projectTaskId: task.id })}}
@@ -54,7 +59,7 @@ p
           .clearfix
     li
       ul.clearfix.sub_category
-        li.summary-area ng-repeat-start="sub_category in category.sub_categories"
+        li.summary-area ng-repeat-start="sub_category in category.sub_categories | orderBy:subCategoriesOrder"
           .summary
             .summary-title
               span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
@@ -63,6 +68,11 @@ p
               span
                 a ng-click="createStory(project, category, sub_category)"
                   i.icon-plus
+              span
+                a ng-click="moveHigher(project, category, sub_category)"
+                  i.icon-arrow-up
+                a ng-click="moveLower(project, category, sub_category)"
+                  i.icon-arrow-down
               ul.clearfix.summary-point
                 li ng-repeat-start="task in project.project_tasks"
                   | {{sumOfSubCategoryPoints("50", sub_category, { projectTaskId: task.id })}}
@@ -71,10 +81,16 @@ p
           .clearfix
         li
           ul.story
-            li ng-repeat="story in sub_category.stories"
+            li ng-repeat="story in sub_category.stories | orderBy:storiesOrder"
               span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }"
               span
                 | {{sumOfStoryPoints("50", story)}}({{sumOfStoryPoints("50", story) * ratio() | number:2}})
+              span
+                a ng-click="moveHigher(project, category, sub_category, story)"
+                  i.icon-arrow-up
+                a ng-click="moveLower(project, category, sub_category, story)"
+                  i.icon-arrow-down
+
               ul.point
                 li.point5090 ng-repeat-start="project_task in project.project_tasks"
                   span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_50" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '50')"  ng-pattern="/^\d*$/" ng-model-options="{ updateOn: 'blur' }" style="text-align:right" no-err-msg="true"

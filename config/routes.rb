@@ -40,8 +40,20 @@ Mitsumoritaro::Application.routes.draw do
   namespace :api do
     resources :projects do
       resources :categories do
+        member do
+          patch "move_higher" => 'categories#move_higher', as: :move_higher
+          patch "move_lower" => 'categories#move_lower', as: :move_lower
+        end
         resources :sub_categories do
+          member do
+            patch "move_higher" => 'sub_categories#move_higher', as: :move_higher
+            patch "move_lower" => 'sub_categories#move_lower', as: :move_lower
+          end
           resources :stories do
+            member do
+              patch "move_higher" => 'stories#move_higher', as: :move_higher
+              patch "move_lower" => 'stories#move_lower', as: :move_lower
+            end
             resources :task_points
           end
         end

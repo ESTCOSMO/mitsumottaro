@@ -7,21 +7,20 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ($parse) ->
 
       fn = $parse attrs.mtBlur
       elm.on 'blur', ->
-        scope.$apply ->
-          updateModel()
+        updateModel()
+        if !attrs.noErrMsg
+          $("##{nameHash}_required").hide()
+          $("##{nameHash}_pattern").hide()
+        if model.$valid
+          fn(scope)
+        else
+          elm.focus()
           if !attrs.noErrMsg
-            $("##{nameHash}_required").hide()
-            $("##{nameHash}_pattern").hide()
-          if model.$valid
-            fn(scope)
-          else
-            elm.focus()
-            if !attrs.noErrMsg
-              if model.$error.required
-                $("##{nameHash}_required").show()
-              if model.$error.pattern
-                $("##{nameHash}_pattern").show()
-            model && model.$cancelUpdate && model.$cancelUpdate()
+            if model.$error.required
+              $("##{nameHash}_required").show()
+            if model.$error.pattern
+              $("##{nameHash}_pattern").show()
+          model && model.$cancelUpdate && model.$cancelUpdate()
 
       model.$render = ->
         elm.text(model.$viewValue || '')
