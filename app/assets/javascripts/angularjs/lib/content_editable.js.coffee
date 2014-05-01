@@ -12,7 +12,9 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ($parse) ->
           $("##{nameHash}_required").hide()
           $("##{nameHash}_pattern").hide()
         if model.$valid
-          fn(scope)
+          if  model.$dirty
+            fn(scope)
+            model.$setPristine()
         else
           elm.focus()
           if !attrs.noErrMsg
@@ -23,13 +25,17 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ($parse) ->
           model && model.$cancelUpdate && model.$cancelUpdate()
 
       model.$render = ->
-        elm.text(model.$viewValue || '')
+        value = if model.$viewValue? then model.$viewValue else ''
+        elm.text(value)
 
       updateModel = ->
         html = elm.html()
         if html == '<br>'
           html = ''
-        model.$setViewValue(html)
+        if (!model.$viewValue? || model.$viewValue == "") && (!html? || html == "")
+          # do nothing
+        else if String(model.$viewValue) != html
+          model.$setViewValue(html)
 
       # initialize
       elm.text(model.$viewValue)

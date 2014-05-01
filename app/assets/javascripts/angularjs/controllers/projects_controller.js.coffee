@@ -3,10 +3,15 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
   $scope.saveCategory = saveCategory
   $scope.trustAsHtml = (html_code) -> $sce.trustAsHtml(html_code)
   $scope.buffer = () ->
-    (sumOfDiffSquareOfProject($scope.project) ** (1.0 / 2)) / 2.0
-  $scope.ratio = () ->
-    1.0 + ($scope.buffer() / sumOfProjectPoints("50", $scope.project))
+    Math.sqrt(sumOfDiffSquareOfProject($scope.project)) / 2.0
 
+  ratio = () ->
+    cache = 1.0 + ($scope.buffer() / sumOfProjectPoints("50", $scope.project))
+    $scope.cachedRatio = cache
+    cache
+
+  $scope.ratio = ratio
+  $scope.cachedRatio = 0
 
   saveCategory = (value) ->
     Category.get {project_id: $scope.project.id, id: value.id}, (c, getResponseHeaders) ->
@@ -80,7 +85,9 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
   sumOfDiffSquareOfStory = (story) ->
     if !story.task_points then return 0
     story.task_points.reduce (sum, x) ->
-      sum + ((x.point_90 - x.point_50) ** 2)
+      point50 = if x.point_50 then x.point_50 else 0
+      point90 = if x.point_90 then x.point_90 else 0
+      sum + ((point90 - point50) ** 2)
     , 0
 
   $scope.updateCategoryName = (project, category) ->
@@ -143,7 +150,7 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
       else
         subCategory.stories.push [s]
 
-  $scope.findPointByTaskId = (project_task_id, story) ->
+  findPointByTaskId = (project_task_id, story) ->
     if story.task_points
       task_point = _.find story.task_points, (p) ->
         p.project_task_id == project_task_id
@@ -154,21 +161,20 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
       new_point = new TaskPoint
       new_point.story_id = story.id
       new_point.project_task_id = project_task_id
-      new_point.point_50 = 0
-      new_point.point_90 = 0
       if story.task_points
         story.task_points.push new_point
       else
         story.task_points = [ new_point ]
       new_point
 
-  $scope.countOfStoriesInCategory = (category) ->
-    if category.sub_categories
-      category.sub_categories.reduce((sum, sc) ->
-        sum + sc.stories.length
-      , 0)
+  $scope.findPointByTaskId = findPointByTaskId
+
+  $scope.bufferedPointOfStoryTask = (project_task_id, story) ->
+    point = findPointByTaskId(project_task_id, story)
+    if point && (point.point_50 || point.point_50 == 0)
+      point.point_50 * ratio()
     else
-      0
+      null
 
   createMakeHigherLowerResource = (isHigher, project, category, sub_category, story) ->
     if story

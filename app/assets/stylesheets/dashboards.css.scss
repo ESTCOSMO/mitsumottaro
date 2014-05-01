@@ -67,6 +67,7 @@
 }
 
 .dashboard-view {
+  border: 1px solid #dddddd;
   ul {
     font-size: 11px;
   }
@@ -79,6 +80,9 @@
     li:hover {
       background-color: #D9E1F6;
     }
+    border-color: #dddddd;
+    border-style: solid;
+    border-width: 1px 0 1px 0
   }
 
   ul.sub_category {
@@ -89,6 +93,9 @@
     li:hover {
       background-color: #FCF8D3;
     }
+    border-color: #dddddd;
+    border-style: solid;
+    border-width: 1px 0 0 1px
   }
   ul.story {
     list-style: none;
@@ -98,7 +105,11 @@
     li:hover {
       background-color: #DCDCDC;
     }
+    border-color: #dddddd;
+    border-style: solid;
+    border-width: 1px 0 0 1px
   }
+
   ul.point {
     list-style: none;
     float:right;
@@ -108,8 +119,9 @@
       width: 49px;
       text-align: center;
       border-left: 1px solid #dddddd;
-      border-bottom: 1px solid #dddddd;
+      // border-bottom: 1px solid #dddddd;
     }
+
     li:hover {
       background-color: #DCDCDC;
     }
@@ -117,6 +129,9 @@
       background-color: #ffffff;
       color: blue;
     }
+  }
+  li.summary-area {
+    border-top: 1px solid #dddddd;
   }
 
   ul.headers {
@@ -139,11 +154,6 @@
     color: #000;
   }
 
-  .summary {
-    border: 1px solid #dddddd;
-  }
-
-
   ul.summary-point, ul.header_points {
     list-style: none;
     float: right;
@@ -153,15 +163,16 @@
       width: 49px;
       text-align: center;
       border-left: 1px solid #dddddd;
-      border-bottom: 1px solid #dddddd;
     }
   }
+
   .summary-title {
     width: 100%;
   }
 
   .project-summary {
     background-color: pink;
+    color: #b94a48;
   }
 
   li.point5090 {

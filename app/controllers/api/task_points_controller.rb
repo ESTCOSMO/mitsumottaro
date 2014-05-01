@@ -3,17 +3,19 @@ class Api::TaskPointsController < ApplicationController
 
   def create
     task_point = @story.task_points.find_or_initialize_by(project_task_id: params[:project_task_id])
-    if task_point.new_record?
-      task_point.point_50 = params[:point_50].blank? ? 0 : params[:point_50]
-      task_point.point_90 = params[:point_90].blank? ? 0 : params[:point_90]
+    params.keys.include?("point_50") and task_point.point_50 = params[:point_50]
+    params.keys.include?("point_90") and task_point.point_90 = params[:point_90]
+
+    if task_point.point_50.blank? && task_point.point_90.blank?
+      task_point.destroy if task_point.persisted?
     else
-      params[:point_50].present? and task_point.point_50 = params[:point_50]
-      params[:point_90].present? and task_point.point_90 = params[:point_90]
+      task_point.save!
     end
-    task_point.save!
-    render json: task_point, status: :ok
+
+    render json: {}, status: :ok
   rescue ActiveRecord::RecordInvalid => e
-    render json: e.record.errors.full_messages, status: :bad_request
+    p e.record.errors.full_messages
+    render json: { errors: e.record.errors.full_messages }, status: :bad_request
   end
 
   def destroy
