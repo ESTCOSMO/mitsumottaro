@@ -142,7 +142,7 @@ describe Category do
       it{ should eq 45 }
     end
     describe "sum_of_point_50_by_project_task_id method" do
-      subject{ @category.sum_of_point_50_by_project_task_id(3) }
+      subject{ @category.sum_of_point_50_by_project_task_id(project_task3.id) }
       it{ should eq 12 }
     end
     describe "sum_of_square_of_diff method" do

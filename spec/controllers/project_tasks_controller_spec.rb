@@ -16,7 +16,7 @@ describe ProjectTasksController do
   describe "POST 'create'" do
     context "when input correct data, " do
       before do
-        post :create, { project_id: @project.id,
+       xhr :post, :create, { project_id: @project.id,
                         project_task: { name: "ProjectTaskName", price_per_day: 70000} }
       end
       describe "check redirect path" do
@@ -31,7 +31,7 @@ describe ProjectTasksController do
     end
     context "when name is empty, " do
       before do
-        post :create, { project_id: @project.id,
+        xhr :post, :create, { project_id: @project.id,
                         project_task: { name: "", price_per_day: 70000} }
       end
       describe "check response status" do
@@ -41,7 +41,7 @@ describe ProjectTasksController do
     end
     context "when price_per_day is empty, " do
       before do
-        post :create, { project_id: @project.id,
+        xhr :post, :create, { project_id: @project.id,
                         project_task: { name: "ProjectTaskName", price_per_day: ''} }
       end
       describe "check response status" do
@@ -58,7 +58,7 @@ describe ProjectTasksController do
     end
     context "when input correct data, " do
       before do
-        post :update, { project_id: @project.id, id: @project_task.id,
+        xhr :post, :update, { project_id: @project.id, id: @project_task.id,
                         project_task: { name: "UpdatedTask", price_per_day: 70000} }
       end
       describe "check redirect path" do
@@ -73,7 +73,7 @@ describe ProjectTasksController do
     end
     context "when name is empty, " do
       before do
-        post :update, { project_id: @project.id, id: @project_task.id,
+        xhr :post, :update, { project_id: @project.id, id: @project_task.id,
                         project_task: { name: "", price_per_day: 70000} }
       end
       describe "check response status" do
@@ -83,7 +83,7 @@ describe ProjectTasksController do
     end
     context "when price_per_day is empty, " do
       before do
-        post :update, { project_id: @project.id, id: @project_task.id,
+        xhr :post, :update, { project_id: @project.id, id: @project_task.id,
                         project_task: { name: "UpdatedTask", price_per_day: ""} }
       end
       describe "check response status" do

@@ -1,0 +1,5 @@
+test: &test
+  adapter: postgresql
+  database: mitsumottaro_test
+  username: postgres
+
