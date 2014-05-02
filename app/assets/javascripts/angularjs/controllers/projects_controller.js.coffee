@@ -360,4 +360,71 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
       else
         this.errors = ["サーバーエラーが発生しました。"]
   }
+
+  $scope.remarksUpdater = {
+    editingItem: null,
+    project: null,
+    category: null,
+    subCategory: null,
+    story: null,
+    modal: null,
+    errors: [],
+    initialize: ->
+      this.project = null
+      this.editingItem = null
+      this.categoryId = null
+      this.subCategoryId = null
+      this.storyId = null
+      this.errors = []
+      this.modal = null
+    ,
+    showModal: (item, projectId, categoryId, subCategoryId, storyId) ->
+      this.initialize()
+      this.projectId = projectId
+      this.categoryId = categoryId
+      this.subCategoryId = subCategoryId
+      this.storyId = storyId
+      this.editingItem = item
+
+      this.modal = $modal.open { templateUrl: 'remarks-modal', scope: $scope }
+    ,
+    update: ->
+      if this.storyId
+        prms = {project_id: this.projectId, category_id: this.categoryId, sub_category_id: this.subCategoryId, id: this.storyId}
+        remarks = this.editingItem.remarks
+        success_fn = this.defaultOnSuccessOfCopyFn.bind(this)
+        fail_fn = this.defaultOnErrorOfCopyFn.bind(this)
+        Story.get prms, (resource) ->
+          resource.remarks = remarks
+          resource.$update prms, success_fn, fail_fn
+      else if this.subCategoryId
+        prms = { project_id: this.projectId, category_id: this.categoryId, id: this.subCategoryId }
+        remarks = this.editingItem.remarks
+        success_fn = this.defaultOnSuccessOfCopyFn.bind(this)
+        fail_fn = this.defaultOnErrorOfCopyFn.bind(this)
+        SubCategory.get prms, (resource) ->
+          resource.remarks = remarks
+          resource.$update prms, success_fn, fail_fn
+      else if this.categoryId
+        prms = { project_id: this.projectId, id: this.categoryId }
+        remarks = this.editingItem.remarks
+        success_fn = this.defaultOnSuccessOfCopyFn.bind(this)
+        fail_fn = this.defaultOnErrorOfCopyFn.bind(this)
+
+        Category.get prms, (resource) ->
+          resource.remarks = remarks
+          resource.$update prms, success_fn, fail_fn
+      else
+        this.errors = ["エラーが発生しました。"]
+    ,
+    defaultOnSuccessOfCopyFn: (result, postHeaders) ->
+      this.modal.close()
+    ,
+    defaultOnErrorOfCopyFn: (result, postHeader) ->
+      if result.data
+        this.errors = result.data
+      else
+        this.errors = ["サーバーエラーが発生しました。"]
+  }
+
 ]

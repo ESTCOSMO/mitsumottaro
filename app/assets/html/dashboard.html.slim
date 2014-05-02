@@ -69,7 +69,7 @@ p.dashboard-summary
                   i.icon-arrow-up
                 a.category-operation-btn ng-click="moveLower(project, category)"
                   i.icon-arrow-down
-                a.category-operation-btn ng-click="$(this).popover('toggle')"
+                a.category-operation-btn ng-click="remarksUpdater.showModal(project, project.id, category.id)"
                   i.icon-tag
                 a.category-operation-btn ng-click="copyItem.copyCategoryDirectly(project, category)"
                   i.icon-file
@@ -98,7 +98,7 @@ p.dashboard-summary
                       i.icon-arrow-up
                     a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)"
                       i.icon-arrow-down
-                    a.subcategory-operation-btn ng-click="editRemarks(project, category, sub_category)"
+                    a.subcategory-operation-btn ng-click="remarksUpdater.showModal(sub_category, project.id, category.id, sub_category.id)"
                       i.icon-tag
                     a.subcategory-operation-btn ng-click="copyItem.showModal(project, category, sub_category)"
                       i.icon-file
@@ -124,7 +124,7 @@ p.dashboard-summary
                       i.icon-arrow-up
                     a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)"
                       i.icon-arrow-down
-                    a.story-operation-btn ng-click="editRemarks(project, category, sub_category, story)"
+                    a.story-operation-btn ng-click="remarksUpdater.showModal(story, project.id, category.id, sub_category.id, story.id)"
                       i.icon-tag
                     a.story-operation-btn ng-click="copyItem.showModal(project, category, sub_category, story)"
                       i.icon-file
@@ -177,3 +177,23 @@ script#item-copy-modal type='text/ng-template'
       .form-actions
         button.btn.btn-primary.btn-save type="button" ng-click="copyItem.submitCopy()" コピー
         button.btn.close_btn type="button"  ng-click="$close()" 閉じる
+
+script#remarks-modal type='text/ng-template'
+  .modal-header
+    button.close type="button" data-dissmiss="modal" aria-hidden="true"
+      | &times;
+    h3 備考
+  .modal-body
+    form#remarks_modal_form.form-horizontal
+      .alert.alert-error ng-if="remarksUpdater.errors"
+        ul
+          li ng-repeat="e in remarksUpdater.errors track by $index"
+            | {{e}}
+      .control-group
+        label.control-label for="remarks" 備考
+        .controls
+          textarea ng-model="remarksUpdater.editingItem.remarks"
+      .form-actions
+        button.btn.btn-primary.btn-save type="button" ng-click="remarksUpdater.update()" 保存
+        button.btn.close_btn type="button"  ng-click="$close()" 閉じる
+

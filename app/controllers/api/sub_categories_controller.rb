@@ -12,7 +12,12 @@ class Api::SubCategoriesController < ApplicationController
 
   def update
     subcat = Project.find(params[:project_id]).categories.find(params[:category_id]).sub_categories.find(params[:id])
-    subcat.update! name: params[:name]
+
+    args = {}
+    params.keys.include?("name") and args[:name] = params[:name]
+    params.keys.include?("remarks") and args[:remarks] = params[:remarks]
+    subcat.update! args
+
     render json: subcat.as_json(includes_in_json), status: :ok
   end
 

@@ -12,7 +12,11 @@ class Api::StoriesController < ApplicationController
 
   def update
     story = Project.find(params[:project_id]).categories.find(params[:category_id]).sub_categories.find(params[:sub_category_id]).stories.find(params[:id])
-    story.update! name: params[:name]
+
+    args = { }
+    params.keys.include?("name") and args[:name] = params[:name]
+    params.keys.include?("remarks") and args[:remarks] = params[:remarks]
+    story.update! args
     render json: story.as_json(includes_in_json), status: :ok
   end
 
