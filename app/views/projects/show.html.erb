@@ -12,7 +12,7 @@
 
 <div class="form-actions">
   <%= link_to t('.go_to_project_top', :default => t("helpers.links.go_to_project_top")),
-              project_dashboard_path(@project, anchor: "/projects/#{@project.id}"), :class => 'btn btn-primary'  %>
+              project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard"), :class => 'btn btn-primary'  %>
   <%= link_to t('.back', :default => t("helpers.links.back")),
               projects_path, :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),

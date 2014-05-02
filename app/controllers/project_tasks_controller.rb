@@ -28,14 +28,14 @@ class ProjectTasksController < ApplicationController
     project_task = @project.project_tasks.find(params[:id])
     project_task.move_higher
 
-    redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}")
+    redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard")
   end
 
   def move_lower
     project_task = @project.project_tasks.find(params[:id])
     project_task.move_lower
 
-    redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}")
+    redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard")
   end
 
   private
