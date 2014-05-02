@@ -190,9 +190,9 @@ script#remarks-modal type='text/ng-template'
           li ng-repeat="e in remarksUpdater.errors track by $index"
             | {{e}}
       .control-group
-        label.control-label for="remarks" 備考
+        label.control-label 備考
         .controls
-          textarea ng-model="remarksUpdater.editingItem.remarks"
+          textarea.remarks-input ng-model="remarksUpdater.editingItem.remarks" ng-model-options="{ updateOn: 'blur' }"
       .form-actions
         button.btn.btn-primary.btn-save type="button" ng-click="remarksUpdater.update()" 保存
         button.btn.close_btn type="button"  ng-click="$close()" 閉じる
