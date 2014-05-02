@@ -1,4 +1,4 @@
-angular.module 'projectsControllers', []
+angular.module 'projectsControllers', ['ui.bootstrap']
 angular.module 'mitsumottaroApp', ['ngResource','ngRoute','projectsControllers']
 angular.module('mitsumottaroApp').config ($httpProvider) ->
   authToken = $("meta[name=\"csrf-token\"]").attr("content")

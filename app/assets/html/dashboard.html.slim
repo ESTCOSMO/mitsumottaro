@@ -69,8 +69,10 @@ p.dashboard-summary
                   i.icon-arrow-up
                 a.category-operation-btn ng-click="moveLower(project, category)"
                   i.icon-arrow-down
-                a#aaa.category-operation-btn ng-click="$(this).popover('toggle')" data-content="aaaa"
+                a.category-operation-btn ng-click="$(this).popover('toggle')"
                   i.icon-tag
+                a.category-operation-btn ng-click="copyItem.copyCategoryDirectly(project, category)"
+                  i.icon-file
                 a.category-operation-btn ng-click="removeCategory(project, category)" ng-confirm-click="本当に削除しますか?"
                   i.icon-remove
               ul.clearfix.summary-point
@@ -98,6 +100,8 @@ p.dashboard-summary
                       i.icon-arrow-down
                     a.subcategory-operation-btn ng-click="editRemarks(project, category, sub_category)"
                       i.icon-tag
+                    a.subcategory-operation-btn ng-click="copyItem.showModal(project, category, sub_category)"
+                      i.icon-file
                     a.subcategory-operation-btn ng-click="removeSubCategory(project, category, sub_category)" ng-confirm-click="本当に削除しますか?"
                       i.icon-remove
                   ul.clearfix.summary-point
@@ -122,6 +126,8 @@ p.dashboard-summary
                       i.icon-arrow-down
                     a.story-operation-btn ng-click="editRemarks(project, category, sub_category, story)"
                       i.icon-tag
+                    a.story-operation-btn ng-click="copyItem.showModal(project, category, sub_category, story)"
+                      i.icon-file
                     a.story-operation-btn ng-click="removeStory(project, category, sub_category, story)" ng-confirm-click="本当に削除しますか?"
                       i.icon-remove
 
@@ -145,4 +151,29 @@ p.dashboard-summary
             li ng-repeat-end="true"
         li ng-repeat-end="true"
 
-
+script#item-copy-modal type='text/ng-template'
+  .modal-header
+    button.close type="button" data-dissmiss="modal" aria-hidden="true"
+      | &times;
+    h3 項目コピー
+  .modal-body
+    form#item_copy_modal_form.form-horizontal
+      p
+        strong#item_name
+      .alert.alert-error ng-if="copyItem.errors"
+        ul
+          li ng-repeat="e in copyItem.errors"
+            | {{e}}
+      .control-group.dst_category ng-show="copyItem.source.subCategory"
+        label.control-label for="category_id" 大項目
+        .controls
+          select ng-model="copyItem.destination.category" ng-options="c as c.name  for c in project.categories"
+            option value=""
+              | -- 選択してください --
+      .control-group.dst_sub_category ng-show="copyItem.source.story"
+        label.control-label for="sub_category_id" 中項目
+        .controls
+          select ng-model="copyItem.destination.subCategory" ng-options="sc as sc.name for sc in copyItem.destination.category.sub_categories"
+      .form-actions
+        button.btn.btn-primary.btn-save type="button" ng-click="copyItem.submitCopy()" コピー
+        button.btn.close_btn type="button"  ng-click="$close()" 閉じる

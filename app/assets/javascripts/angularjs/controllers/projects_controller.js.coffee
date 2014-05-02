@@ -1,6 +1,5 @@
-angular.module('projectsControllers').controller 'ProjectsController', ['$scope', 'Project', 'Category','SubCategory', 'Story', 'TaskPoint', 'MoveHigherCategory', 'MoveLowerCategory', 'MoveHigherSubCategory', 'MoveLowerSubCategory', 'MoveHigherStory', 'MoveLowerStory', '$routeParams', '$sce', ($scope, Project, Category, SubCategory, Story, TaskPoint, MoveHigherCategory, MoveLowerCategory, MoveHigherSubCategory, MoveLowerSubCategory, MoveHigherStory, MoveLowerStory, $routeParams, $sce) ->
+angular.module('projectsControllers').controller 'ProjectsController', ['$scope', 'Project', 'Category','SubCategory', 'Story', 'TaskPoint', 'MoveHigherCategory', 'MoveLowerCategory', 'MoveHigherSubCategory', 'MoveLowerSubCategory', 'MoveHigherStory', 'MoveLowerStory', 'CopyCategory', 'CopySubCategory', 'CopyStory', '$routeParams', '$sce', '$modal', '$window', ($scope, Project, Category, SubCategory, Story, TaskPoint, MoveHigherCategory, MoveLowerCategory, MoveHigherSubCategory, MoveLowerSubCategory, MoveHigherStory, MoveLowerStory, CopyCategory, CopySubCategory, CopyStory, $routeParams, $sce, $modal, $window) ->
   $scope.project = Project.get({id: $routeParams.id})
-  $scope.saveCategory = saveCategory
   $scope.trustAsHtml = (html_code) -> $sce.trustAsHtml(html_code)
   $scope.buffer = () ->
     Math.sqrt(sumOfDiffSquareOfProject($scope.project)) / 2.0
@@ -12,12 +11,6 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
 
   $scope.ratio = ratio
   $scope.cachedRatio = 0
-
-  saveCategory = (value) ->
-    Category.get {project_id: $scope.project.id, id: value.id}, (c, getResponseHeaders) ->
-      c.name = value.name
-      c.$update (updatedCat, putResponseHeaders) ->
-        $scope.project = Project.get({id: $routeParams.id})
 
   sumOfProjectPoints = (percent, project, args) ->
     if !project.categories
@@ -269,4 +262,102 @@ angular.module('projectsControllers').controller 'ProjectsController', ['$scope'
     code = if e.keyCode then e.keyCode else e.which
     if code == 13
       e.preventDefault()
+
+  # for copy items
+  $scope.copyItem = {
+    errors: [],
+    source: {},
+    destination: {},
+    modal: null,
+    initialize: ->
+      this.errors = []
+      this.source = {}
+      this.destination = {}
+      this.modal = {}
+    ,
+    showModal: (project, category, subCategory, story) ->
+      this.initialize()
+      src = this.source
+      src.category = category
+      src.subCategory = subCategory
+      src.story = story
+      this.modal = $modal.open { templateUrl: 'item-copy-modal', scope: $scope }
+    ,
+
+    copyCategoryDirectly: (project, category) ->
+      this.initialize()
+      this.source.category = category
+      this.submitCopy ((res, head) -> ($window.location.reload())), ((res, head) -> $window.alert res["data"].join("\n"))
+    ,
+    submitCopy: (success, fail) ->
+      src = this.source
+      dst = this.destination
+      if src.story
+        if dst.subCategory
+          fn = this.submitCopyStory.bind(this)
+        else
+          this.errors = ["コピー先の中項目を選んでください。"]
+          return false
+      else if src.subCategory
+        if dst.category
+          fn = this.submitCopySubCategory.bind(this)
+        else
+          this.errors = ["コピー先の大項目を選んでください。"]
+          return false
+      else if src.category
+        fn = this.submitCopyCategory.bind(this)
+      else
+        this.errors = ["エラーが発生しました。"]
+        return false
+
+      fn(success, fail)
+    ,
+    submitCopyStory: (success, fail) ->
+      src = this.source
+      dst = this.destination
+      resource = new CopyStory
+      resource.project_id = $scope.project.id
+      resource.category_id = src.category.id
+      resource.sub_category_id = src.subCategory.id
+      resource.id = src.story.id
+      resource.dst_item_form = { category_id: dst.category.id, sub_category_id: dst.subCategory.id, type: 'story' }
+
+      success_fn = success || this.defaultOnSuccessOfCopyFn.bind(this)
+      fail_fn = fail || this.defaultOnErrorOfCopyFn.bind(this)
+
+      resource.$save(success_fn, fail_fn)
+    ,
+    submitCopySubCategory: (success, fail) ->
+      src = this.source
+      dst = this.destination
+      resource = new CopySubCategory
+      resource.project_id = $scope.project.id
+      resource.category_id = src.category.id
+      resource.id = src.subCategory.id
+      resource.dst_item_form = { category_id: dst.category.id, type: 'sub_category' }
+
+      success_fn = success || this.defaultOnSuccessOfCopyFn.bind(this)
+      fail_fn = fail || this.defaultOnErrorOfCopyFn.bind(this)
+      resource.$save(success_fn, fail_fn)
+    ,
+    submitCopyCategory: (success, fail) ->
+      src = this.source
+      resource = new CopyCategory
+      resource.project_id = $scope.project.id
+      resource.id = src.category.id
+      resource.dst_item_form = { type: 'category' }
+
+      success_fn = success || defaultOnSuccessOfCopyFn.bind(this)
+      fail_fn = fail || defaultOnErrorOfCopyFn.bind(this)
+      resource.$save(success_fn, fail_fn)
+    ,
+    defaultOnSuccessOfCopyFn: (result, postHeaders) ->
+      $window.location.reload()
+    ,
+    defaultOnErrorOfCopyFn: (result, postHeader) ->
+      if result.data
+        this.errors = result.data
+      else
+        this.errors = ["サーバーエラーが発生しました。"]
+  }
 ]
