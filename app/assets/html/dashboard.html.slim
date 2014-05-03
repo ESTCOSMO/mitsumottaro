@@ -15,9 +15,9 @@ p.dashboard-summary
       ul.clearfix.headers
         li ng-repeat="task in project.project_tasks"
           | {{task.name}}
-          a.project-task-operation-btn href="#{url.move_higher_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}" ng-if="!$first"
+          a.project-task-operation-btn href="#{url.move_higher_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}" ng-hide="$first"
             i.icon-arrow-left
-          a.project-task-operation-btn href="#{url.move_lower_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}" ng-if="!$last"
+          a.project-task-operation-btn href="#{url.move_lower_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}" ng-hide="$last"
             i.icon-arrow-right
         li 合計
       .clearfix
@@ -65,9 +65,9 @@ p.dashboard-summary
                 a.category-operation-btn ng-click="createSubCategory(project, category)"
                   i.icon-plus
               span
-                a.category-operation-btn ng-click="moveHigher(project, category)" ng-if="!$first"
+                a.category-operation-btn ng-click="moveHigher(project, category)" ng-hide="$first"
                   i.icon-arrow-up
-                a.category-operation-btn ng-click="moveLower(project, category)" ng-if="!$last"
+                    a.category-operation-btn ng-click="moveLower(project, category)" ng-hide="$last"
                   i.icon-arrow-down
                 a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)"
                   i.icon-tag
@@ -94,9 +94,9 @@ p.dashboard-summary
                     a.subcategory-operation-btn ng-click="createStory(project, category, sub_category)"
                       i.icon-plus
                   span
-                    a.subcategory-operation-btn ng-click="moveHigher(project, category, sub_category)" ng-if="!$first"
+                    a.subcategory-operation-btn ng-click="moveHigher(project, category, sub_category)" ng-hide="$first"
                       i.icon-arrow-up
-                    a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)" ng-if="!$last"
+                    a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)" ng-hide="$last"
                       i.icon-arrow-down
                     a.subcategory-operation-btn ng-click="remarksUpdater.showModal(sub_category, project.id, category.id, sub_category.id)"
                       i.icon-tag
@@ -120,9 +120,9 @@ p.dashboard-summary
                 li ng-repeat="story in sub_category.stories | orderBy:storiesOrder"
                   span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
                   span
-                    a.story-operation-btn ng-click="moveHigher(project, category, sub_category, story)" ng-if="!$first"
+                    a.story-operation-btn ng-click="moveHigher(project, category, sub_category, story)" ng-hide="$first"
                       i.icon-arrow-up
-                    a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)" ng-if="!$last"
+                    a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)" ng-hide="$last"
                       i.icon-arrow-down
                     a.story-operation-btn ng-click="remarksUpdater.showModal(story, project.id, category.id, sub_category.id, story.id)"
                       i.icon-tag
@@ -160,7 +160,7 @@ script#item-copy-modal type='text/ng-template'
     form#item_copy_modal_form.form-horizontal
       p
         strong#item_name
-      .alert.alert-error ng-if="copyItem.errors"
+      .alert.alert-error ng-show="copyItem.errors"
         ul
           li ng-repeat="e in copyItem.errors"
             | {{e}}
@@ -185,7 +185,7 @@ script#remarks-modal type='text/ng-template'
     h3 備考
   .modal-body
     form#remarks_modal_form.form-horizontal
-      .alert.alert-error ng-if="remarksUpdater.errors"
+      .alert.alert-error ng-show="remarksUpdater.errors"
         ul
           li ng-repeat="e in remarksUpdater.errors track by $index"
             | {{e}}
