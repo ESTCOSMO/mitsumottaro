@@ -133,9 +133,9 @@ p.dashboard-summary
 
                   ul.point
                     li.point5090 ng-repeat-start="project_task in project.project_tasks"
-                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_50" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '50')"  ng-pattern="/^\d*$/" ng-model-options="{ updateOn: 'blur' }" no-err-msg="true" ng-keypress="ignoreEnterKey($event)"
+                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_50" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '50')"  ng-pattern="/^\d*$/" ng-model-options="{ updateOn: 'blur' }" no-err-msg="true" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
                       | (
-                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_90" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '90')" ng-pattern="/^\d*$/"  ng-model-options="{ updateOn: 'blur' }" no-err-msg="true" ng-keypress="ignoreEnterKey($event)"
+                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_90" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '90')" ng-pattern="/^\d*$/"  ng-model-options="{ updateOn: 'blur' }" no-err-msg="true" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
                       | )
                     li.buffered-point ng-repeat-end="true"
                       span ng-if="bufferedPointOfStoryTask(project_task.id, story) != null"

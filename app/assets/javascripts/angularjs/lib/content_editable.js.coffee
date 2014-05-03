@@ -24,9 +24,40 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ($parse) ->
               $("##{nameHash}_pattern").show()
           model && model.$cancelUpdate && model.$cancelUpdate()
 
+      if attrs.selectOnFocus
+        elm.on 'focus', ->
+          window.setTimeout ->
+            if window.getSelection && document.createRange
+                range = document.createRange()
+                range.selectNodeContents elm[0]
+                sel = window.getSelection()
+                sel.removeAllRanges()
+                sel.addRange range
+            else if document.body.createTextRange
+                range = document.body.createTextRange()
+                range.moveToElementText elm[0]
+                range.select()
+          , 1
+
+
+
       model.$render = ->
         value = if model.$viewValue? then model.$viewValue else ''
         elm.text(value)
+
+        if attrs.moveCaretToEndOnChange
+          el = elm[0]
+          range = document.createRange()
+          sel = window.getSelection()
+          if el.childNodes.length > 0
+            el2 = el.childNodes[el.childNodes.length - 1]
+            range.setStartAfter el2
+          else
+            range.setStartAfter el
+          range.collapse true
+          sel.removeAllRanges()
+          sel.addRange range
+
 
       updateModel = ->
         html = elm.html()
@@ -68,7 +99,7 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ($parse) ->
               if !patternObj || !patternObj.test
                 throw minErr('ngPattern')('noregexp',
                   'Expected {0} to be a RegExp but was {1}. Element: {2}', pattern,
-                  patternObj, startingTag(element))
+                  patternObj, startingTag(elm))
 
               validateRegex(patternObj, value)
 
