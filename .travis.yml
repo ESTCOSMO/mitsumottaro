@@ -11,7 +11,7 @@ before_install:
 bundler_args: --without development production
 
 rvm:
-  - 2.1
+  - 2.1.1
   - 2.0.0
   - 1.9.3
 
@@ -22,3 +22,8 @@ env:
 
 gemfile:
   - Gemfile
+
+matrix:
+  allow_failures:
+    - rvm: 2.1.0
+
