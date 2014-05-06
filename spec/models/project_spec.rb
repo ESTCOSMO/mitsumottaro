@@ -9,7 +9,6 @@ describe Project do
     it { should respond_to(:categories) }
     it { should respond_to(:project_tasks) }
     it { should respond_to(:additional_costs) }
-    it { should respond_to(:template_tasks) }
   end
 
   describe "validation" do
@@ -222,7 +221,6 @@ describe Project do
       its(:categories) { should be_empty }
       its(:project_tasks) { should be_empty }
       its(:additional_costs) { should be_empty }
-      its(:template_tasks) { should be_empty }
     end
     describe "dup_additional_costs! method: " do
       before do
@@ -254,18 +252,6 @@ describe Project do
           @new_project.project_tasks.each_with_index do |pt, idx|
             pt.name.should eq org_project.project_tasks[idx].name
             pt.price_per_day.should eq org_project.project_tasks[idx].price_per_day
-          end
-        end
-      end
-      context "check template_tasks counts, " do
-        subject{ @new_project.template_tasks }
-        it { should have(2).items }
-      end
-      context "check template_tasks value, " do
-        specify do
-          @new_project.template_tasks.each_with_index do |tt, idx|
-            tt.name.should eq org_project.template_tasks[idx].name
-            tt.price_per_day.should eq org_project.template_tasks[idx].price_per_day
           end
         end
       end
@@ -343,18 +329,6 @@ describe Project do
           @new_project.project_tasks.each_with_index do |pt, idx|
             pt.name.should eq org_project.project_tasks[idx].name
             pt.price_per_day.should eq org_project.project_tasks[idx].price_per_day
-          end
-        end
-      end
-      context "check template_tasks counts, " do
-        subject{ @new_project.template_tasks }
-        it { should have(2).items }
-      end
-      context "check template_tasks values, " do
-        specify do
-          @new_project.template_tasks.each_with_index do |tt, idx|
-            tt.name.should eq org_project.template_tasks[idx].name
-            tt.price_per_day.should eq org_project.template_tasks[idx].price_per_day
           end
         end
       end
