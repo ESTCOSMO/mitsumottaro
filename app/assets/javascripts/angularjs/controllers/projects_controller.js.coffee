@@ -2,7 +2,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
   $scope.project = Project.get({id: $routeParams.id})
   $scope.trustAsHtml = (html_code) -> $sce.trustAsHtml(html_code)
   $scope.buffer = () ->
-    Math.sqrt(sumOfDiffSquareOfProject($scope.project)) / 2.0
+    Math.sqrt(sumOfDiffSquareOfProject($scope.project))
 
   ratio = () ->
     cache = 1.0 + ($scope.buffer() / sumOfProjectPoints("50", $scope.project))
