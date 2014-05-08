@@ -224,11 +224,12 @@
           <% end # story %>
         <% end # sub_category %>
       <% end # category %>
+      <% row_count += 1 %>
+      <Row>
+        <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String">その他費用</Data></Cell>
+        <Cell ss:StyleID="category_name"><Data ss:Type="String"></Data></Cell>
+      </Row>
       <% @project.additional_costs.each do |ac| %>
-        <% row_count += 1 %>
-        <Row>
-          <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String">その他費用</Data></Cell>
-        </Row>
         <% row_count += 1 %>
         <Row>
           <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
