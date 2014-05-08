@@ -1,6 +1,7 @@
 class DstItemForm
   include ActiveModel::Model
-  attr_accessor :category_id, :sub_category_id, :type
+  attr_accessor :name, :category_id, :sub_category_id, :type
+  validates :name, presence: true
   validates :type, presence: true
   with_options if: :sub_category? do |sub_category|
     sub_category.validates :category_id, presence: true

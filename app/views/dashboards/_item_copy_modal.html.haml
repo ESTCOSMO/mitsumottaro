@@ -15,8 +15,10 @@
       = f.hidden_field :type
       = hidden_field_tag "_method", "POST"
       .alert.alert-error.hidden
-      %p
-        %strong{id: 'item_name'}
+      .control-group.dst_name
+        = f.label :name, "項目名", class: 'control-label'
+        .controls
+          = f.text_field :name, class: 'text_field'
       .control-group.dst_category
         = f.label :category_id, "大項目", class: 'control-label'
         .controls

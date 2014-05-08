@@ -197,6 +197,7 @@ $ () ->
     splitted = css_id.replace("copy_item_", "").split("_")
     item_name_id = css_id.replace("copy_item", "item_name")
     item_name = $("##{item_name_id}").find(".plain_item_name").text()
+    dst_item_name = item_name + '（コピー）'
     if splitted.length == 1
       item_copy_modal.find("#dst_item_form_type").val("category")
       template_url = item_copy_modal.find(".url_template_for_copy_category").text()
@@ -225,7 +226,7 @@ $ () ->
     item_copy_modal.find(".url_for_save").text(url_for_create)
     item_copy_modal.find(".method_for_save").text("POST")
     item_copy_modal.find(".alert").addClass("hidden")
-    item_copy_modal.find("#item_name").text(item_name)
+    item_copy_modal.find("#dst_item_form_name").val(dst_item_name)
     item_copy_modal.modal("show")
     false
 
