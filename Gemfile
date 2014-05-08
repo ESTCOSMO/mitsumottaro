@@ -71,3 +71,7 @@ gem 'underscore-rails'
 group :test do
   gem 'simplecov', require: false
 end
+
+gem 'angularjs-rails'
+gem 'slim-rails'
+gem 'active_model_serializers'

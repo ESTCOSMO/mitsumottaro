@@ -14,7 +14,7 @@
   <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <td><%= link_to project.name, project_dashboard_path(project)  %></td>
+        <td><%= link_to project.name, project_dashboard_path(project, anchor: "/projects/#{project.id}/dashboard")  %></td>
         <td><%= project.days_per_point %></td>
         <td><%=l project.created_at %></td>
         <td>

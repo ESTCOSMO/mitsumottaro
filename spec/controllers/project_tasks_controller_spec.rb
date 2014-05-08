@@ -119,7 +119,7 @@ describe ProjectTasksController do
     end
     describe "check redirect path" do
       subject{ response }
-      it{  should redirect_to project_dashboard_path(@project) }
+      it{  should redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard") }
     end
     describe "check items order" do
       before{ @project_tasks = ProjectTask.where(project_id: @project.id).order(:position) }
@@ -141,7 +141,7 @@ describe ProjectTasksController do
     end
     describe "check redirect path" do
       subject{ response }
-      it{  should redirect_to project_dashboard_path(@project) }
+      it{  should redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard") }
     end
     describe "check items order" do
       before{ @project_tasks = ProjectTask.where(project_id: @project.id).order(:position) }

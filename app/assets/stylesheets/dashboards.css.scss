@@ -1,67 +1,183 @@
-.dashboard-table {
-  td {
+.dashboard-summary {
+  .summary-label {
+    padding: 4px;
+    margin: 3px;
+  }
+}
+.dashboard-view {
+  border-style: solid;
+  border-color: #dddddd;
+  border-width: 1px;
+  ul li {
     font-size: 0.8em;
   }
-
-  th {
-    font-size: 0.6em;
-    white-space: nowrap;
-    color: gray;
+  .blank {
+    background-color: #ffffff
   }
 
-  .item_name {
-    white-space: nowrap;
-    cursor: pointer;
-    &:hover {
-      background-color: pink;
-    }
+  ul {
+    list-style: none;
+    margin: 0;
   }
 
-  .blank_row {
-    background-color: silver;
-  }
-
-  .table_point_50 {
-    text-align: right;
-    cursor: pointer;
-    &:hover {
-      background-color: pink;
-    }
-  }
-
-  .table_buffered {
-    text-align: right;
-    color: blue;
-  }
-
-  .project {
-    color: #B94A48;
-    background-color: #F2DEDE;
-  }
-  .category {
+  ul.category {
+    margin: 0;
     color: #3A87AD;
     background-color: #D9EDF7;
+    li:hover {
+      background-color: #D9E1F6;
+    }
+    border-color: #dddddd;
+    border-style: solid;
+    border-width: 1px 0 0 0
   }
 
-  .sub_category {
+  ul.sub_category {
+    list-style: none;
+    margin: 0 0 0 25px;
     color: #C09853;
     background-color: #FCF8E3;
+    li:hover {
+      background-color: #FCF8D3;
+    }
+    border-color: #dddddd;
+    border-style: solid;
+    border-width: 1px 0 0 1px
   }
 
-  .subtotal {
-    text-align: right;
+  ul.story {
+    list-style: none;
+    color: #333;
+    margin: 0 0 0 25px;
+    background-color: white;
+    li:hover {
+      background-color: #D1FFD1;
+    }
+    border-color: #dddddd;
+    border-style: solid;
+    border-width: 1px 0 0 1px
+  }
+
+  ul.point {
+    list-style: none;
+    float:right;
+    background-color: white;
+    li {
+      float: left;
+      width: 54px;
+      text-align: center;
+      border-left: 1px solid #dddddd;
+      &:hover {
+        background-color: #D1FFD1;
+      }
+    }
+
+    li.buffered-point {
+      background-color: #ffffff;
+      color: blue;
+    }
+  }
+  li.summary-area {
+    border-top: 1px solid #dddddd;
+  }
+
+  @mixin item-operation-btn {
+    padding: 0 1px;
+  }
+  a.project-operation-btn {
+    @include item-operation-btn;
+    color: #B94A48;
+  }
+  a.category-operation-btn {
+    @include item-operation-btn;
+    color: #3A87AD;
+  }
+  a.subcategory-operation-btn {
+    @include item-operation-btn;
+    color: #C09853;
+  }
+  a.story-operation-btn, a.project-task-operation-btn {
+    @include item-operation-btn;
+    color: gray;
+  }
+  .remarks_exists {
+    color: #FF4500 !important;
+  }
+
+  ul.headers {
+    list-style: none;
+    float: right;
+    margin-bottom: 0;
+    background-color: #ffffff;
+    color: #999;
+    li {
+      float: left;
+      width: 109px;
+      text-align: center;
+      border-left: 1px solid #dddddd;
+      border-bottom: 1px solid #dddddd;
+    }
+  }
+  li.total {
     font-weight: bold;
   }
-
-  .point {
-    text-align: right;
+  ul.header_points {
+    background-color: #ffffff;
+    color: #999;
   }
 
-  .plain_item_remarks {
-    display: none;
+  ul.summary-point, ul.header_points {
+    list-style: none;
+    float: right;
+    margin-bottom: 0;
+    li {
+      float: left;
+      width: 54px;
+      text-align: center;
+      border-left: 1px solid #dddddd;
+    }
   }
-  .has_remarks {
-    color: #ff0000;
-    font-size: 0.8em;
+
+  .category-summary-title {
+    border-top: 1px solid #dddddd;
+  }
+  .summary-title {
+    width: 100%;
+  }
+
+  .project-summary {
+    background-color: pink;
+    color: #b94a48;
+    span {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+
+  li.point5090 {
+    cursor: pointer;
+  }
+
+  .item-name {
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0 3px;
+  }
+  [contenteditable] {
+    background-color: #eee;
+    padding: 0 2px;
+  }
+  span.ng-invalid {
+    border: 2px solid #ff0000;
+  }
+
+}
+.modal-body {
+  .remarks-input {
+    width: 80%;
+    height: 50px;
+  }
+  button {
+    margin: 5px;
   }
 }

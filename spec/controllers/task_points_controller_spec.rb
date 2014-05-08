@@ -47,7 +47,7 @@ describe TaskPointsController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+        it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
       end
     end
     context "when point_90 is empty, " do
@@ -59,7 +59,7 @@ describe TaskPointsController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+        it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
       end
     end
   end

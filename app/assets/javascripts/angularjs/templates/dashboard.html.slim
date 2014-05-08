@@ -1,0 +1,201 @@
+- url = ::Mitsumoritaro::Application.routes.url_helpers
+h2
+  | {{project.name}}
+
+p.dashboard-summary
+  span.label.summary-label
+    | Total[50%]: {{sumOfProjectPoints("50", project)}} / Buffer: {{buffer() | number:1}} / ratio: {{ratio() | number:1}}
+  span
+    a.btn.btn-mini.btn-info href="#{url.convert_project_dashboard_path('___PID___', format: :xml).gsub('___PID___', '{{project.id}}')}"
+      i.icon-download-alt
+      | 見積もりダウンロード (MS Office XML形式)
+.dashboard-view
+  ul
+    li.project-summary-area.clearfix
+      ul.clearfix.headers
+        li ng-repeat="task in project.project_tasks"
+          | {{task.name}}
+          a.project-task-operation-btn href="#{url.move_higher_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}" ng-hide="$first"
+            i.icon-arrow-left
+          a.project-task-operation-btn href="#{url.move_lower_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}" ng-hide="$last"
+            i.icon-arrow-right
+        li 合計
+      .clearfix
+      ul.clearfix.header_points
+        li ng-repeat-start="task in project.project_tasks"
+          | 50%
+        li ng-repeat-end="true"
+          | b込
+        li 50%
+        li b込
+      .clearfix
+      .summary-title.project-summary
+        span プロジェクトサマリ
+        a.project-operation-btn ng-click="createCategory(project)" tooltip="大項目の追加"
+          i.icon-plus
+        ul.clearfix.summary-point
+          li ng-repeat-start="task in project.project_tasks"
+            | {{sumOfProjectPoints("50", project, { projectTaskId: task.id })}}
+          li ng-repeat-end="true"
+            | {{sumOfProjectPoints("50", project, { projectTaskId: task.id }) * cachedRatio |number: 1}}
+          li.total
+            | {{sumOfProjectPoints("50", project)}}
+          li.total
+            | {{sumOfProjectPoints("50", project) * cachedRatio | number: 1}}
+    li
+      ul.clearfix.category
+        li.summary-area ng-repeat-start="category in project.categories | orderBy:categoriesOrder"
+          .summary
+            ul.clearfix.headers
+              li ng-repeat="task in project.project_tasks"
+                | {{task.name}}
+              li 小計
+            .clearfix.blank
+            ul.clearfix.header_points
+              li ng-repeat-start="task in project.project_tasks"
+                | 50(90)
+              li ng-repeat-end="true"
+                | b込
+              li 50%
+              li b込
+            .clearfix.blank
+            .clearfix.summary-title.category-summary-title
+              span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
+              span
+                a.category-operation-btn ng-click="createSubCategory(project, category)" tooltip="中項目の追加"
+                  i.icon-plus
+              span
+                a.category-operation-btn ng-click="moveHigher(project, category)" ng-hide="$first" tooltip="上へ移動"
+                  i.icon-arrow-up
+                a.category-operation-btn ng-click="moveLower(project, category)" ng-hide="$last" tooltip="下へ移動"
+                  i.icon-arrow-down
+                a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)" ng-class="{remarks_exists: category.remarks}" tooltip="{{category.remarks || 'メモの編集'}}"
+                  i.icon-tag
+                a.category-operation-btn ng-click="copyItem.showModal(project, category)" tooltip="複製"
+                  i.icon-file
+                a.category-operation-btn ng-click="removeCategory(project, category)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
+                  i.icon-remove
+              ul.clearfix.summary-point
+                li ng-repeat-start="task in project.project_tasks"
+                  | {{sumOfCategoryPoints("50", category, { projectTaskId: task.id })}}
+                li ng-repeat-end="true"
+                  | {{sumOfCategoryPoints("50", category, { projectTaskId: task.id }) * cachedRatio |number: 1}}
+                li.total
+                  | {{sumOfCategoryPoints("50", category)}}
+                li.total
+                  | {{sumOfCategoryPoints("50", category) * cachedRatio | number: 1}}
+        li
+          ul.clearfix.sub_category
+            li.summary-area ng-repeat-start="sub_category in category.sub_categories | orderBy:subCategoriesOrder"
+              .summary
+                .summary-title
+                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
+                  span
+                    a.subcategory-operation-btn ng-click="createStory(project, category, sub_category)" tooltip="小項目の追加"
+                      i.icon-plus
+                  span
+                    a.subcategory-operation-btn ng-click="moveHigher(project, category, sub_category)" ng-hide="$first" tooltip="上へ移動"
+                      i.icon-arrow-up
+                    a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)" ng-hide="$last" tooltip="下へ移動"
+                      i.icon-arrow-down
+                    a.subcategory-operation-btn ng-click="remarksUpdater.showModal(sub_category, project.id, category.id, sub_category.id)" ng-class="{remarks_exists: sub_category.remarks}" tooltip="{{sub_category.remarks || 'メモの編集'}}"
+                      i.icon-tag
+                    a.subcategory-operation-btn ng-click="copyItem.showModal(project, category, sub_category)" tooltip="複製"
+                      i.icon-file
+                    a.subcategory-operation-btn ng-click="removeSubCategory(project, category, sub_category)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
+                      i.icon-remove
+                  ul.clearfix.summary-point
+                    li ng-repeat-start="task in project.project_tasks"
+                      | {{sumOfSubCategoryPoints("50", sub_category, { projectTaskId: task.id })}}
+                    li ng-repeat-end="true"
+                      | {{sumOfSubCategoryPoints("50", sub_category, { projectTaskId: task.id }) * cachedRatio |number: 1}}
+                    li.total
+                      | {{sumOfSubCategoryPoints("50", sub_category)}}
+                    li.total
+                      | {{sumOfSubCategoryPoints("50", sub_category) * cachedRatio | number: 1}}
+
+              .clearfix
+            li
+              ul.story
+                li ng-repeat="story in sub_category.stories | orderBy:storiesOrder"
+                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
+                  span
+                    a.story-operation-btn ng-click="moveHigher(project, category, sub_category, story)" ng-hide="$first" tooltip="上へ移動"
+                      i.icon-arrow-up
+                    a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)" ng-hide="$last" tooltip="下へ移動"
+                      i.icon-arrow-down
+                    a.story-operation-btn ng-click="remarksUpdater.showModal(story, project.id, category.id, sub_category.id, story.id)" ng-class="{remarks_exists: story.remarks}" tooltip="{{story.remarks|| 'メモの編集'}}"
+                      i.icon-tag
+                    a.story-operation-btn ng-click="copyItem.showModal(project, category, sub_category, story)" tooltip="複製"
+                      i.icon-file
+                    a.story-operation-btn ng-click="removeStory(project, category, sub_category, story)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
+                      i.icon-remove
+
+                  ul.point
+                    li.point5090 ng-repeat-start="project_task in project.project_tasks"
+                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_50" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '50')"  ng-pattern="/^\d*$/" ng-model-options="{ updateOn: 'blur' }" no-err-msg="true" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
+                      | (
+                      span contenteditable="true" ng-model="findPointByTaskId(project_task.id, story).point_90" mt-blur="updatePoint(project, category, sub_category, story, findPointByTaskId(project_task.id, story), '90')" ng-pattern="/^\d*$/"  ng-model-options="{ updateOn: 'blur' }" no-err-msg="true" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
+                      | )
+                    li.buffered-point ng-repeat-end="true"
+                      span ng-if="bufferedPointOfStoryTask(project_task.id, story) != null"
+                        | {{bufferedPointOfStoryTask(project_task.id, story)| number: 1}}
+                      span ng-if="bufferedPointOfStoryTask(project_task.id, story) == null"
+                        | -
+                    li.total
+                      | {{sumOfStoryPoints("50", story)}}
+                    li.total
+                      | {{sumOfStoryPoints("50", story) * cachedRatio | number: 1}}
+
+                  .clearfix
+            li ng-repeat-end="true"
+        li ng-repeat-end="true"
+
+script#item-copy-modal type='text/ng-template'
+  .modal-header
+    h3 項目コピー
+  .modal-body
+    form#item_copy_modal_form.form-horizontal
+      p
+        strong#item_name
+      .alert.alert-error ng-show="copyItem.errors"
+        ul
+          li ng-repeat="e in copyItem.errors"
+            | {{e}}
+      .control-group.dst_category ng-show="copyItem.source.subCategory"
+        label.control-label for="category_id" 大項目
+        .controls
+          select ng-model="copyItem.destination.category" ng-options="c as c.name  for c in project.categories"
+            option value=""
+              | -- 選択してください --
+      .control-group.dst_sub_category ng-show="copyItem.source.story"
+        label.control-label for="sub_category_id" 中項目
+        .controls
+          select ng-model="copyItem.destination.subCategory" ng-options="sc as sc.name for sc in copyItem.destination.category.sub_categories"
+            option value=""
+              | -- 選択してください --
+      .control-group.dst_name
+        label.control-label for="dst_name" 名前
+        .controls
+          input type="text" ng-model="copyItem.destination.name"
+      .form-actions
+        button.btn.btn-primary.btn-save type="button" ng-click="copyItem.submitCopy()" コピー
+        button.btn.close_btn type="button"  ng-click="$close()" 閉じる
+
+script#remarks-modal type='text/ng-template'
+  .modal-header
+    h3 備考
+  .modal-body
+    form#remarks_modal_form.form-horizontal
+      .alert.alert-error ng-show="remarksUpdater.errors"
+        ul
+          li ng-repeat="e in remarksUpdater.errors track by $index"
+            | {{e}}
+      .control-group
+        label.control-label 備考
+        .controls
+          textarea.remarks-input ng-model="remarksUpdater.editingItem.remarks" ng-model-options="{ updateOn: 'blur' }"
+      .form-actions
+        button.btn.btn-primary.btn-save type="button" ng-click="remarksUpdater.update()" 保存
+        button.btn.close_btn type="button"  ng-click="remarksUpdater.reset() && $close()" 閉じる
+

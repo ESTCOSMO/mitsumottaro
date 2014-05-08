@@ -1,0 +1,8 @@
+<% url = ::Mitsumoritaro::Application.routes.url_helpers %>
+angular.module("mitsumottaroApp").config ["$routeProvider", ($routeProvider) ->
+ $routeProvider.
+   when '/projects/:id/dashboard', {
+     controller: 'DashboardController'
+     templateUrl: '<%= asset_path('angularjs/templates/dashboard.html') %>'
+   }
+]

@@ -14,4 +14,11 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require underscore
+//= require angular
+//= require angularjs/lib/ui-bootstrap-tpls-0.11.0
+//= require angular-animate
+//= require angular-route
+//= require angular-resource
+//= require angularjs/mitsumottaro_app
+//= require angularjs/routes
 //= require_tree .
