@@ -386,7 +386,7 @@ describe ItemsController do
     end
     context "case to copy category, " do
       before do
-        xhr :post, :copy, { project_id: @project.id, id: @category1.id, dst_item_form: { type: 'category' }}
+        xhr :post, :copy, { project_id: @project.id, id: @category1.id, dst_item_form: { type: 'category', name: 'Category-copied' }}
       end
       describe "check response status" do
         subject{ response.status }
@@ -399,7 +399,7 @@ describe ItemsController do
       describe "check the copied data is correct" do
         before{ @copied_category = Category.where(project_id: @project.id).order(:id).last }
         specify do
-          @copied_category.name = @category1.name + "（コピー）"
+          @copied_category.name = 'Category-copied'
           @copied_category.sub_categories.each do |sub_category|
             sub_category.name = @sub_category1.name
             sub_category.stories.each do |story|
@@ -415,7 +415,7 @@ describe ItemsController do
     end
     context "case to copy sub_category, " do
       before do
-        xhr :post, :copy, { project_id: @project.id, category_id: @category1.id, id: @sub_category1.id, dst_item_form: { type: 'sub_category', category_id: @category2.id } }
+        xhr :post, :copy, { project_id: @project.id, category_id: @category1.id, id: @sub_category1.id, dst_item_form: { type: 'sub_category', category_id: @category2.id, name: 'SubCategory-copied' } }
       end
       describe "check response status" do
         subject{ response.status }
@@ -428,7 +428,7 @@ describe ItemsController do
       describe "check the copied data is correct" do
         before{ @copied_sub_category = SubCategory.where(category_id: @category2.id).order(:id).last }
         specify do
-          @copied_sub_category.name = @sub_category1.name + "（コピー）"
+          @copied_sub_category.name = 'SubCategory-copied'
           @copied_sub_category.stories.each do |story|
             story.name = @story1.name
             story.task_points.each do |points|
@@ -441,7 +441,7 @@ describe ItemsController do
     end
     context "case to copy story, " do
       before do
-        xhr :post, :copy, { project_id: @project.id, category_id: @category1.id, sub_category_id: @sub_category1.id, id: @story1.id, dst_item_form: { type: 'story', category_id: @category2.id, sub_category_id: @sub_category2.id } }
+        xhr :post, :copy, { project_id: @project.id, category_id: @category1.id, sub_category_id: @sub_category1.id, id: @story1.id, dst_item_form: { type: 'story', category_id: @category2.id, sub_category_id: @sub_category2.id, name: 'Story-copied' } }
       end
       describe "check response status" do
         subject{ response.status }
@@ -454,7 +454,7 @@ describe ItemsController do
       describe "check the copied data is correct" do
         before{ @copied_story = Story.where(sub_category_id: @sub_category2.id).order(:id).last }
         specify do
-          @copied_story.name = @story1.name + "（コピー）"
+          @copied_story.name = 'Story-copied'
           @copied_story.task_points.each do |points|
             points.point_50 = @task_point1.point_50
             points.point_90 = @task_point1.point_90
