@@ -414,6 +414,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
 
   $scope.remarksUpdater = {
     editingItem: null,
+    origValue: null,
     project: null,
     category: null,
     subCategory: null,
@@ -423,6 +424,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
     initialize: ->
       this.project = null
       this.editingItem = null
+      this.origValue = null
       this.categoryId = null
       this.subCategoryId = null
       this.storyId = null
@@ -436,9 +438,13 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
       this.subCategoryId = subCategoryId
       this.storyId = storyId
       this.editingItem = item
+      this.origValue = item.remarks
 
       this.modal = $modal.open { templateUrl: 'remarks-modal', scope: $scope }
     ,
+    reset: ->
+      this.editingItem.remarks = this.origValue
+      true
     update: ->
       try
         if this.storyId

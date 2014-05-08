@@ -195,5 +195,5 @@ script#remarks-modal type='text/ng-template'
           textarea.remarks-input ng-model="remarksUpdater.editingItem.remarks" ng-model-options="{ updateOn: 'blur' }"
       .form-actions
         button.btn.btn-primary.btn-save type="button" ng-click="remarksUpdater.update()" 保存
-        button.btn.close_btn type="button"  ng-click="$close()" 閉じる
+        button.btn.close_btn type="button"  ng-click="remarksUpdater.reset() && $close()" 閉じる
 
