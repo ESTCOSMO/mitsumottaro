@@ -69,7 +69,7 @@ p.dashboard-summary
                   i.icon-arrow-up
                 a.category-operation-btn ng-click="moveLower(project, category)" ng-hide="$last" tooltip="下へ移動"
                   i.icon-arrow-down
-                a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)" ng-class="{remarks_exists: category.remarks}" tooltip="メモの編集"
+                a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)" ng-class="{remarks_exists: category.remarks}" tooltip="{{category.remarks || 'メモの編集'}}"
                   i.icon-tag
                 a.category-operation-btn ng-click="copyItem.copyCategoryDirectly(project, category)" tooltip="複製"
                   i.icon-file
@@ -98,7 +98,7 @@ p.dashboard-summary
                       i.icon-arrow-up
                     a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)" ng-hide="$last" tooltip="下へ移動"
                       i.icon-arrow-down
-                    a.subcategory-operation-btn ng-click="remarksUpdater.showModal(sub_category, project.id, category.id, sub_category.id)" ng-class="{remarks_exists: sub_category.remarks}" tooltip="メモの編集"
+                    a.subcategory-operation-btn ng-click="remarksUpdater.showModal(sub_category, project.id, category.id, sub_category.id)" ng-class="{remarks_exists: sub_category.remarks}" tooltip="{{sub_category.remarks || 'メモの編集'}}"
                       i.icon-tag
                     a.subcategory-operation-btn ng-click="copyItem.showModal(project, category, sub_category)" tooltip="複製"
                       i.icon-file
@@ -124,7 +124,7 @@ p.dashboard-summary
                       i.icon-arrow-up
                     a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)" ng-hide="$last" tooltip="下へ移動"
                       i.icon-arrow-down
-                    a.story-operation-btn ng-click="remarksUpdater.showModal(story, project.id, category.id, sub_category.id, story.id)" ng-class="{remarks_exists: story.remarks}" tooltip="メモの編集"
+                    a.story-operation-btn ng-click="remarksUpdater.showModal(story, project.id, category.id, sub_category.id, story.id)" ng-class="{remarks_exists: story.remarks}" tooltip="{{story.remarks|| 'メモの編集'}}"
                       i.icon-tag
                     a.story-operation-btn ng-click="copyItem.showModal(project, category, sub_category, story)" tooltip="複製"
                       i.icon-file
