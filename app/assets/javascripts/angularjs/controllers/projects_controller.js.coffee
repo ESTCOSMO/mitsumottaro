@@ -91,14 +91,6 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
     catch error
       $window.alert "サーバーエラーが発生しました。画面をリロードしてください。"
 
-  $scope.updateCategoryRemarks = (project, category) ->
-    try
-      Category.get {project_id: project.id, id: category.id} , (c, getResponseHeaders) ->
-        c.remarks = category.remarks
-        c.$update {project_id: project.id, id: category.id}
-    catch error
-      $window.alert "サーバーエラーが発生しました。画面をリロードしてください。"
-
   $scope.removeCategory = (project, category) ->
     try
       Category.get { project_id: project.id, id: category.id } , (c, getResponseHeaders) ->
@@ -116,14 +108,6 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
     catch error
       $window.alert "サーバーエラーが発生しました。画面をリロードしてください。"
 
-  $scope.updateSubCategoryRemarks = (project, category, sub_category) ->
-    try
-      SubCategory.get {project_id: project.id, category_id: category.id, id: sub_category.id} , (sc, getResponseHeaders) ->
-        sc.remarks = sub_category.remarks
-        sc.$update {project_id: project.id, category_id: category.id, id: sub_category.id }
-    catch error
-      $window.alert "サーバーエラーが発生しました。画面をリロードしてください。"
-
   $scope.removeSubCategory = (project, category, sub_category) ->
     try
       SubCategory.get {project_id: project.id, category_id: category.id, id: sub_category.id} , (sc, getResponseHeaders) ->
@@ -137,14 +121,6 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
     try
       Story.get {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id} , (s, getResponseHeaders) ->
         s.name = story.name
-        s.$update {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id }
-    catch error
-      $window.alert "サーバーエラーが発生しました。画面をリロードしてください。"
-
-  $scope.updateStoryRemarks = (project, category, sub_category, story) ->
-    try
-      Story.get {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id} , (s, getResponseHeaders) ->
-        s.remarks = story.remarks
         s.$update {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id }
     catch error
       $window.alert "サーバーエラーが発生しました。画面をリロードしてください。"
