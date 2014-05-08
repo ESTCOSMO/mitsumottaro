@@ -50,7 +50,7 @@ p.dashboard-summary
               li ng-repeat="task in project.project_tasks"
                 | {{task.name}}
               li 小計
-            / .clearfix
+            .clearfix.blank
             ul.clearfix.header_points
               li ng-repeat-start="task in project.project_tasks"
                 | 50(90)
