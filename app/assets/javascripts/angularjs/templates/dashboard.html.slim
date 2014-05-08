@@ -172,6 +172,12 @@ script#item-copy-modal type='text/ng-template'
         label.control-label for="sub_category_id" 中項目
         .controls
           select ng-model="copyItem.destination.subCategory" ng-options="sc as sc.name for sc in copyItem.destination.category.sub_categories"
+            option value=""
+              | -- 選択してください --
+      .control-group.dst_name
+        label.control-label for="dst_name" 名前
+        .controls
+          input type="text" ng-model="copyItem.destination.name"
       .form-actions
         button.btn.btn-primary.btn-save type="button" ng-click="copyItem.submitCopy()" コピー
         button.btn.close_btn type="button"  ng-click="$close()" 閉じる

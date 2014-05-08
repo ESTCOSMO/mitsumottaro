@@ -302,6 +302,14 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
       src.category = category
       src.subCategory = subCategory
       src.story = story
+      dst = this.destination
+      if story
+        dst.name = "#{story.name} (コピー)"
+      else if subCategory
+        dst.name = "#{subCategory.name} (コピー)"
+      else if category
+        dst.name = "#{category.name} (コピー)"
+
       this.modal = $modal.open { templateUrl: 'item-copy-modal', scope: $scope }
     ,
 
@@ -347,7 +355,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
       resource.category_id = src.category.id
       resource.sub_category_id = src.subCategory.id
       resource.id = src.story.id
-      resource.dst_item_form = { category_id: dst.category.id, sub_category_id: dst.subCategory.id, type: 'story' }
+      resource.dst_item_form = { category_id: dst.category.id, sub_category_id: dst.subCategory.id, name: dst.name , type: 'story' }
 
       success_fn = success || this.defaultOnSuccessOfCopyFn.bind(this)
       fail_fn = fail || this.defaultOnErrorOfCopyFn.bind(this)
@@ -361,7 +369,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
       resource.project_id = $scope.project.id
       resource.category_id = src.category.id
       resource.id = src.subCategory.id
-      resource.dst_item_form = { category_id: dst.category.id, type: 'sub_category' }
+      resource.dst_item_form = { category_id: dst.category.id, name: dst.name, type: 'sub_category' }
 
       success_fn = success || this.defaultOnSuccessOfCopyFn.bind(this)
       fail_fn = fail || this.defaultOnErrorOfCopyFn.bind(this)
@@ -372,7 +380,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
       resource = new CopyCategory
       resource.project_id = $scope.project.id
       resource.id = src.category.id
-      resource.dst_item_form = { type: 'category' }
+      resource.dst_item_form = { name: dst.name, type: 'category' }
 
       success_fn = success || defaultOnSuccessOfCopyFn.bind(this)
       fail_fn = fail || defaultOnErrorOfCopyFn.bind(this)
