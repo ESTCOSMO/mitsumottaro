@@ -60,7 +60,7 @@ p.dashboard-summary
               li b込
             .clearfix.blank
             .clearfix.summary-title.category-summary-title
-              span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
+              span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
               span
                 a.category-operation-btn ng-click="createSubCategory(project, category)" tooltip="中項目の追加"
                   i.icon-plus
@@ -89,7 +89,7 @@ p.dashboard-summary
             li.summary-area ng-repeat-start="sub_category in category.sub_categories | orderBy:subCategoriesOrder"
               .summary
                 .summary-title
-                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
+                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
                   span
                     a.subcategory-operation-btn ng-click="createStory(project, category, sub_category)" tooltip="小項目の追加"
                       i.icon-plus
@@ -118,7 +118,7 @@ p.dashboard-summary
             li
               ul.story
                 li ng-repeat="story in sub_category.stories | orderBy:storiesOrder"
-                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)"
+                  span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
                   span
                     a.story-operation-btn ng-click="moveHigher(project, category, sub_category, story)" ng-hide="$first" tooltip="上へ移動"
                       i.icon-arrow-up
