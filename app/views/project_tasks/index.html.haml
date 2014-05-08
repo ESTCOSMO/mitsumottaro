@@ -12,7 +12,7 @@
         = link_to 'Edit', '#', class: 'btn btn-mini', id: "btn-edit-project-task_#{ps.id}"
         .hidden.project_task_name= ps.name
         .hidden.project_task_price_per_day= ps.price_per_day
-        = link_to 'Destroy', project_project_task_path(@project, ps), class: 'btn btn-danger btn-mini', confirm: "Are you sure?", method: :delete
+        = link_to 'Destroy', project_project_task_path(@project, ps), class: 'btn btn-danger btn-mini', "data-confirm" => "Are you sure?", method: :delete
 
 = link_to 'New', '#', class: 'btn btn-primary btn-new-project-task'
 
