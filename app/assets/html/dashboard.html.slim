@@ -69,7 +69,7 @@ p.dashboard-summary
                   i.icon-arrow-up
                     a.category-operation-btn ng-click="moveLower(project, category)" ng-hide="$last"
                   i.icon-arrow-down
-                a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)"
+                a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)" ng-class="{remarks_exists: category.remarks}"
                   i.icon-tag
                 a.category-operation-btn ng-click="copyItem.copyCategoryDirectly(project, category)"
                   i.icon-file
@@ -98,7 +98,8 @@ p.dashboard-summary
                       i.icon-arrow-up
                     a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)" ng-hide="$last"
                       i.icon-arrow-down
-                    a.subcategory-operation-btn ng-click="remarksUpdater.showModal(sub_category, project.id, category.id, sub_category.id)"
+                    a.subcategory-operation-btn ng-click="remarksUpdater.showModal(sub_category, project.id, category.id, sub_category.id)" ng-class="{remarks_exists: sub_category.remarks}"
+
                       i.icon-tag
                     a.subcategory-operation-btn ng-click="copyItem.showModal(project, category, sub_category)"
                       i.icon-file
@@ -124,7 +125,8 @@ p.dashboard-summary
                       i.icon-arrow-up
                     a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)" ng-hide="$last"
                       i.icon-arrow-down
-                    a.story-operation-btn ng-click="remarksUpdater.showModal(story, project.id, category.id, sub_category.id, story.id)"
+                    a.story-operation-btn ng-click="remarksUpdater.showModal(story, project.id, category.id, sub_category.id, story.id)" ng-class="{remarks_exists: story.remarks}"
+
                       i.icon-tag
                     a.story-operation-btn ng-click="copyItem.showModal(project, category, sub_category, story)"
                       i.icon-file

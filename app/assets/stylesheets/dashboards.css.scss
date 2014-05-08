@@ -100,6 +100,9 @@
     @include item-operation-btn;
     color: gray;
   }
+  .remarks_exists {
+    color: #FF4500 !important;
+  }
 
   ul.headers {
     list-style: none;
