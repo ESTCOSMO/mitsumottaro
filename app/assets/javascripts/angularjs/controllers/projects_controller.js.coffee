@@ -299,6 +299,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
     showModal: (project, category, subCategory, story) ->
       this.initialize()
       src = this.source
+      src.project = project
       src.category = category
       src.subCategory = subCategory
       src.story = story
@@ -313,14 +314,6 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
       this.modal = $modal.open { templateUrl: 'item-copy-modal', scope: $scope }
     ,
 
-    copyCategoryDirectly: (project, category) ->
-      try
-        this.initialize()
-        this.source.category = category
-        this.submitCopy ((res, head) -> ($window.location.reload())), ((res, head) -> $window.alert res["data"].join("\n"))
-      catch error
-        $window.alert "サーバーエラーが発生しました。画面をリロードしてください。"
-    ,
     submitCopy: (success, fail) ->
       try
         src = this.source
@@ -351,7 +344,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
       src = this.source
       dst = this.destination
       resource = new CopyStory
-      resource.project_id = $scope.project.id
+      resource.project_id = src.project.id
       resource.category_id = src.category.id
       resource.sub_category_id = src.subCategory.id
       resource.id = src.story.id
@@ -366,7 +359,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
       src = this.source
       dst = this.destination
       resource = new CopySubCategory
-      resource.project_id = $scope.project.id
+      resource.project_id = src.project.id
       resource.category_id = src.category.id
       resource.id = src.subCategory.id
       resource.dst_item_form = { category_id: dst.category.id, name: dst.name, type: 'sub_category' }
@@ -377,13 +370,14 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
     ,
     submitCopyCategory: (success, fail) ->
       src = this.source
+      dst = this.destination
       resource = new CopyCategory
-      resource.project_id = $scope.project.id
+      resource.project_id = src.project.id
       resource.id = src.category.id
       resource.dst_item_form = { name: dst.name, type: 'category' }
 
-      success_fn = success || defaultOnSuccessOfCopyFn.bind(this)
-      fail_fn = fail || defaultOnErrorOfCopyFn.bind(this)
+      success_fn = success || this.defaultOnSuccessOfCopyFn.bind(this)
+      fail_fn = fail || this.defaultOnErrorOfCopyFn.bind(this)
       resource.$save(success_fn, fail_fn)
     ,
     defaultOnSuccessOfCopyFn: (result, postHeaders) ->

@@ -71,7 +71,7 @@ p.dashboard-summary
                   i.icon-arrow-down
                 a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)" ng-class="{remarks_exists: category.remarks}" tooltip="{{category.remarks || 'メモの編集'}}"
                   i.icon-tag
-                a.category-operation-btn ng-click="copyItem.copyCategoryDirectly(project, category)" tooltip="複製"
+                a.category-operation-btn ng-click="copyItem.showModal(project, category)" tooltip="複製"
                   i.icon-file
                 a.category-operation-btn ng-click="removeCategory(project, category)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
                   i.icon-remove
