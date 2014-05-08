@@ -1,18 +1,24 @@
-angular.module('mitsumottaroApp').factory 'MoveHigherCategory', ($resource) ->
+angular.module('mitsumottaroApp').factory 'MoveHigherCategory', ['$resource', ($resource) ->
   $resource('/api/projects/:project_id/categories/:id/move_higher', { id: '@id', project_id: '@project_id' },{'update': {method: 'PATCH'}})
+]
 
-angular.module('mitsumottaroApp').factory 'MoveLowerCategory', ($resource) ->
+angular.module('mitsumottaroApp').factory 'MoveLowerCategory', ['$resource', ($resource) ->
   $resource('/api/projects/:project_id/categories/:id/move_lower', { id: '@id', project_id: '@project_id' },{'update': {method: 'PATCH'}})
+]
 
-angular.module('mitsumottaroApp').factory 'MoveHigherSubCategory', ($resource) ->
+angular.module('mitsumottaroApp').factory 'MoveHigherSubCategory', ['$resource', ($resource) ->
   $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:id/move_higher', { id: '@id', project_id: '@project_id', category_id: '@category_id' },{'update': {method: 'PATCH'}})
+]
 
-angular.module('mitsumottaroApp').factory 'MoveLowerSubCategory', ($resource) ->
+angular.module('mitsumottaroApp').factory 'MoveLowerSubCategory', ['$resource', ($resource) ->
   $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:id/move_lower', { id: '@id', project_id: '@project_id', category_id: '@category_id' },{'update': {method: 'PATCH'}})
+]
 
-angular.module('mitsumottaroApp').factory 'MoveHigherStory', ($resource) ->
+angular.module('mitsumottaroApp').factory 'MoveHigherStory', ['$resource', ($resource) ->
   $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:sub_category_id/stories/:id/move_higher', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id' },{'update': {method: 'PATCH'}})
+]
 
-angular.module('mitsumottaroApp').factory 'MoveLowerStory', ($resource) ->
+angular.module('mitsumottaroApp').factory 'MoveLowerStory', ['$resource', ($resource) ->
   $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:sub_category_id/stories/:id/move_lower', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id' },{'update': {method: 'PATCH'}})
+]
 
