@@ -21,6 +21,7 @@ describe Api::CategoriesController do
       its(["name"]){ should eq @category.name }
       its(["remarks"]){ should eq @category.remarks }
       its(["position"]){ should eq @category.position }
+      # TODO check includes json
     end
   end
   describe "xhr POST 'create':" do
