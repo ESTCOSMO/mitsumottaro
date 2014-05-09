@@ -1,3 +1,3 @@
-angular.module('mitsumottaroApp').factory 'Category', ($resource) ->
+angular.module('mitsumottaroApp').factory 'Category', ['$resource', ($resource) ->
   $resource('/api/projects/:project_id/categories/:id', { id: '@id', project_id: '@project_id'},{'update': {method: 'PATCH'}})
-
+]

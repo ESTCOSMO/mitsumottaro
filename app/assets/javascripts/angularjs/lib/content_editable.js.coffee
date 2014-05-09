@@ -1,4 +1,4 @@
-angular.module('mitsumottaroApp').directive 'contenteditable', ($parse) ->
+angular.module('mitsumottaroApp').directive 'contenteditable', ['$parse', ($parse) ->
   {
     restrict: 'A'
     require: 'ngModel',
@@ -107,3 +107,4 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ($parse) ->
           model.$parsers.push(patternValidator)
       )()
   }
+]
