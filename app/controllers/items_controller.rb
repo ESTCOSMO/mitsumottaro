@@ -62,6 +62,7 @@ class ItemsController < ApplicationController
     sub_category_id = params[:sub_category_id]
     dst_params = DstItemForm.new(params[:dst_item_form])
     copy_item.name = dst_params.name
+    copy_item.position = nil
     if dst_params.valid?
       dst_category_id = dst_params.category_id
       dst_sub_category_id = dst_params.sub_category_id
