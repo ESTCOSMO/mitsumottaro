@@ -224,20 +224,22 @@
           <% end # story %>
         <% end # sub_category %>
       <% end # category %>
-      <% row_count += 1 %>
-      <Row>
-        <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String">その他費用</Data></Cell>
-        <Cell ss:StyleID="category_name"><Data ss:Type="String"></Data></Cell>
-      </Row>
-      <% @project.additional_costs.each do |ac| %>
+      <% if @project.additional_costs.any? %>
         <% row_count += 1 %>
         <Row>
-          <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
-          <Cell ss:MergeAcross="7" ss:StyleID="default"><Data ss:Type="String"><%= ac.name %></Data></Cell>
-          <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
-          <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
-          <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
+          <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String">その他費用</Data></Cell>
+          <Cell ss:StyleID="category_name"><Data ss:Type="String"></Data></Cell>
         </Row>
+        <% @project.additional_costs.each do |ac| %>
+          <% row_count += 1 %>
+          <Row>
+            <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
+            <Cell ss:MergeAcross="7" ss:StyleID="default"><Data ss:Type="String"><%= ac.name %></Data></Cell>
+            <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
+            <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
+            <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
+          </Row>
+        <% end %>
       <% end %>
       <Row>
         <Cell ss:StyleID="total"><Data ss:Type="String">合計</Data></Cell>
