@@ -74,6 +74,10 @@ describe Api::CategoriesController do
       subject{ JSON.parse(response.body) }
       it{ should be_empty }
     end
+    describe "deleted data" do
+      subject{ Category.where(id: @category.id).first }
+      it{ should be_nil }
+    end
   end
   describe "xhr GET 'move_higher':" do
     before do

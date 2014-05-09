@@ -77,6 +77,10 @@ describe Api::SubCategoriesController do
       subject{ JSON.parse(response.body) }
       it{ should be_empty }
     end
+    describe "deleted data" do
+      subject{ SubCategory.where(id: @sub_category.id).first }
+      it{ should be_nil }
+    end
   end
   describe "xhr GET 'move_higher':" do
     before do
