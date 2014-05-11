@@ -14,7 +14,6 @@ class Api::TaskPointsController < ApplicationController
 
     render json: {}, status: :ok
   rescue ActiveRecord::RecordInvalid => e
-    p e.record.errors.full_messages
     render json: { errors: e.record.errors.full_messages }, status: :bad_request
   end
 
