@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require "spec_helper"
 
 describe Api::StoriesController do
@@ -53,43 +52,6 @@ describe Api::StoriesController do
       subject{ { delete: "/api/projects/1/categories/2/sub_categories/3/stories/4" } }
       it{ should be_routable }
       it{ should route_to(controller: "api/stories", action: "destroy", project_id: "1", category_id: "2", sub_category_id: "3", id: "4") }
-    end
-    # 以下、Routing定義はされているがControllerでの定義がない
-    describe "routes to #index" do
-      context "when using url," do
-        subject{ { get:"/api/projects/1/categories/2/sub_categories/3/stories" } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/stories", action: "index", project_id: "1", category_id: "2", sub_category_id: "3") }
-      end
-      context "when using prefix_path," do
-        subject{ { get: api_project_category_sub_category_stories_path(project_id: 1, category_id: 2, sub_category_id: 3) } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/stories", action: "index", project_id: "1", category_id: "2", sub_category_id: "3") }
-      end
-    end
-    describe "routes to #new" do
-      context "when using url," do
-        subject{ { get:"/api/projects/1/categories/2/sub_categories/3/stories/new" } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/stories", action: "new", project_id: "1", category_id: "2", sub_category_id: "3") }
-      end
-      context "when using prefix_path," do
-        subject{ { get: new_api_project_category_sub_category_story_path(project_id: 1, category_id: 2, sub_category_id: 3) } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/stories", action: "new", project_id: "1", category_id: "2", sub_category_id: "3") }
-      end
-    end
-    describe "routes to #edit" do
-      context "when using url," do
-        subject{ { get:"/api/projects/1/categories/2/sub_categories/3/stories/4/edit" } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/stories", action: "edit", project_id: "1", category_id: "2", sub_category_id: "3", id: "4") }
-      end
-      context "when using prefix_path," do
-        subject{ { get: edit_api_project_category_sub_category_story_path(project_id: 1, category_id: 2, sub_category_id: 3, id: 4) } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/stories", action: "edit", project_id: "1", category_id: "2", sub_category_id: "3", id: "4") }
-      end
     end
   end
 end

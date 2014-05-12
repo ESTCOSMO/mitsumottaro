@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require "spec_helper"
 
 describe Api::CategoriesController do
@@ -53,43 +52,6 @@ describe Api::CategoriesController do
       subject{ { delete: "/api/projects/1/categories/2" } }
       it{ should be_routable }
       it{ should route_to(controller: "api/categories", action: "destroy", project_id: "1", id: "2") }
-    end
-    # 以下、Routing定義はされているがControllerでの定義がない
-    describe "routes to #index" do
-      context "when using url," do
-        subject{ { get:"/api/projects/1/categories" } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/categories", action: "index", project_id: "1") }
-      end
-      context "when using prefix_path," do
-        subject{ { get: api_project_categories_path(project_id: 1) } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/categories", action: "index", project_id: "1") }
-      end
-    end
-    describe "routes to #new" do
-      context "when using url," do
-        subject{ { get:"/api/projects/1/categories/new" } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/categories", action: "new", project_id: "1") }
-      end
-      context "when using prefix_path," do
-        subject{ { get: new_api_project_category_path(project_id: 1) } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/categories", action: "new", project_id: "1") }
-      end
-    end
-    describe "routes to #edit" do
-      context "when using url," do
-        subject{ { get:"/api/projects/1/categories/2/edit" } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/categories", action: "edit", project_id: "1", id: "2") }
-      end
-      context "when using prefix_path," do
-        subject{ { get: edit_api_project_category_path(project_id: 1, id: 2) } }
-        it{ should be_routable }
-        it{ should route_to(controller: "api/categories", action: "edit", project_id: "1", id: "2") }
-      end
     end
   end
 end
