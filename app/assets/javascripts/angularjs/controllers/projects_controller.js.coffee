@@ -129,7 +129,7 @@ angular.module('projectsControllers').controller 'DashboardController', ['$scope
     try
       Story.get {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id} , (s, getResponseHeaders) ->
         s.$remove {project_id: project.id, category_id: category.id, sub_category_id: sub_category.id, id: story.id }, (result, deleteResponse) ->
-          idx = sub_category.stories.indexOf(sub_category)
+          idx = sub_category.stories.indexOf(story)
           sub_category.stories.splice(idx, 1)
     catch error
       $window.alert "サーバーエラーが発生しました。画面をリロードしてください。"
