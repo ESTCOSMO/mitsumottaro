@@ -60,13 +60,13 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ['$parse', ($pars
 
 
       updateModel = ->
-        html = elm.html()
-        if html == '<br>'
-          html = ''
-        if (!model.$viewValue? || model.$viewValue == "") && (!html? || html == "")
+        text = elm.text().replace /\r?\n/, ""
+        if (!model.$viewValue? || model.$viewValue == "") && (!text? || text == "")
           # do nothing
-        else if String(model.$viewValue) != html
-          model.$setViewValue(html)
+        else if String(model.$viewValue) != text
+          model.$setViewValue(text)
+        elm.html('')  # This line is necessory to remove '<br>'
+        elm.text(text)
 
       # initialize
       elm.text(model.$viewValue)
