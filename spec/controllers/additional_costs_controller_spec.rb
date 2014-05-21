@@ -120,4 +120,52 @@ describe AdditionalCostsController do
       it{ should eq 0 }
     end
   end
+
+  describe "PATCH 'move_higher'" do
+    before do
+      @additional_cost1 = @project.additional_costs.build(name: 'Additional1', price: 10000)
+      @additional_cost2 = @project.additional_costs.build(name: 'Additional2', price: 20000)
+      @additional_cost1.save!
+      @additional_cost2.save!
+    end
+    before do
+      patch :move_higher, {  project_id: @project.id, id: @additional_cost2.id }
+    end
+    describe "check redirect path" do
+      subject{ response }
+      it{ should redirect_to project_additional_costs_url(@project) }
+    end
+    describe "moved higher data" do
+      subject{ AdditionalCost.find(@additional_cost2.id).position }
+      it{ should eq 1 }
+    end
+    describe "moved lower data" do
+      subject{ AdditionalCost.find(@additional_cost1.id).position }
+      it{ should eq 2 }
+    end
+  end
+
+  describe "PATCH 'move_lower'" do
+    before do
+      @additional_cost1 = @project.additional_costs.build(name: 'Additional1', price: 10000)
+      @additional_cost2 = @project.additional_costs.build(name: 'Additional2', price: 20000)
+      @additional_cost1.save!
+      @additional_cost2.save!
+    end
+    before do
+      patch :move_lower, {  project_id: @project.id, id: @additional_cost1.id }
+    end
+    describe "check redirect path" do
+      subject{ response }
+      it{ should redirect_to project_additional_costs_url(@project) }
+    end
+    describe "moved higher data" do
+      subject{ AdditionalCost.find(@additional_cost2.id).position }
+      it{ should eq 1 }
+    end
+    describe "moved lower data" do
+      subject{ AdditionalCost.find(@additional_cost1.id).position }
+      it{ should eq 2 }
+    end
+  end
 end
