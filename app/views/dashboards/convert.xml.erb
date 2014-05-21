@@ -23,6 +23,15 @@
       </Borders>
       <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
     </Style>
+    <Style ss:ID="story_remarks">
+      <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
+    </Style>
     <Style ss:ID="story_noname">
       <Borders>
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
@@ -31,6 +40,16 @@
       <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
     </Style>
     <Style ss:ID="sub_category_name">
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#FCF8E3" ss:Pattern="Solid" />
+      <Font ss:Color="#C09853" />
+    </Style>
+    <Style ss:ID="sub_category_remarks">
+      <Alignment ss:Vertical="Center" ss:WrapText="1"/>
       <Borders>
 	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
@@ -56,6 +75,16 @@
       </Borders>
       <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
     </Style>
+    <Style ss:ID="additional_cost_remarks">
+      <Alignment ss:Vertical="Center" ss:WrapText="1"/>
+      <Borders>
+	<Border ss:Position="Bottom" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
+    </Style>
     <Style ss:ID="total">
       <Font ss:Bold="1" />
       <Interior ss:Color="#969696" ss:Pattern="Solid" />
@@ -67,6 +96,16 @@
       </Borders>
     </Style>
     <Style ss:ID="category_name">
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+      </Borders>
+      <Interior ss:Color="#D9EDF7" ss:Pattern="Solid" />
+      <Font ss:Color="#3A87AD" />
+    </Style>
+    <Style ss:ID="category_remarks">
+      <Alignment ss:Vertical="Center" ss:WrapText="1"/>
       <Borders>
 	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
@@ -184,14 +223,14 @@
         <% row_count += 1 %>
         <Row>
           <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String"><%= category.name %></Data></Cell>
-          <Cell ss:StyleID="category_name"><Data ss:Type="String"><%= category.remarks %></Data></Cell>
+          <Cell ss:StyleID="category_remarks"><Data ss:Type="String"><%= (h category.remarks).gsub(/(\r)?\n/, '&#10;').html_safe %></Data></Cell>
         </Row>
         <% category.sub_categories.each do |sub_category| %>
           <% row_count += 1 %>
           <Row>
             <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
             <Cell ss:MergeAcross="9" ss:StyleID="sub_category_name"><Data ss:Type="String"><%= sub_category.name %></Data></Cell>
-            <Cell ss:StyleID="sub_category_name"><Data ss:Type="String"><%= sub_category.remarks %></Data></Cell>
+            <Cell ss:StyleID="sub_category_remarks"><Data ss:Type="String"><%= (h sub_category.remarks).gsub(/(\r)?\n/, '&#10;').html_safe %></Data></Cell>
           </Row>
           <% sub_category.stories.each do |story| %>
             <% row_count += 1 %>
@@ -199,7 +238,7 @@
               <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
               <Cell ss:StyleID="sub_category_noname"><Data ss:Type="String"></Data></Cell>
               <Cell ss:MergeAcross="8" ss:StyleID="story_name"><Data ss:Type="String"><%= story.name %></Data></Cell>
-              <Cell ss:StyleID="story_name"><Data ss:Type="String"><%= story.remarks %></Data></Cell>
+              <Cell ss:StyleID="story_remarks"><Data ss:Type="String"><%= (h story.remarks).gsub(/(\r)?\n/, '&#10;').html_safe %></Data></Cell>
             </Row>
             <% @project.project_tasks.each do |pt| %>
   	    <% s_point = story.task_points.find_by_project_task_id(pt.id) %>
@@ -238,7 +277,7 @@
             <Cell ss:MergeAcross="7" ss:StyleID="default"><Data ss:Type="String"><%= ac.name %></Data></Cell>
             <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
             <Cell ss:StyleID="money0"><Data ss:Type="Number"><%= ac.price %></Data></Cell>
-            <Cell ss:StyleID="default"><Data ss:Type="String"></Data></Cell>
+            <Cell ss:StyleID="additional_cost_remarks"><Data ss:Type="String"><%= (h ac.remarks).gsub(/(\r)?\n/, '&#10;').html_safe %></Data></Cell>
           </Row>
         <% end %>
       <% end %>

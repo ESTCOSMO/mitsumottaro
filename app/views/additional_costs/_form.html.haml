@@ -7,6 +7,10 @@
     = f.label :price, :class => 'control-label'
     .controls
       = f.text_field :price, :class => 'text_field'
+  .control-group
+    = f.label :remarks, :class => 'control-label'
+    .controls
+      = f.text_area :remarks, class: 'text_field'
   .form-actions
     = f.submit nil, :class => 'btn btn-primary'
     = link_to t('.cancel', :default => t("helpers.links.cancel")), project_additional_costs_path(@project), :class => 'btn'
