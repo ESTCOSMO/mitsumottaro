@@ -39,6 +39,6 @@ class AdditionalCostsController < ApplicationController
   end
 
   def permitted_params_for_additional_cost
-    params.require(:additional_cost).permit(:name, :price)
+    params.require(:additional_cost).permit(:name, :price, :remarks)
   end
 end

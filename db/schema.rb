@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140423021604) do
+ActiveRecord::Schema.define(version: 20140521063222) do
 
   create_table "additional_costs", force: true do |t|
     t.integer  "project_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20140423021604) do
     t.integer  "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "remarks"
   end
 
   create_table "categories", force: true do |t|
