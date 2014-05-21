@@ -4,7 +4,12 @@ Mitsumoritaro::Application.routes.draw do
     member do
       post "dup" => 'projects#dup_form', as: :dup
     end
-    resources :additional_costs
+    resources :additional_costs do
+      member do
+        patch "move_higher" => 'additional_costs#move_higher', as: :move_higher
+        patch "move_lower" => 'additional_costs#move_lower', as: :move_lower
+      end
+    end
     resource :dashboard, only: :show do
       member do
         get "convert" => 'dashboards#convert', as: :convert

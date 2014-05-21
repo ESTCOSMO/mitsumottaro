@@ -33,7 +33,20 @@ class AdditionalCostsController < ApplicationController
     redirect_to project_additional_costs_url(@project)
   end
 
+  def move_higher
+    move(:move_higher)
+  end
+
+  def move_lower
+    move(:move_lower)
+  end
+
   private
+  def move(direction)
+    @project.additional_costs.find(params[:id]).send(direction)
+    redirect_to project_additional_costs_url(@project)
+  end
+
   def set_project_to_variable
     @project = Project.find(params[:project_id])
   end

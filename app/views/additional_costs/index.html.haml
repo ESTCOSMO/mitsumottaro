@@ -8,9 +8,12 @@
       %th= model_class.human_attribute_name(:price)
       %th= t '.actions', :default => t("helpers.actions")
   %tbody
-    - @additional_costs.each do |ac|
+    - @additional_costs.each_with_index do |ac, i|
       %tr
-        %td= ac.name
+        %td
+          = ac.name
+          = link_to_if(i != 0, '↑', move_higher_project_additional_cost_path(@project, ac), method: :patch) { }
+          = link_to_if(@additional_costs.size != i + 1, '↓', move_lower_project_additional_cost_path(@project, ac), method: :patch) { }
         %td= number_with_delimiter(ac.price)
         %td
           = link_to t('.edit', :default => t("helpers.links.edit")), edit_project_additional_cost_path(@project, ac), :class => 'btn btn-mini'
