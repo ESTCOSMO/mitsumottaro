@@ -32,7 +32,7 @@ describe AdditionalCostsController do
   describe "POST 'create'" do
     context "when input correct data, " do
       before do
-        post :create, {  project_id: @project.id, additional_cost:{ name: 'Additional', price: 10000 }}
+        post :create, {  project_id: @project.id, additional_cost:{ name: 'Additional', price: 10000, remarks: 'Remarks!' }}
       end
       describe "check redirect path" do
         subject{ response }
@@ -42,6 +42,7 @@ describe AdditionalCostsController do
         subject{ AdditionalCost.where(project_id: @project.id).first }
         its(:name){ should eq "Additional" }
         its(:price){ should eq 10000 }
+        its(:remarks){ should eq 'Remarks!' }
       end
     end
     context "when name is empty, " do
@@ -66,12 +67,12 @@ describe AdditionalCostsController do
 
   describe "POST 'upadte'" do
     before do
-      @additional_cost = @project.additional_costs.build(name: 'Additional', price: 10000)
+      @additional_cost = @project.additional_costs.build(name: 'Additional', price: 10000, remarks: 'Remarks!')
       @additional_cost.save!
     end
     context "when input correct data, " do
       before do
-        post :update, {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: 20000 }}
+        post :update, {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: 20000, remarks: 'Updated Remarks!' }}
       end
       describe "check redirect path" do
         subject{ response }
@@ -81,6 +82,7 @@ describe AdditionalCostsController do
         subject{ AdditionalCost.where(project_id: @project.id).first }
         its(:name){ should eq "EditedAdditional" }
         its(:price){ should eq 20000 }
+        its(:remarks){ should eq 'Updated Remarks!' }
       end
     end
     context "when name is empty, " do
