@@ -41,6 +41,32 @@ describe AdditionalCostsController do
       end
     end
 
+    describe "routes to #move_higher," do
+      context "when using url," do
+        subject{ { patch: "/projects/1/additional_costs/2/move_higher" } }
+        it{ should be_routable }
+        it{ should route_to(controller: "additional_costs", action: "move_higher", project_id: "1", id: "2") }
+      end
+      context "when using prefix_path," do
+        subject{ { patch: move_higher_project_additional_cost_path(project_id: 1, id: 2) } }
+        it{ should be_routable }
+        it{ should route_to(controller: "additional_costs", action: "move_higher", project_id: "1", id: "2") }
+      end
+    end
+
+    describe "routes to #move_lower," do
+      context "when using url," do
+        subject{ { patch: "/projects/1/additional_costs/2/move_lower" } }
+        it{ should be_routable }
+        it{ should route_to(controller: "additional_costs", action: "move_lower", project_id: "1", id: "2") }
+      end
+      context "when using prefix_path," do
+        subject{ { patch: move_lower_project_additional_cost_path(project_id: 1, id: 2) } }
+        it{ should be_routable }
+        it{ should route_to(controller: "additional_costs", action: "move_lower", project_id: "1", id: "2") }
+      end
+    end
+
     describe "routes to #edit," do
       context "when using url," do
         subject{ { get: "/projects/1/additional_costs/2/edit" } }
