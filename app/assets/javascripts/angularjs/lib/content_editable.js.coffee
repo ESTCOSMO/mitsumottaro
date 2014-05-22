@@ -6,6 +6,21 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ['$parse', ($pars
       nameHash = Math.round(Math.random() * 1e15).toString(36)
 
       fn = $parse attrs.mtBlur
+
+      selectAll = (elm) ->
+        window.setTimeout ->
+          if window.getSelection && document.createRange
+            range = document.createRange()
+            range.selectNodeContents elm[0]
+            sel = window.getSelection()
+            sel.removeAllRanges()
+            sel.addRange range
+          else if document.body.createTextRange
+            range = document.body.createTextRange()
+            range.moveToElementText elm[0]
+            range.select()
+        , 50
+
       elm.on 'blur', ->
         updateModel()
         if !attrs.noErrMsg
@@ -25,21 +40,7 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ['$parse', ($pars
           model && model.$cancelUpdate && model.$cancelUpdate()
 
       if attrs.selectOnFocus
-        elm.on 'focus', ->
-          window.setTimeout ->
-            if window.getSelection && document.createRange
-                range = document.createRange()
-                range.selectNodeContents elm[0]
-                sel = window.getSelection()
-                sel.removeAllRanges()
-                sel.addRange range
-            else if document.body.createTextRange
-                range = document.body.createTextRange()
-                range.moveToElementText elm[0]
-                range.select()
-          , 1
-
-
+        elm.on 'focus', -> selectAll(elm)
 
       model.$render = ->
         value = if model.$viewValue? then model.$viewValue else ''
@@ -57,7 +58,6 @@ angular.module('mitsumottaroApp').directive 'contenteditable', ['$parse', ($pars
           range.collapse true
           sel.removeAllRanges()
           sel.addRange range
-
 
       updateModel = ->
         text = elm.text().replace /\r?\n/, ""
