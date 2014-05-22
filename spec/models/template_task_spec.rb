@@ -7,10 +7,11 @@ describe TemplateTask do
     it { should respond_to(:name) }
     it { should respond_to(:position) }
     it { should respond_to(:price_per_day) }
+    it { should respond_to(:default_task) }
   end
   describe "validation" do
     context "when input valid data," do
-      subject { TemplateTask.new(name: "要件定義", price_per_day: 50000, position: 3) }
+      subject { TemplateTask.new(name: "要件定義", price_per_day: 50000, position: 3, default_task: false) }
       it { should be_valid }
     end
     context "when name is not present," do
@@ -24,6 +25,10 @@ describe TemplateTask do
     context "when position is not present," do
       subject { TemplateTask.new(position: " ") }
       it{ should_not have(1).error_on(:position) }
+    end
+    context "when default_task is not present," do
+      subject { TemplateTask.new(default_task: " ") }
+      it{ should_not have(1).error_on(:default_task) }
     end
   end
 end
