@@ -70,6 +70,6 @@ class TemplateTasksController < ApplicationController
 
   private
   def permitted_params_for_template_task
-    params.require(:template_task).permit(:name, :price_per_day)
+    params.require(:template_task).permit(:name, :price_per_day, :default_task)
   end
 end

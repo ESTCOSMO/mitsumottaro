@@ -7,7 +7,7 @@ describe TemplateTasksController do
   # TemplateTask. As you add validations to TemplateTask, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { name: "要件定義", price_per_day: 50000 }
+    { name: "要件定義", price_per_day: 50000, default_task: true }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -85,8 +85,8 @@ describe TemplateTasksController do
         # specifies that the TemplateTask created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        TemplateTask.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
-        put :update, {:id => template_task.to_param, :template_task => { "name" => "MyString" }}, valid_session
+        TemplateTask.any_instance.should_receive(:update_attributes).with({ "name" => "MyString", "default_task" => false })
+        put :update, {:id => template_task.to_param, :template_task => { name: "MyString", default_task: false }}, valid_session
       end
 
       it "assigns the requested template_task as @template_task" do

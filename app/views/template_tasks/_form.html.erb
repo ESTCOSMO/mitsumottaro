@@ -11,6 +11,12 @@
       <%= f.number_field :price_per_day, :class => 'number_field' %>
     </div>
   </div>
+  <div class="control-group">
+    <%= f.label :default_task, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :default_task, :class => 'checkbox' %>
+    </div>
+  </div>
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
