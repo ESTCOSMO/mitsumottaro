@@ -17,7 +17,7 @@
         <td><%= template_task.name %></td>
         <td><%= number_with_delimiter(template_task.price_per_day) %></td>
         <td>
-          <% if template_task.default_task %>
+          <% if template_task.default_task? %>
             <i class="icon-ok"></i>
           <% end %>
         </td>
