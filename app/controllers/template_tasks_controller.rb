@@ -1,6 +1,6 @@
 class TemplateTasksController < ApplicationController
   def index
-    @template_tasks = TemplateTask.all
+    @template_tasks = TemplateTask.order(:position).all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -68,7 +68,20 @@ class TemplateTasksController < ApplicationController
     end
   end
 
+  def move_higher
+    move(:move_higher)
+  end
+
+  def move_lower
+    move(:move_lower)
+  end
+
   private
+  def move(direction)
+    TemplateTask.find(params[:id]).send(direction)
+    redirect_to template_tasks_url
+  end
+
   def permitted_params_for_template_task
     params.require(:template_task).permit(:name, :price_per_day, :default_task)
   end

@@ -1,5 +1,11 @@
 Mitsumoritaro::Application.routes.draw do
-  resources :template_tasks
+  resources :template_tasks do
+    member do
+      patch "move_higher" => 'template_tasks#move_higher', as: :move_higher
+      patch "move_lower" => 'template_tasks#move_lower', as: :move_lower
+    end
+  end
+
   resources :projects do
     member do
       post "dup" => 'projects#dup_form', as: :dup

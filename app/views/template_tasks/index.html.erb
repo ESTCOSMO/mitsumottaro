@@ -12,9 +12,9 @@
     </tr>
   </thead>
   <tbody>
-    <% @template_tasks.each do |template_task| %>
+    <% @template_tasks.each_with_index do |template_task,i| %>
       <tr>
-        <td><%= template_task.name %></td>
+        <td><%= template_task.name %> <%= link_to_if(i != 0, '↑', move_higher_template_task_path(template_task), method: :patch) {} %><%= link_to_if((i < @template_tasks.size - 1), '↓', move_lower_template_task_path(template_task), method: :patch) {} %></td>
         <td><%= number_with_delimiter(template_task.price_per_day) %></td>
         <td>
           <% if template_task.default_task? %>
