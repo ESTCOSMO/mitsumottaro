@@ -384,6 +384,19 @@ describe ItemsController do
       @task_point2 = @story2.task_points.build(point_50: 5, point_90: 8, project_task_id: @project_task.id)
       @project.save!
     end
+    context "case of invalid params, " do
+      before do
+        xhr :post, :copy, { project_id: @project.id, id: @category1.id, dst_item_form: { type: 'category', name: '' }}
+      end
+      describe "response status" do
+        subject{ response.status }
+        it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+      end
+      describe "check the data is not" do
+        subject{ Project.find(@project.id).categories.size }
+        it { should eq 2 }
+      end
+    end
     context "case to copy category, " do
       before do
         xhr :post, :copy, { project_id: @project.id, id: @category1.id, dst_item_form: { type: 'category', name: 'Category-copied' }}

@@ -66,6 +66,15 @@ describe Api::TaskPointsController do
           its(:point_90){ should be_nil }
         end
       end
+      context "when some parameters are invalid," do
+        before do
+          xhr :post, :create, { project_id: @project.id, category_id: @category.id, sub_category_id: @sub_category.id, story_id: @story.id, project_task_id: @project_task.id, point_50: 'xx', point_90: 8 }
+        end
+        describe "response status" do
+          subject{ response.status }
+          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+        end
+      end
     end
     context "when task_point exists," do
       before do
