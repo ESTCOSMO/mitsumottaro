@@ -136,4 +136,49 @@ describe TemplateTasksController do
     end
   end
 
+  describe "move_higher" do
+    before do
+      @template_task1= TemplateTask.create! valid_attributes.merge({name: 'task1'})
+      @template_task2= TemplateTask.create! valid_attributes.merge({name: 'task2'})
+      @action = -> { patch :move_higher, id: @template_task2.id }
+    end
+
+    describe "response" do
+      before { @action.call }
+      subject { response }
+      it { should redirect_to(template_tasks_url) }
+    end
+
+    describe "changed positions" do
+      specify {
+        expect { @action.call }.to change { TemplateTask.find(@template_task1.id).position }.by 1
+      }
+      specify {
+        expect { @action.call }.to change { TemplateTask.find(@template_task2.id).position }.by -1
+      }
+    end
+  end
+
+  describe "move_lower" do
+    before do
+      @template_task1= TemplateTask.create! valid_attributes.merge({name: 'task1'})
+      @template_task2= TemplateTask.create! valid_attributes.merge({name: 'task2'})
+      @action = -> { patch :move_lower, id: @template_task1.id }
+    end
+
+    describe "response" do
+      before { @action.call }
+      subject { response }
+      it { should redirect_to(template_tasks_url) }
+    end
+
+    describe "changed positions" do
+      specify {
+        expect { @action.call }.to change { TemplateTask.find(@template_task1.id).position }.by 1
+      }
+      specify {
+        expect { @action.call }.to change { TemplateTask.find(@template_task2.id).position }.by -1
+      }
+    end
+  end
 end
