@@ -5,7 +5,6 @@ class Project < ActiveRecord::Base
   has_many :additional_costs, -> { order(:position) }, dependent: :destroy
   accepts_nested_attributes_for :project_tasks, allow_destroy: true
   validates :name, presence: true
-  before_create :add_default_project_tasks
 
   def sum_of_point_50
     categories.map(&:sum_of_point_50).inject(0, :+)
@@ -83,7 +82,6 @@ class Project < ActiveRecord::Base
     new_proj.save!
   end
 
-  private
   def add_default_project_tasks
     default_tasks = TemplateTask.where(default_task: true)
     default_tasks.each do |default_task|

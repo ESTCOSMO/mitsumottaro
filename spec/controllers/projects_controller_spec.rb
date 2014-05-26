@@ -65,6 +65,22 @@ describe ProjectsController do
         post :create, {:project => valid_attributes}, valid_session
         response.should redirect_to(Project.last)
       end
+
+      context "when default template task exists, " do
+        let(:template_task){TemplateTask.new(name: "Task", price_per_day: 40000, default_task: false)}
+        let(:default_template_task){TemplateTask.new(name: "Default Task", price_per_day: 50000, default_task: true)}
+        before do
+          template_task.save!
+          default_template_task.save!
+        end
+        it "default TemplateTask is added" do
+          post :create, {:project => valid_attributes}, valid_session
+          project_tasks = ProjectTask.where(project_id: Project.last.id)
+          project_tasks.count.should eq 1
+          project_tasks[0].name.should eq "Default Task"
+          project_tasks[0].price_per_day.should eq 50000
+        end
+      end
     end
 
     describe "with invalid params" do

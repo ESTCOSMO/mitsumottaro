@@ -41,6 +41,7 @@ class ProjectsController < ApplicationController
   # POST /projects.json
   def create
     @project = Project.new(permitted_params_for_project)
+    @project.add_default_project_tasks
 
     respond_to do |format|
       if @project.save
