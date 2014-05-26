@@ -26,22 +26,6 @@ describe Project do
     end
   end
 
-  context "when project creating," do
-    let(:template_task){TemplateTask.new(name: "Task", price_per_day: 40000, default_task: false)}
-    let(:default_template_task){TemplateTask.new(name: "Default Task", price_per_day: 50000, default_task: true)}
-    before do
-      template_task.save!
-      default_template_task.save!
-      @project = Project.create(name: "New Project")
-    end
-    it "default設定のTemplateTaskがProjectTaskとして登録されること" do
-      project_tasks = ProjectTask.where(project_id: @project.id)
-      project_tasks.count.should eq 1
-      project_tasks[0].name.should eq "Default Task"
-      project_tasks[0].price_per_day.should eq 50000
-    end
-  end
-
   context "when category destroy" do
     let(:project){Project.new(name: "Project")}
     context "case categories," do
@@ -373,6 +357,23 @@ describe Project do
           end
         end
       end
+    end
+  end
+  describe "add_default_project_tasks" do
+    let(:template_task){TemplateTask.new(name: "Task", price_per_day: 40000, default_task: false)}
+    let(:default_template_task){TemplateTask.new(name: "Default Task", price_per_day: 50000, default_task: true)}
+    before do
+      template_task.save!
+      default_template_task.save!
+      @project = Project.new(name: "New Project")
+      @project.add_default_project_tasks
+      @project.save!
+    end
+    it "default設定のTemplateTaskがProjectTaskとして登録されること" do
+      project_tasks = ProjectTask.where(project_id: @project.id)
+      project_tasks.count.should eq 1
+      project_tasks[0].name.should eq "Default Task"
+      project_tasks[0].price_per_day.should eq 50000
     end
   end
 end
