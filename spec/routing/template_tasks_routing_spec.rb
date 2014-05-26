@@ -68,5 +68,20 @@ describe TemplateTasksController do
       subject{ { delete: "/template_tasks/1" } }
       it{ should route_to(controller: "template_tasks", action: "destroy", id: "1") }
     end
+
+    %w( move_higher move_lower ).each do |action|
+      describe "routes to ##{action}" do
+        context "when using url," do
+          subject{ { patch:"/template_tasks/1/#{action}" } }
+          it{ should be_routable }
+          it{ should route_to(controller: "template_tasks", action: "#{action}", id: "1") }
+        end
+        context "when using prefix_path," do
+          subject{ { patch: send("#{action}_template_task_path", {id: 1}) } }
+          it{ should be_routable }
+          it{ should route_to(controller: "template_tasks", action: "#{action}", id: "1") }
+        end
+      end
+    end
   end
 end
