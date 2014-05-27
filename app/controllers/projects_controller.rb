@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = Project.where(archived: [nil, false])
 
     respond_to do |format|
       format.html # index.html.erb
