@@ -1,3 +1,7 @@
+<%
+   url = ::Mitsumoritaro::Application.routes.url_helpers
+   story_path = url.api_project_category_sub_category_story_path('___PID___', '___CID___', '___SUB_CID___', '___SID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':category_id').gsub(/___SUB_CID___/, ':sub_category_id').gsub(/___SID___/, ':id')
+%>
 angular.module('mitsumottaroApp').factory 'Story', ['$resource', ($resource) ->
-  $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:sub_category_id/stories/:id', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id'},{'update': {method: 'PATCH'}})
+  $resource('<%= story_path %>', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id'},{'update': {method: 'PATCH'}})
 ]
