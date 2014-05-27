@@ -72,5 +72,17 @@ describe ProjectsController do
       it{ should be_routable }
       it{ should route_to(controller: "projects", action: "destroy", :id => "1") }
     end
+
+    describe "routes to #archive" do
+      subject{ { post: "/projects/1/archive" } }
+      it{ should be_routable }
+      it{ should route_to(controller: "projects", action: "archive", :id => "1") }
+    end
+
+    describe "routes to #archived" do
+      subject{ { get: "/projects/archived" } }
+      it{ should be_routable }
+      it{ should route_to(controller: "projects", action: "archived") }
+    end
   end
 end
