@@ -95,6 +95,16 @@ class ProjectsController < ApplicationController
     redirect_to root_url
   end
 
+  def active
+    @project = Project.find(params[:id])
+    @project.active!
+    redirect_to archived_projects_path
+  end
+
+  def archived
+    @projects = Project.where(archived: true)
+  end
+
   private
 
   def permitted_params_for_project

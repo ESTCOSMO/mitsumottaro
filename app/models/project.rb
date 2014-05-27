@@ -94,4 +94,10 @@ class Project < ActiveRecord::Base
     self.save!
     self
   end
+
+  def active!
+    self.archived = false;
+    self.save!
+    self
+  end
 end
