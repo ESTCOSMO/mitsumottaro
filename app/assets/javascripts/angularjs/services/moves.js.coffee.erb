@@ -1,24 +1,32 @@
+<%
+   url = ::Mitsumoritaro::Application.routes.url_helpers
+   move_higher_category_path = url.move_higher_api_project_category_path('___PID___', '___CID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':id')
+   move_lower_category_path = url.move_lower_api_project_category_path('___PID___', '___CID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':id')
+   move_higher_sub_category_path = url.move_higher_api_project_category_sub_category_path('___PID___', '___CID___', '___SUB_CID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':category_id').gsub(/___SUB_CID___/, ':id')
+   move_lower_sub_category_path = url.move_lower_api_project_category_sub_category_path('___PID___', '___CID___', '___SUB_CID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':category_id').gsub(/___SUB_CID___/, ':id')
+   move_higher_story_path = url.move_higher_api_project_category_sub_category_story_path('___PID___', '___CID___', '___SUB_CID___', '___SID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':category_id').gsub(/___SUB_CID___/, ':sub_category_id').gsub(/___SID___/, ':id')
+   move_lower_story_path = url.move_lower_api_project_category_sub_category_story_path('___PID___', '___CID___', '___SUB_CID___', '___SID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':category_id').gsub(/___SUB_CID___/, ':sub_category_id').gsub(/___SID___/, ':id')
+%>
 angular.module('mitsumottaroApp').factory 'MoveHigherCategory', ['$resource', ($resource) ->
-  $resource('/api/projects/:project_id/categories/:id/move_higher', { id: '@id', project_id: '@project_id' },{'update': {method: 'PATCH'}})
+  $resource('<%= move_higher_category_path %>', { id: '@id', project_id: '@project_id' },{'update': {method: 'PATCH'}})
 ]
 
 angular.module('mitsumottaroApp').factory 'MoveLowerCategory', ['$resource', ($resource) ->
-  $resource('/api/projects/:project_id/categories/:id/move_lower', { id: '@id', project_id: '@project_id' },{'update': {method: 'PATCH'}})
+  $resource('<%= move_lower_category_path %>', { id: '@id', project_id: '@project_id' },{'update': {method: 'PATCH'}})
 ]
 
 angular.module('mitsumottaroApp').factory 'MoveHigherSubCategory', ['$resource', ($resource) ->
-  $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:id/move_higher', { id: '@id', project_id: '@project_id', category_id: '@category_id' },{'update': {method: 'PATCH'}})
+  $resource('<%= move_higher_sub_category_path %>', { id: '@id', project_id: '@project_id', category_id: '@category_id' },{'update': {method: 'PATCH'}})
 ]
 
 angular.module('mitsumottaroApp').factory 'MoveLowerSubCategory', ['$resource', ($resource) ->
-  $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:id/move_lower', { id: '@id', project_id: '@project_id', category_id: '@category_id' },{'update': {method: 'PATCH'}})
+  $resource('<%= move_lower_sub_category_path %>', { id: '@id', project_id: '@project_id', category_id: '@category_id' },{'update': {method: 'PATCH'}})
 ]
 
 angular.module('mitsumottaroApp').factory 'MoveHigherStory', ['$resource', ($resource) ->
-  $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:sub_category_id/stories/:id/move_higher', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id' },{'update': {method: 'PATCH'}})
+  $resource('<%= move_higher_story_path %>', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id' },{'update': {method: 'PATCH'}})
 ]
 
 angular.module('mitsumottaroApp').factory 'MoveLowerStory', ['$resource', ($resource) ->
-  $resource('/api/projects/:project_id/categories/:category_id/sub_categories/:sub_category_id/stories/:id/move_lower', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id' },{'update': {method: 'PATCH'}})
+  $resource('<%= move_lower_story_path %>', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id' },{'update': {method: 'PATCH'}})
 ]
-
