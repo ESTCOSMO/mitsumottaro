@@ -3,7 +3,7 @@ class DashboardsController < ApplicationController
   end
 
   def archived
-    render action: "show"
+    render "show"
   end
 
   def convert
