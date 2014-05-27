@@ -88,4 +88,10 @@ class Project < ActiveRecord::Base
       self.project_tasks.build(name: default_task.name, price_per_day: default_task.price_per_day)
     end
   end
+
+  def archive!
+    self.archived = true;
+    self.save!
+    self
+  end
 end

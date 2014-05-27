@@ -89,6 +89,12 @@ class ProjectsController < ApplicationController
     redirect_to root_url
   end
 
+  def archive
+    @project = Project.find(params[:id])
+    @project.archive!
+    redirect_to root_url
+  end
+
   private
 
   def permitted_params_for_project
