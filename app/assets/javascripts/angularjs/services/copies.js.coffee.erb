@@ -1,12 +1,18 @@
+<%
+   url = ::Mitsumoritaro::Application.routes.url_helpers
+   copy_category_path = url.copy_project_category_path('___PID___', '___CID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':id')
+   copy_sub_category_path = url.copy_project_category_sub_category_path('___PID___', '___CID___', '___SUB_CID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':category_id').gsub(/___SUB_CID___/, ':id')
+   copy_story_path = url.copy_project_category_sub_category_story_path('___PID___', '___CID___', '___SUB_CID___', '___SID___').gsub(/___PID___/, ':project_id').gsub(/___CID___/, ':category_id').gsub(/___SUB_CID___/, ':sub_category_id').gsub(/___SID___/, ':id')
+%>
 angular.module('mitsumottaroApp').factory 'CopyCategory', ['$resource', ($resource) ->
-  $resource('/projects/:project_id/categories/:id/copy', { id: '@id', project_id: '@project_id' })
+  $resource('<%= copy_category_path %>', { id: '@id', project_id: '@project_id' })
 ]
 
 angular.module('mitsumottaroApp').factory 'CopySubCategory', ['$resource', ($resource) ->
-  $resource('/projects/:project_id/categories/:category_id/sub_categories/:id/copy', { id: '@id', project_id: '@project_id', category_id: '@category_id' })
+  $resource('<%= copy_sub_category_path %>', { id: '@id', project_id: '@project_id', category_id: '@category_id' })
 ]
 
 angular.module('mitsumottaroApp').factory 'CopyStory', ['$resource', ($resource) ->
-  $resource('/projects/:project_id/categories/:category_id/sub_categories/:sub_category_id/stories/:id/copy', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id' })
+  $resource('<%= copy_story_path %>', { id: '@id', project_id: '@project_id', category_id: '@category_id', sub_category_id: '@sub_category_id' })
 ]
 
