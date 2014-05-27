@@ -1,3 +1,7 @@
+<%
+   url = ::Mitsumoritaro::Application.routes.url_helpers
+   project_path = url.api_project_path('___PID___').gsub(/___PID___/, ':id')
+%>
 angular.module('mitsumottaroApp').factory 'Project', ['$resource', ($resource) ->
-  $resource('/api/projects/:id', { id: '@id'})
+  $resource('<%= project_path %>', { id: '@id'})
 ]
