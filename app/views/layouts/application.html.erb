@@ -17,7 +17,6 @@
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
   </head>
   <body>
-
     <div class="navbar navbar-fluid-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -29,12 +28,17 @@
           <%= link_to "見積もっ太郎", root_path, class: 'brand' %>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-              <li><%= link_to "プロジェクトリスト", projects_path  %></li>
+              <li><%= link_to "プロジェクトリスト", projects_path %></li>
+              <li><%= link_to "プロジェクトリスト(archived)", archived_projects_path %></li>
               <li><%= link_to "科目テンプレート", template_tasks_path %></li>
               <% if params[:project_id] %>
-                <li><%= link_to "プロジェクトトップ", project_dashboard_path(params[:project_id], anchor: "/projects/#{params[:project_id]}/dashboard")  %></li>
-                <li><%= link_to "科目", project_project_tasks_path(params[:project_id]) %></li>
-                <li><%= link_to "追加コスト", project_additional_costs_path(params[:project_id]) %></li>
+                <% unless params[:action] == 'archived' %>
+                  <li><%= link_to "プロジェクトトップ", project_dashboard_path(params[:project_id], anchor: "/projects/#{params[:project_id]}/dashboard")  %></li>
+                  <li><%= link_to "科目", project_project_tasks_path(params[:project_id]) %></li>
+                  <li><%= link_to "追加コスト", project_additional_costs_path(params[:project_id]) %></li>
+                <% else %>
+                  <li><%= link_to "プロジェクトトップ", archived_project_dashboard_path(params[:project_id], anchor: "/projects/#{params[:project_id]}/dashboard/archived")  %></li>
+                <% end %>
               <% end %>
             </ul>
           </div><!--/.nav-collapse -->

@@ -23,6 +23,7 @@ Mitsumoritaro::Application.routes.draw do
     end
     resource :dashboard, only: :show do
       member do
+        get "archived" => 'dashboards#archived', as: :archived
         get "convert" => 'dashboards#convert', as: :convert
       end
     end
