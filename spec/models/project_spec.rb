@@ -382,13 +382,19 @@ describe Project do
     end
   end
   describe "archive!" do
-    before { @project = Project.create(name: "Project", archived: false)}
-    subject{ @project.archive! }
+    before do
+      @project = Project.create(name: "Project", archived: false)
+      @project.archive!
+    end
+    subject{ Project.find(@project.id) }
     its(:archived){ should be_true }
   end
   describe "active!" do
-    before { @project = Project.create(name: "Project", archived: true)}
-    subject{ @project.active! }
+    before do
+      @project = Project.create(name: "Project", archived: true)
+      @project.active!
+    end
+    subject{ Project.find(@project.id) }
     its(:archived){ should be_false }
   end
 end

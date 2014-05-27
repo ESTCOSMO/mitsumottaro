@@ -91,14 +91,10 @@ class Project < ActiveRecord::Base
   end
 
   def archive!
-    self.archived = true;
-    self.save!
-    self
+    self.update!(archived: true)
   end
 
   def active!
-    self.archived = false;
-    self.save!
-    self
+    self.update!(archived: false)
   end
 end
