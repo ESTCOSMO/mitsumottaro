@@ -44,6 +44,7 @@ class Project < ActiveRecord::Base
   def dup_project!
     proj = dup
     proj.name += " (コピー)"
+    proj.archived = false if proj.archived?
     proj.save!
     proj
   end
