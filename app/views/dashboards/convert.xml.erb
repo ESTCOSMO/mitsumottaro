@@ -175,8 +175,20 @@
   <Worksheet ss:Name="Sheet1">
     <% ratio = 1 + @project.buffer / @project.sum_of_point_50 %>
     <Table>
+      <Column ss:Width="85"/>
+      <Column ss:Width="85"/>
+      <Column ss:Width="45"/>
+      <Column ss:Width="85"/>
+      <Column ss:Width="58"/>
+      <Column ss:Width="58"/>
+      <Column ss:Width="58"/>
+      <Column ss:Width="58"/>
+      <Column ss:Width="80"/>
+      <Column ss:Width="80"/>
+      <Column ss:Width="80"/>
+      <Column ss:Width="350"/>
       <Row>
-        <Cell ss:MergeAcross="10" ss:StyleID="title"><Data ss:Type="String"><%= @project.name %> 見積書</Data></Cell>
+        <Cell ss:MergeAcross="11" ss:StyleID="title"><Data ss:Type="String"><%= @project.name %> 見積書</Data></Cell>
       </Row>
       <Row>
         <Cell><Data ss:Type="String"></Data></Cell>
