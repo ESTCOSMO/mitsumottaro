@@ -7,8 +7,13 @@ Mitsumoritaro::Application.routes.draw do
   end
 
   resources :projects do
+    collection do
+      get "archived" => 'projects#archived', as: :archived
+    end
     member do
       post "dup" => 'projects#dup_form', as: :dup
+      post "archive" => 'projects#archive', as: :archive
+      post "active" => 'projects#active', as: :active
     end
     resources :additional_costs do
       member do
@@ -18,6 +23,7 @@ Mitsumoritaro::Application.routes.draw do
     end
     resource :dashboard, only: :show do
       member do
+        get "archived" => 'dashboards#archived', as: :archived
         get "convert" => 'dashboards#convert', as: :convert
       end
     end

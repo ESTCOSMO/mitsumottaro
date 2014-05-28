@@ -44,6 +44,7 @@ class Project < ActiveRecord::Base
   def dup_project!
     proj = dup
     proj.name += " (コピー)"
+    proj.archived = false
     proj.save!
     proj
   end
@@ -87,5 +88,13 @@ class Project < ActiveRecord::Base
     default_tasks.each do |default_task|
       self.project_tasks.build(name: default_task.name, price_per_day: default_task.price_per_day)
     end
+  end
+
+  def archive!
+    self.update!(archived: true)
+  end
+
+  def active!
+    self.update!(archived: false)
   end
 end

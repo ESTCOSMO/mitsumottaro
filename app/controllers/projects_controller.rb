@@ -2,7 +2,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    @projects = Project.where(archived: [nil, false])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -77,7 +77,7 @@ class ProjectsController < ApplicationController
     @project.destroy
 
     respond_to do |format|
-      format.html { redirect_to projects_url }
+      format.html { redirect_to archived_projects_url }
       format.json { head :no_content }
     end
   end
@@ -87,6 +87,22 @@ class ProjectsController < ApplicationController
     orig_project.dup_deep!
 
     redirect_to root_url
+  end
+
+  def archive
+    @project = Project.find(params[:id])
+    @project.archive!
+    redirect_to root_url
+  end
+
+  def active
+    @project = Project.find(params[:id])
+    @project.active!
+    redirect_to archived_projects_path
+  end
+
+  def archived
+    @projects = Project.where(archived: true)
   end
 
   private

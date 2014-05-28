@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140522055316) do
+ActiveRecord::Schema.define(version: 20140526090004) do
 
   create_table "additional_costs", force: true do |t|
     t.integer  "project_id"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20140522055316) do
     t.decimal  "days_per_point", precision: 10, scale: 2
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
+    t.boolean  "archived"
   end
 
   create_table "stories", force: true do |t|

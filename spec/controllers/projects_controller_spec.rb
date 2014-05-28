@@ -17,10 +17,20 @@ describe ProjectsController do
   end
 
   describe "GET index" do
-    it "assigns all projects as @projects" do
+    it "assigns active projects as @projects" do
       project = Project.create! valid_attributes
+      archived = Project.create!(name: "Archive", archived: true)
       get :index, {}, valid_session
       assigns(:projects).should eq([project])
+    end
+  end
+
+  describe "GET archived" do
+    it "assigns archived projects as @projects" do
+      project = Project.create! valid_attributes
+      archived = Project.create!(name: "Archive", archived: true)
+      get :archived, {}, valid_session
+      assigns(:projects).should eq([archived])
     end
   end
 
@@ -155,7 +165,7 @@ describe ProjectsController do
     it "redirects to the projects list" do
       project = Project.create! valid_attributes
       delete :destroy, {:id => project.to_param}, valid_session
-      response.should redirect_to(projects_url)
+      response.should redirect_to(archived_projects_url)
     end
   end
 
@@ -168,6 +178,38 @@ describe ProjectsController do
       before{ get :dup_form, { id: @project.id } }
       subject{ response }
       it{  should redirect_to root_url }
+    end
+  end
+
+  describe "Post archive" do
+    before do
+      @project = Project.create(name: "Sample", archived: false)
+    end
+    describe "check to updating project data" do
+      before{ post :archive, { id: @project.id } }
+      subject{ Project.find(@project.id) }
+      its(:archived){ should be_true }
+    end
+    describe "check redirect path" do
+      before{ post :archive, { id: @project.id } }
+      subject{ response }
+      it{  should redirect_to root_url }
+    end
+  end
+
+  describe "Post active" do
+    before do
+      @project = Project.create(name: "Sample", archived: true)
+    end
+    describe "check to updating project data" do
+      before{ post :active, { id: @project.id } }
+      subject{ Project.find(@project.id) }
+      its(:archived){ should be_false }
+    end
+    describe "check redirect path" do
+      before{ post :active, { id: @project.id } }
+      subject{ response }
+      it{  should redirect_to archived_projects_path }
     end
   end
 end

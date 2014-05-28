@@ -221,6 +221,11 @@ describe Project do
       its(:categories) { should be_empty }
       its(:project_tasks) { should be_empty }
       its(:additional_costs) { should be_empty }
+      context "when project archived is true, " do
+        before{ org_project.archive! }
+        subject{ org_project.dup_project! }
+        its(:archived) { should be_false }
+      end
     end
     describe "dup_additional_costs! method: " do
       before do
@@ -375,5 +380,21 @@ describe Project do
       project_tasks[0].name.should eq "Default Task"
       project_tasks[0].price_per_day.should eq 50000
     end
+  end
+  describe "archive!" do
+    before do
+      @project = Project.create(name: "Project", archived: false)
+      @project.archive!
+    end
+    subject{ Project.find(@project.id) }
+    its(:archived){ should be_true }
+  end
+  describe "active!" do
+    before do
+      @project = Project.create(name: "Project", archived: true)
+      @project.active!
+    end
+    subject{ Project.find(@project.id) }
+    its(:archived){ should be_false }
   end
 end

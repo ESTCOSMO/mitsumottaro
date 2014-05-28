@@ -11,6 +11,12 @@ describe DashboardsController do
     it { should be_success }
     it{ should render_template(:show) }
   end
+  describe "GET 'archived'" do
+    before{ get :archived, { project_id: @project.id } }
+    subject{ response }
+    it { should be_success }
+    it{ should render_template(:show) }
+  end
   describe "GET 'convert'" do
     before do
       @expected_header = "attachment; filename=\"project_#{@project.id.to_s}_\\d{8}"
