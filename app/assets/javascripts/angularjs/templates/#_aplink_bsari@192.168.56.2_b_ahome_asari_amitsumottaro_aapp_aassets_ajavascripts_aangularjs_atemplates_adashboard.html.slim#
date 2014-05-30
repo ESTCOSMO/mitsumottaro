@@ -60,22 +60,22 @@ p.dashboard-summary
               li b込
             .clearfix.blank
             .clearfix.summary-title.category-summary-title
-              span ng-if="editable" style="float:left"
-                span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
-                span
-                  a.category-operation-btn ng-click="createSubCategory(project, category)" tooltip="中項目の追加"
-                    i.icon-plus
-                span
-                  a.category-operation-btn ng-click="moveHigher(project, category)" ng-hide="$first" tooltip="上へ移動"
-                    i.icon-arrow-up
-                  a.category-operation-btn ng-click="moveLower(project, category)" ng-hide="$last" tooltip="下へ移動"
-                    i.icon-arrow-down
-                  a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)" ng-class="{remarks_exists: category.remarks}" tooltip="{{category.remarks || 'メモの編集'}}"
-                    i.icon-tag
-                  a.category-operation-btn ng-click="copyItem.showModal(project, category)" tooltip="複製"
-                    i.icon-file
-                  a.category-operation-btn ng-click="removeCategory(project, category)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
-                    i.icon-remove
+             span ng-if="editable"
+              span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
+              span
+                a.category-operation-btn ng-click="createSubCategory(project, category)" tooltip="中項目の追加"
+                  i.icon-plus
+              span
+                a.category-operation-btn ng-click="moveHigher(project, category)" ng-hide="$first" tooltip="上へ移動"
+                  i.icon-arrow-up
+                a.category-operation-btn ng-click="moveLower(project, category)" ng-hide="$last" tooltip="下へ移動"
+                  i.icon-arrow-down
+                a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)" ng-class="{remarks_exists: category.remarks}" tooltip="{{category.remarks || 'メモの編集'}}"
+                  i.icon-tag
+                a.category-operation-btn ng-click="copyItem.showModal(project, category)" tooltip="複製"
+                  i.icon-file
+                a.category-operation-btn ng-click="removeCategory(project, category)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
+                  i.icon-remove
               span ng-if="!editable"
                 span.item-name-rom style="padding: 0 5px" contenteditable="false" ng-model="category.name"
               ul.clearfix.summary-point
