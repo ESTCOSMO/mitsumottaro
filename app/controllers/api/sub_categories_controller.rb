@@ -35,6 +35,8 @@ class Api::SubCategoriesController < ApplicationController
     move(:move_lower)
   end
 
+  private
+
   def move(method_name)
     sub_category = Project.find(params[:project_id]).categories.find(params[:category_id]).sub_categories.find(params[:id])
     sub_category.send(method_name)
@@ -42,7 +44,6 @@ class Api::SubCategoriesController < ApplicationController
     render json: sub_category.as_json(includes_in_json), status: :ok
   end
 
-  private
   def includes_in_json
     { include: { stories: { include: :task_points } } }
   end

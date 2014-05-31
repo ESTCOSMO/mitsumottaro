@@ -34,6 +34,8 @@ class Api::StoriesController < ApplicationController
     move(:move_lower)
   end
 
+  private
+
   def move(method_name)
     story = Project.find(params[:project_id]).categories.find(params[:category_id]).sub_categories.find(params[:sub_category_id]).stories.find(params[:id])
     story.send(method_name)
@@ -41,7 +43,6 @@ class Api::StoriesController < ApplicationController
     render json: story.as_json(includes_in_json), status: :ok
   end
 
-  private
   def includes_in_json
     { include: :task_points }
   end
