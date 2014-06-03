@@ -185,3 +185,13 @@
     margin: 5px;
   }
 }
+.back_arrow {
+  font-size: 20px;
+  padding-right: 5px;
+  a :hover {
+    text-decoration: none;
+  }
+  i {
+    color: #999;
+  }
+}

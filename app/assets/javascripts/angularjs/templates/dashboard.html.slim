@@ -1,7 +1,13 @@
 - url = ::Mitsumoritaro::Application.routes.url_helpers
 h2
+  span.back_arrow
+    a ng-if="editable" href="#{url.projects_path}"
+      i.icon-chevron-left
+    a ng-if="!editable" href="#{url.archived_projects_path}"
+      i.icon-chevron-left
   | {{project.name}}
-
+  small ng-if="!editable"
+    | &nbsp;(archived)
 p.dashboard-summary
   span.label.summary-label
     | Total[50%]: {{sumOfProjectPoints("50", project)}} / Buffer: {{buffer() | number:1}} / ratio: {{ratio() | number:1}}
