@@ -9,6 +9,7 @@ class Api::CategoriesController < ApplicationController
     category.save!
     render json: category.as_json(includes_in_json), status: :ok
   end
+
   def update
     cat = Project.find(params[:project_id]).categories.find(params[:id])
     args = {}
@@ -32,6 +33,8 @@ class Api::CategoriesController < ApplicationController
     move(:move_lower)
   end
 
+  private
+
   def move(method_name)
     category = Project.find(params[:project_id]).categories.find(params[:id])
     category.send(method_name)
@@ -39,7 +42,6 @@ class Api::CategoriesController < ApplicationController
     render json: category.as_json(includes_in_json), status: :ok
   end
 
-  private
   def includes_in_json
     { include: { sub_categories: { include: { stories: { include: :task_points } } } } }
   end
