@@ -28,8 +28,6 @@
           <%= link_to "見積もっ太郎", root_path, class: 'brand' %>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-              <li><%= link_to "プロジェクトリスト", projects_path %></li>
-              <li><%= link_to "プロジェクトリスト(archived)", archived_projects_path %></li>
               <li><%= link_to "科目テンプレート", template_tasks_path %></li>
               <% if params[:project_id] %>
                 <% unless params[:action] == 'archived' %>
