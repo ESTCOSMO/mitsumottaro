@@ -41,7 +41,7 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 group :development, :test do
-  gem 'rspec-rails', '2.99.0'
+  gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
   gem 'guard-rspec'
   gem 'spring'
