@@ -129,6 +129,10 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
+    rspec-activemodel-mocks (1.0.1)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (2.99.0)
@@ -216,6 +220,7 @@ DEPENDENCIES
   less-rails
   libv8 (~> 3.11.8)
   rails (= 4.1.1)
+  rspec-activemodel-mocks
   rspec-rails (= 2.99.0)
   sass-rails (>= 3.2.3)
   simplecov
