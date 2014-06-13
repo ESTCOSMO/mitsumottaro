@@ -16,4 +16,5 @@
 /.rvmrc
 /.ruby-version
 /.ruby-gemset
+/.rbenv-gemsets
 /coverage
