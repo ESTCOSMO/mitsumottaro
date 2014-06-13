@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "template_tasks/new" do
+describe "template_tasks/new", :type => :view do
   before(:each) do
     assign(:template_task, stub_model(TemplateTask).as_new_record)
   end

@@ -10,5 +10,5 @@ require 'spec_helper'
 #     end
 #   end
 # end
-describe AdditionalCostsHelper do
+describe AdditionalCostsHelper, :type => :helper do
 end

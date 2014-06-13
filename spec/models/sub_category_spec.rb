@@ -1,31 +1,37 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe SubCategory do
+describe SubCategory, :type => :model do
   describe "field definitions" do
     subject { SubCategory.new }
-    it { should respond_to(:name) }
-    it { should respond_to(:position) }
-    it { should respond_to(:remarks) }
-    it { should respond_to(:stories) }
+    it { is_expected.to respond_to(:name) }
+    it { is_expected.to respond_to(:position) }
+    it { is_expected.to respond_to(:remarks) }
+    it { is_expected.to respond_to(:stories) }
   end
 
   describe "validation" do
     context "when input valid data," do
       subject { SubCategory.new(category_id: 1, name: "SubCategory", position: 1, remarks: "備考") }
-      it { should be_valid }
+      it { is_expected.to be_valid }
     end
     context "when name is not present," do
       subject { SubCategory.new(name: "") }
-      it{ should have(1).error_on(:name) }
+      it'has 1 error_on' do
+        expect(subject.error_on(:name).size).to eq(1)
+      end
     end
     context "when position is not present," do
       subject { SubCategory.new(position: " ") }
-      it{ should_not have(1).error_on(:position) }
+      it'does not have 1 error_on' do
+        expect(subject.error_on(:position).size).not_to eq(1)
+      end
     end
     context "when remarks is not present," do
       subject { SubCategory.new(remarks: " ") }
-      it{ should_not have(1).error_on(:remarks) }
+      it'does not have 1 error_on' do
+        expect(subject.error_on(:remarks).size).not_to eq(1)
+      end
     end
   end
 
@@ -37,9 +43,9 @@ describe SubCategory do
     end
     subject{ @sub_category }
     it "sub_categoryを削除したらstoryも削除されること" do
-      Story.where(sub_category_id: @sub_category.id).size.should eq 1
+      expect(Story.where(sub_category_id: @sub_category.id).size).to eq 1
       @sub_category.destroy!
-      Story.where(sub_category_id: @sub_category.id).size.should eq 0
+      expect(Story.where(sub_category_id: @sub_category.id).size).to eq 0
     end
   end
 
@@ -47,7 +53,7 @@ describe SubCategory do
     context "when having no stories," do
       before { @sub_category = SubCategory.new(category_id: 1, name: "SubCategory") }
       subject{ @sub_category.count_of_stories }
-      it{ should eq 0 }
+      it{ is_expected.to eq 0 }
     end
     context "when having some stories," do
       before do
@@ -56,7 +62,7 @@ describe SubCategory do
         @sub_category.stories.build(name: "Story2")
       end
       subject{ @sub_category.count_of_stories }
-      it{ should eq 2 }
+      it{ is_expected.to eq 2 }
     end
   end
 
@@ -91,19 +97,19 @@ describe SubCategory do
 
     describe "sum_of_point_50 method" do
       subject{ @sub_category.sum_of_point_50 }
-      it{ should eq 34 }
+      it{ is_expected.to eq 34 }
     end
     describe "sum_of_point_50_by_project_task_id method" do
       subject{ @sub_category.sum_of_point_50_by_project_task_id(project_task1.id) }
-      it{ should eq 9 }
+      it{ is_expected.to eq 9 }
     end
     describe "sum_of_square_of_diff method" do
       subject{ @sub_category.sum_of_square_of_diff }
-      it{ should eq 83 }
+      it{ is_expected.to eq 83 }
     end
     describe "total_price method" do
       subject{ @sub_category.total_price(1.5, 0.5) }
-      it{ should eq 1076250 }
+      it{ is_expected.to eq 1076250 }
     end
   end
 
@@ -131,22 +137,28 @@ describe SubCategory do
     end
     context "check sub_category value, " do
       subject{ @new_sub_category }
-      its(:name){ should eq "SubCategory1" }
+
+      describe '#name' do
+        subject { super().name }
+        it { is_expected.to eq "SubCategory1" }
+      end
     end
     context "check stories counts, " do
       subject { @new_sub_category.stories }
-      it{ should have(2).items }
+      it'has 2 items' do
+        expect(subject.size).to eq(2)
+      end
     end
     context "check stories values, " do
       specify do
         @new_sub_category.stories.each_with_index do |story, i|
           org_story = org_sub_category.stories[i]
-          story.name.should eq org_story.name
+          expect(story.name).to eq org_story.name
           story.task_points.each_with_index do |tp, j|
             org_tp = org_story.task_points[j]
-            tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
-            tp.point_50.should eq org_tp.point_50
-            tp.point_90.should eq org_tp.point_90
+            expect(tp.project_task_id).to eq @project_task_id_map[org_tp.project_task_id]
+            expect(tp.point_50).to eq org_tp.point_50
+            expect(tp.point_90).to eq org_tp.point_90
           end
         end
       end

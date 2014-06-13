@@ -1,28 +1,32 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Project do
+describe Project, :type => :model do
   describe "field definitions" do
     subject { Project.new }
-    it { should respond_to(:name) }
-    it { should respond_to(:days_per_point) }
-    it { should respond_to(:categories) }
-    it { should respond_to(:project_tasks) }
-    it { should respond_to(:additional_costs) }
+    it { is_expected.to respond_to(:name) }
+    it { is_expected.to respond_to(:days_per_point) }
+    it { is_expected.to respond_to(:categories) }
+    it { is_expected.to respond_to(:project_tasks) }
+    it { is_expected.to respond_to(:additional_costs) }
   end
 
   describe "validation" do
     context "when input valid data," do
       subject { Project.new(name: "Project", days_per_point: 0.5) }
-      it { should be_valid }
+      it { is_expected.to be_valid }
     end
     context "when name is not present," do
       subject { Project.new(name: " ") }
-      it{ should have(1).error_on(:name) }
+      it'has 1 error_on' do
+        expect(subject.error_on(:name).size).to eq(1)
+      end
     end
     context "when days_per_point is not present," do
       subject { Project.new(days_per_point: " ") }
-      it{ should_not have(1).error_on(:days_per_point) }
+      it'does not have 1 error_on' do
+        expect(subject.error_on(:days_per_point).size).not_to eq(1)
+      end
     end
   end
 
@@ -34,9 +38,9 @@ describe Project do
         project.save!
       end
       it "projectを削除したらcategoryも削除されること" do
-        Category.where(project_id: project.id).size.should eq 1
+        expect(Category.where(project_id: project.id).size).to eq 1
         project.destroy!
-        Category.where(project_id: project.id).size.should eq 0
+        expect(Category.where(project_id: project.id).size).to eq 0
       end
     end
     context "case project_tasks," do
@@ -46,9 +50,9 @@ describe Project do
         project.save!
       end
       it "projectを削除したらproject_taskも削除されること" do
-        ProjectTask.where(project_id: project.id).size.should eq 1
+        expect(ProjectTask.where(project_id: project.id).size).to eq 1
         project.destroy!
-        ProjectTask.where(project_id: project.id).size.should eq 0
+        expect(ProjectTask.where(project_id: project.id).size).to eq 0
       end
     end
     context "case additional_costs," do
@@ -57,9 +61,9 @@ describe Project do
         project.save!
       end
       it "projectを削除したらadditional_costsも削除されること" do
-        AdditionalCost.where(project_id: project.id).size.should eq 1
+        expect(AdditionalCost.where(project_id: project.id).size).to eq 1
         project.destroy!
-        AdditionalCost.where(project_id: project.id).size.should eq 0
+        expect(AdditionalCost.where(project_id: project.id).size).to eq 0
       end
     end
     context "case template_tasks," do
@@ -69,9 +73,9 @@ describe Project do
         project.save!
       end
       it "projectを削除したときtemplate_taskは削除されないこと" do
-        TemplateTask.where(id: template_task1.id).size.should eq 1
+        expect(TemplateTask.where(id: template_task1.id).size).to eq 1
         project.destroy!
-        TemplateTask.where(id: template_task1.id).size.should_not eq 0
+        expect(TemplateTask.where(id: template_task1.id).size).not_to eq 0
       end
     end
   end
@@ -148,27 +152,27 @@ describe Project do
     end
     describe "sum_of_point_50 method" do
       subject{ @project.sum_of_point_50 }
-      it{ should eq 56 }
+      it{ is_expected.to eq 56 }
     end
     describe "sum_of_point_50_by_project_task_id method" do
       subject{ @project.sum_of_point_50_by_project_task_id(project_task3.id) }
-      it{ should eq 20 }
+      it{ is_expected.to eq 20 }
     end
     describe "sum_of_square_of_diff method" do
       subject{ @project.sum_of_square_of_diff }
-      it{ should eq 159 }
+      it{ is_expected.to eq 159 }
     end
     describe "buffer method" do
       subject{ @project.buffer }
-      it{ should eq 12.609520212918492 }
+      it{ is_expected.to eq 12.609520212918492 }
     end
     describe "total_price_with_buffer method" do
       subject{ @project.total_price_with_buffer.to_f }
-      it{ should be_within(1.0e-05).of(1525336.65473) }
+      it{ is_expected.to be_within(1.0e-05).of(1525336.65473) }
     end
     describe "total_price_50 method" do
       subject{ @project.total_price_50 }
-      it{ should eq 1245000 }
+      it{ is_expected.to eq 1245000 }
     end
   end
 
@@ -216,15 +220,39 @@ describe Project do
     end
     describe "dup_project! method: " do
       subject{ org_project.dup_project! }
-      its(:name) { should eq "Test Project (コピー)" }
-      its(:days_per_point) { should eq 0.5 }
-      its(:categories) { should be_empty }
-      its(:project_tasks) { should be_empty }
-      its(:additional_costs) { should be_empty }
+
+      describe '#name' do
+        subject { super().name }
+        it { is_expected.to eq "Test Project (コピー)" }
+      end
+
+      describe '#days_per_point' do
+        subject { super().days_per_point }
+        it { is_expected.to eq 0.5 }
+      end
+
+      describe '#categories' do
+        subject { super().categories }
+        it { is_expected.to be_empty }
+      end
+
+      describe '#project_tasks' do
+        subject { super().project_tasks }
+        it { is_expected.to be_empty }
+      end
+
+      describe '#additional_costs' do
+        subject { super().additional_costs }
+        it { is_expected.to be_empty }
+      end
       context "when project archived is true, " do
         before{ org_project.archive! }
         subject{ org_project.dup_project! }
-        its(:archived) { should be_false }
+
+        describe '#archived' do
+          subject { super().archived }
+          it { is_expected.to be_falsey }
+        end
       end
     end
     describe "dup_additional_costs! method: " do
@@ -234,13 +262,15 @@ describe Project do
       end
       context "check additional_costs counts" do
         subject{ @new_project.additional_costs }
-        it{ should have(1).items }
+        it'has 1 item' do
+          expect(subject.size).to eq(1)
+        end
       end
       context "check additional_costs values" do
         specify do
           @new_project.additional_costs.each_with_index do |ac, idx|
-            ac.name.should eq org_project.additional_costs[idx].name
-            ac.price.should eq org_project.additional_costs[idx].price
+            expect(ac.name).to eq org_project.additional_costs[idx].name
+            expect(ac.price).to eq org_project.additional_costs[idx].price
           end
         end
       end
@@ -252,22 +282,26 @@ describe Project do
       end
       context "check project_tasks value, " do
         subject{ @new_project.project_tasks }
-        it { should have(2).items }
+        it 'has 2 items' do
+          expect(subject.size).to eq(2)
+        end
         it "値がコピーされていること" do
           @new_project.project_tasks.each_with_index do |pt, idx|
-            pt.name.should eq org_project.project_tasks[idx].name
-            pt.price_per_day.should eq org_project.project_tasks[idx].price_per_day
+            expect(pt.name).to eq org_project.project_tasks[idx].name
+            expect(pt.price_per_day).to eq org_project.project_tasks[idx].price_per_day
           end
         end
       end
       context "check project_task_id_map counts, " do
         subject{ @project_task_id_map }
-        it { should have(2).items }
+        it 'has 2 items' do
+          expect(subject.size).to eq(2)
+        end
       end
       context "check project_task_id_map values, " do
         specify do
-          @project_task_id_map[org_project.project_tasks[0].id].should eq @new_project.project_tasks[0].id
-          @project_task_id_map[org_project.project_tasks[1].id].should eq @new_project.project_tasks[1].id
+          expect(@project_task_id_map[org_project.project_tasks[0].id]).to eq @new_project.project_tasks[0].id
+          expect(@project_task_id_map[org_project.project_tasks[1].id]).to eq @new_project.project_tasks[1].id
         end
       end
     end
@@ -279,24 +313,26 @@ describe Project do
       end
       context "check categories counts, " do
         subject{ @new_project.categories }
-        it{ should have(1).items }
+        it'has 1 item' do
+          expect(subject.size).to eq(1)
+        end
       end
       context "check categories and children's item values, " do
         specify do
           @new_project.categories.each_with_index do |category, i|
             org_category = org_project.categories[i]
-            category.name.should eq org_category.name
+            expect(category.name).to eq org_category.name
             category.sub_categories.each_with_index do |sub_category, j|
               org_sub_category = org_category.sub_categories[j]
-              sub_category.name.should eq org_sub_category.name
+              expect(sub_category.name).to eq org_sub_category.name
               sub_category.stories.each_with_index do |story, k|
                 org_story = org_sub_category.stories[k]
-                story.name.should eq org_story.name
+                expect(story.name).to eq org_story.name
                 story.task_points.each_with_index do |tp, l|
                   org_tp = org_story.task_points[l]
-                  tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
-                  tp.point_50.should eq org_tp.point_50
-                  tp.point_90.should eq org_tp.point_90
+                  expect(tp.project_task_id).to eq @project_task_id_map[org_tp.project_task_id]
+                  expect(tp.point_50).to eq org_tp.point_50
+                  expect(tp.point_90).to eq org_tp.point_90
                 end
               end
             end
@@ -310,52 +346,66 @@ describe Project do
       end
       context "check project values, " do
         subject{ @new_project }
-        its(:name) { should eq "Test Project (コピー)" }
-        its(:days_per_point) { should eq 0.5 }
+
+        describe '#name' do
+          subject { super().name }
+          it { is_expected.to eq "Test Project (コピー)" }
+        end
+
+        describe '#days_per_point' do
+          subject { super().days_per_point }
+          it { is_expected.to eq 0.5 }
+        end
       end
       context "check additional_costs counts" do
         subject{ @new_project.additional_costs }
-        it{ should have(1).items }
+        it'has 1 item' do
+          expect(subject.size).to eq(1)
+        end
       end
       context "check additional_cost values, " do
         specify do
           @new_project.additional_costs.each_with_index do |ac, idx|
-            ac.name.should eq org_project.additional_costs[idx].name
-            ac.price.should eq org_project.additional_costs[idx].price
+            expect(ac.name).to eq org_project.additional_costs[idx].name
+            expect(ac.price).to eq org_project.additional_costs[idx].price
           end
         end
       end
       context "check project_tasks counts, " do
         subject{ @new_project.project_tasks }
-        it { should have(2).items }
+        it 'has 2 items' do
+          expect(subject.size).to eq(2)
+        end
       end
       context "check project_tasks values, " do
         specify do
           @new_project.project_tasks.each_with_index do |pt, idx|
-            pt.name.should eq org_project.project_tasks[idx].name
-            pt.price_per_day.should eq org_project.project_tasks[idx].price_per_day
+            expect(pt.name).to eq org_project.project_tasks[idx].name
+            expect(pt.price_per_day).to eq org_project.project_tasks[idx].price_per_day
           end
         end
       end
       context "check categories value, " do
         subject{ @new_project.categories }
-        it{ should have(1).items }
+        it'has 1 item' do
+          expect(subject.size).to eq(1)
+        end
       end
       context "check categories and children's item values, " do
         specify do
           @new_project.categories.each_with_index do |category, i|
             org_category = org_project.categories[i]
-            category.name.should eq org_category.name
+            expect(category.name).to eq org_category.name
             category.sub_categories.each_with_index do |sub_category, j|
               org_sub_category = org_category.sub_categories[j]
-              sub_category.name.should eq org_sub_category.name
+              expect(sub_category.name).to eq org_sub_category.name
               sub_category.stories.each_with_index do |story, k|
                 org_story = org_sub_category.stories[k]
-                story.name.should eq org_story.name
+                expect(story.name).to eq org_story.name
                 story.task_points.each_with_index do |tp, l|
                   org_tp = org_story.task_points[l]
-                  tp.point_50.should eq org_tp.point_50
-                  tp.point_90.should eq org_tp.point_90
+                  expect(tp.point_50).to eq org_tp.point_50
+                  expect(tp.point_90).to eq org_tp.point_90
                 end
               end
             end
@@ -376,9 +426,9 @@ describe Project do
     end
     it "default設定のTemplateTaskがProjectTaskとして登録されること" do
       project_tasks = ProjectTask.where(project_id: @project.id)
-      project_tasks.count.should eq 1
-      project_tasks[0].name.should eq "Default Task"
-      project_tasks[0].price_per_day.should eq 50000
+      expect(project_tasks.count).to eq 1
+      expect(project_tasks[0].name).to eq "Default Task"
+      expect(project_tasks[0].price_per_day).to eq 50000
     end
   end
   describe "archive!" do
@@ -387,7 +437,11 @@ describe Project do
       @project.archive!
     end
     subject{ Project.find(@project.id) }
-    its(:archived){ should be_true }
+
+    describe '#archived' do
+      subject { super().archived }
+      it { is_expected.to be_truthy }
+    end
   end
   describe "active!" do
     before do
@@ -395,6 +449,10 @@ describe Project do
       @project.active!
     end
     subject{ Project.find(@project.id) }
-    its(:archived){ should be_false }
+
+    describe '#archived' do
+      subject { super().archived }
+      it { is_expected.to be_falsey }
+    end
   end
 end

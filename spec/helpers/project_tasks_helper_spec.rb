@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe ProjectTasksHelper do
+describe ProjectTasksHelper, :type => :helper do
 end

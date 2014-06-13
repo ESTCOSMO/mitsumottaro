@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'spec_helper'
 
-describe "template_tasks/index" do
+describe "template_tasks/index", :type => :view do
   before(:each) do
     assign(:template_tasks, [
       stub_model(TemplateTask,

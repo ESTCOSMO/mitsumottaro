@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProjectTasksController do
+describe ProjectTasksController, :type => :controller do
   before do
     @project = Project.new(name: "Sample", days_per_point: 0.5)
     @project.save!
@@ -9,8 +9,8 @@ describe ProjectTasksController do
   describe "GET 'index'" do
     before{ get :index, { project_id: @project.id } }
     subject{ response }
-    it { should be_success }
-    it{ should render_template(:index) }
+    it { is_expected.to be_success }
+    it{ is_expected.to render_template(:index) }
   end
 
   describe "POST 'create'" do
@@ -21,12 +21,20 @@ describe ProjectTasksController do
       end
       describe "check redirect path" do
         subject{ response }
-        it{  should redirect_to project_project_tasks_path(@project) }
+        it{  is_expected.to redirect_to project_project_tasks_path(@project) }
       end
       describe "check saved data" do
         subject{ ProjectTask.where(project_id: @project.id).first}
-        its(:name){ should eq "ProjectTaskName" }
-        its(:price_per_day){ should eq 70000 }
+
+        describe '#name' do
+          subject { super().name }
+          it { is_expected.to eq "ProjectTaskName" }
+        end
+
+        describe '#price_per_day' do
+          subject { super().price_per_day }
+          it { is_expected.to eq 70000 }
+        end
       end
     end
     context "when name is empty, " do
@@ -36,7 +44,7 @@ describe ProjectTasksController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+        it{  is_expected.to eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
       end
     end
     context "when price_per_day is empty, " do
@@ -46,7 +54,7 @@ describe ProjectTasksController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+        it{  is_expected.to eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
       end
     end
   end
@@ -63,12 +71,20 @@ describe ProjectTasksController do
       end
       describe "check redirect path" do
         subject{ response }
-        it{  should redirect_to project_project_tasks_path(@project) }
+        it{  is_expected.to redirect_to project_project_tasks_path(@project) }
       end
       describe "check saved data" do
         subject{ ProjectTask.where(project_id: @project.id).first}
-        its(:name){ should eq "UpdatedTask" }
-        its(:price_per_day){ should eq 70000 }
+
+        describe '#name' do
+          subject { super().name }
+          it { is_expected.to eq "UpdatedTask" }
+        end
+
+        describe '#price_per_day' do
+          subject { super().price_per_day }
+          it { is_expected.to eq 70000 }
+        end
       end
     end
     context "when name is empty, " do
@@ -78,7 +94,7 @@ describe ProjectTasksController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+        it{  is_expected.to eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
       end
     end
     context "when price_per_day is empty, " do
@@ -88,7 +104,7 @@ describe ProjectTasksController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{  should eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+        it{  is_expected.to eq Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
       end
     end
   end
@@ -101,11 +117,11 @@ describe ProjectTasksController do
     end
     describe "check redirect path" do
       subject{ response }
-      it{  should redirect_to project_project_tasks_path(@project) }
+      it{  is_expected.to redirect_to project_project_tasks_path(@project) }
     end
     describe "check deleted data" do
       subject{ ProjectTask.where(project_id: @project.id).size}
-      it{ should eq 0 }
+      it{ is_expected.to eq 0 }
     end
   end
 
@@ -119,14 +135,14 @@ describe ProjectTasksController do
     end
     describe "check redirect path" do
       subject{ response }
-      it{  should redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard") }
+      it{  is_expected.to redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard") }
     end
     describe "check items order" do
       before{ @project_tasks = ProjectTask.where(project_id: @project.id).order(:position) }
       specify do
-        @project_tasks[0].should eq @project_task2
-        @project_tasks[1].should eq @project_task1
-        @project_tasks[2].should eq @project_task3
+        expect(@project_tasks[0]).to eq @project_task2
+        expect(@project_tasks[1]).to eq @project_task1
+        expect(@project_tasks[2]).to eq @project_task3
       end
     end
   end
@@ -141,14 +157,14 @@ describe ProjectTasksController do
     end
     describe "check redirect path" do
       subject{ response }
-      it{  should redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard") }
+      it{  is_expected.to redirect_to project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard") }
     end
     describe "check items order" do
       before{ @project_tasks = ProjectTask.where(project_id: @project.id).order(:position) }
       specify do
-        @project_tasks[0].should eq @project_task1
-        @project_tasks[1].should eq @project_task3
-        @project_tasks[2].should eq @project_task2
+        expect(@project_tasks[0]).to eq @project_task1
+        expect(@project_tasks[1]).to eq @project_task3
+        expect(@project_tasks[2]).to eq @project_task2
       end
     end
   end

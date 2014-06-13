@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe ItemsController do
+describe ItemsController, :type => :controller do
   before do
     @project = Project.create(name: "Project", days_per_point: 1.0 )
   end
@@ -24,11 +24,11 @@ describe ItemsController do
       end
       describe "response status" do
         subject{ response.status }
-        it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+        it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
       end
       describe "check the data is not" do
         subject{ Project.find(@project.id).categories.size }
-        it { should eq 2 }
+        it { is_expected.to eq 2 }
       end
     end
     context "case to copy category, " do
@@ -37,11 +37,11 @@ describe ItemsController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+        it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
       end
       describe "check the data is copied" do
         subject{ Project.find(@project.id).categories.size }
-        it { should eq 3 }
+        it { is_expected.to eq 3 }
       end
       describe "check the copied data is correct" do
         before{ @copied_category = Category.where(project_id: @project.id).order(:id).last }
@@ -66,11 +66,11 @@ describe ItemsController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+        it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
       end
       describe "check the data is copied" do
         subject{ Category.find(@category2.id).sub_categories.size }
-        it { should eq 2 }
+        it { is_expected.to eq 2 }
       end
       describe "check the copied data is correct" do
         before{ @copied_sub_category = SubCategory.where(category_id: @category2.id).order(:id).last }
@@ -92,11 +92,11 @@ describe ItemsController do
       end
       describe "check response status" do
         subject{ response.status }
-        it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+        it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
       end
       describe "check the data is copied" do
         subject{ SubCategory.find(@sub_category2.id).stories.size }
-        it { should eq 2 }
+        it { is_expected.to eq 2 }
       end
       describe "check the copied data is correct" do
         before{ @copied_story = Story.where(sub_category_id: @sub_category2.id).order(:id).last }

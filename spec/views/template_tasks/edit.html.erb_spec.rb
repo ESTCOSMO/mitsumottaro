@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "template_tasks/edit" do
+describe "template_tasks/edit", :type => :view do
   before(:each) do
     @template_task = assign(:template_task, stub_model(TemplateTask,
       :name => "MyString",
