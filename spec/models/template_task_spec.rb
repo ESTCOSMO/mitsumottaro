@@ -15,27 +15,27 @@ describe TemplateTask, :type => :model do
       it { is_expected.to be_valid }
     end
     context "when name is not present," do
-      subject { TemplateTask.new(name: " ") }
+      subject { TemplateTask.new(name: " ").tap(&:valid?) }
       it'has 1 error_on' do
-        expect(subject.error_on(:name).size).to eq(1)
+        expect(subject.errors[:name].size).to eq(1)
       end
     end
     context "when price_per_day is not present," do
-      subject { TemplateTask.new(price_per_day: " ") }
+      subject { TemplateTask.new(price_per_day: " ").tap(&:valid?) }
       it'has 1 error_on' do
-        expect(subject.error_on(:price_per_day).size).to eq(1)
+        expect(subject.errors[:price_per_day].size).to eq(1)
       end
     end
     context "when position is not present," do
-      subject { TemplateTask.new(position: " ") }
+      subject { TemplateTask.new(position: " ").tap(&:valid?) }
       it'does not have 1 error_on' do
-        expect(subject.error_on(:position).size).not_to eq(1)
+        expect(subject.errors[:position].size).not_to eq(1)
       end
     end
     context "when default_task is not present," do
-      subject { TemplateTask.new(default_task: " ") }
+      subject { TemplateTask.new(default_task: " ").tap(&:valid?) }
       it'does not have 1 error_on' do
-        expect(subject.error_on(:default_task).size).not_to eq(1)
+        expect(subject.errors[:default_task].size).not_to eq(1)
       end
     end
   end

@@ -16,22 +16,22 @@ describe ProjectTask, :type => :model do
       it { is_expected.to be_valid }
     end
     context "when name is not present," do
-      subject { ProjectTask.new(name: " ") }
+      subject { ProjectTask.new(name: " ").tap(&:valid?) }
       it{ is_expected.not_to be_valid }
       it'has 1 error_on' do
-        expect(subject.error_on(:name).size).to eq(1)
+        expect(subject.errors[:name].size).to eq(1)
       end
     end
     context "when price_per_day is not present," do
-      subject { ProjectTask.new(price_per_day: " ") }
+      subject { ProjectTask.new(price_per_day: " ").tap(&:valid?) }
       it'has 1 error_on' do
-        expect(subject.error_on(:price_per_day).size).to eq(1)
+        expect(subject.errors[:price_per_day].size).to eq(1)
       end
     end
     context "when position is not present," do
-      subject { ProjectTask.new(position: " ") }
+      subject { ProjectTask.new(position: " ").tap(&:valid?) }
       it'does not have 1 error_on' do
-        expect(subject.error_on(:position).size).not_to eq(1)
+        expect(subject.errors[:position].size).not_to eq(1)
       end
     end
   end
