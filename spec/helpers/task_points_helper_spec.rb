@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe TaskPointsHelper do
+describe TaskPointsHelper, :type => :helper do
 end

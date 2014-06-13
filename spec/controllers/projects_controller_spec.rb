@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ProjectsController do
+describe ProjectsController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Project. As you add validations to Project, be sure to
@@ -21,7 +21,7 @@ describe ProjectsController do
       project = Project.create! valid_attributes
       archived = Project.create!(name: "Archive", archived: true)
       get :index, {}, valid_session
-      assigns(:projects).should eq([project])
+      expect(assigns(:projects)).to eq([project])
     end
   end
 
@@ -30,7 +30,7 @@ describe ProjectsController do
       project = Project.create! valid_attributes
       archived = Project.create!(name: "Archive", archived: true)
       get :archived, {}, valid_session
-      assigns(:projects).should eq([archived])
+      expect(assigns(:projects)).to eq([archived])
     end
   end
 
@@ -38,14 +38,14 @@ describe ProjectsController do
     it "assigns the requested project as @project" do
       project = Project.create! valid_attributes
       get :show, {:id => project.to_param}, valid_session
-      assigns(:project).should eq(project)
+      expect(assigns(:project)).to eq(project)
     end
   end
 
   describe "GET new" do
     it "assigns a new project as @project" do
       get :new, {}, valid_session
-      assigns(:project).should be_a_new(Project)
+      expect(assigns(:project)).to be_a_new(Project)
     end
   end
 
@@ -53,7 +53,7 @@ describe ProjectsController do
     it "assigns the requested project as @project" do
       project = Project.create! valid_attributes
       get :edit, {:id => project.to_param}, valid_session
-      assigns(:project).should eq(project)
+      expect(assigns(:project)).to eq(project)
     end
   end
 
@@ -67,13 +67,13 @@ describe ProjectsController do
 
       it "assigns a newly created project as @project" do
         post :create, {:project => valid_attributes}, valid_session
-        assigns(:project).should be_a(Project)
-        assigns(:project).should be_persisted
+        expect(assigns(:project)).to be_a(Project)
+        expect(assigns(:project)).to be_persisted
       end
 
       it "redirects to the created project" do
         post :create, {:project => valid_attributes}, valid_session
-        response.should redirect_to(Project.last)
+        expect(response).to redirect_to(Project.last)
       end
 
       context "when default template task exists, " do
@@ -86,9 +86,9 @@ describe ProjectsController do
         it "default TemplateTask is added" do
           post :create, {:project => valid_attributes}, valid_session
           project_tasks = ProjectTask.where(project_id: Project.last.id)
-          project_tasks.count.should eq 1
-          project_tasks[0].name.should eq "Default Task"
-          project_tasks[0].price_per_day.should eq 50000
+          expect(project_tasks.count).to eq 1
+          expect(project_tasks[0].name).to eq "Default Task"
+          expect(project_tasks[0].price_per_day).to eq 50000
         end
       end
     end
@@ -96,16 +96,16 @@ describe ProjectsController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved project as @project" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Project.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Project).to receive(:save).and_return(false)
         post :create, {:project => { "name" => "invalid value" }}, valid_session
-        assigns(:project).should be_a_new(Project)
+        expect(assigns(:project)).to be_a_new(Project)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Project.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Project).to receive(:save).and_return(false)
         post :create, {:project => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -118,20 +118,20 @@ describe ProjectsController do
         # specifies that the Project created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Project.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
+        expect_any_instance_of(Project).to receive(:update_attributes).with({ "name" => "MyString" })
         put :update, {:id => project.to_param, :project => { "name" => "MyString" }}, valid_session
       end
 
       it "assigns the requested project as @project" do
         project = Project.create! valid_attributes
         put :update, {:id => project.to_param, :project => valid_attributes}, valid_session
-        assigns(:project).should eq(project)
+        expect(assigns(:project)).to eq(project)
       end
 
       it "redirects to the project" do
         project = Project.create! valid_attributes
         put :update, {:id => project.to_param, :project => valid_attributes}, valid_session
-        response.should redirect_to(project)
+        expect(response).to redirect_to(project)
       end
     end
 
@@ -139,17 +139,17 @@ describe ProjectsController do
       it "assigns the project as @project" do
         project = Project.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Project.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Project).to receive(:save).and_return(false)
         put :update, {:id => project.to_param, :project => { "name" => "invalid value" }}, valid_session
-        assigns(:project).should eq(project)
+        expect(assigns(:project)).to eq(project)
       end
 
       it "re-renders the 'edit' template" do
         project = Project.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Project.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Project).to receive(:save).and_return(false)
         put :update, {:id => project.to_param, :project => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -165,7 +165,7 @@ describe ProjectsController do
     it "redirects to the projects list" do
       project = Project.create! valid_attributes
       delete :destroy, {:id => project.to_param}, valid_session
-      response.should redirect_to(archived_projects_url)
+      expect(response).to redirect_to(archived_projects_url)
     end
   end
 
@@ -177,7 +177,7 @@ describe ProjectsController do
     describe "check redirect path" do
       before{ get :dup_form, { id: @project.id } }
       subject{ response }
-      it{  should redirect_to root_url }
+      it{  is_expected.to redirect_to root_url }
     end
   end
 
@@ -188,12 +188,16 @@ describe ProjectsController do
     describe "check to updating project data" do
       before{ post :archive, { id: @project.id } }
       subject{ Project.find(@project.id) }
-      its(:archived){ should be_true }
+
+      describe '#archived' do
+        subject { super().archived }
+        it { is_expected.to be_truthy }
+      end
     end
     describe "check redirect path" do
       before{ post :archive, { id: @project.id } }
       subject{ response }
-      it{  should redirect_to root_url }
+      it{  is_expected.to redirect_to root_url }
     end
   end
 
@@ -204,12 +208,16 @@ describe ProjectsController do
     describe "check to updating project data" do
       before{ post :active, { id: @project.id } }
       subject{ Project.find(@project.id) }
-      its(:archived){ should be_false }
+
+      describe '#archived' do
+        subject { super().archived }
+        it { is_expected.to be_falsey }
+      end
     end
     describe "check redirect path" do
       before{ post :active, { id: @project.id } }
       subject{ response }
-      it{  should redirect_to archived_projects_path }
+      it{  is_expected.to redirect_to archived_projects_path }
     end
   end
 end

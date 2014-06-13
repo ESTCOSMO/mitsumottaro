@@ -42,6 +42,7 @@ gem 'jquery-rails'
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'rspec-activemodel-mocks'
   gem 'guard-rspec'
   gem 'spring'
   gem 'spring-commands-rspec'

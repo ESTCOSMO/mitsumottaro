@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe TemplateTasksHelper do
+describe TemplateTasksHelper, :type => :helper do
 end

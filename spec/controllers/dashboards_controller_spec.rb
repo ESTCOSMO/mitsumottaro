@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DashboardsController do
+describe DashboardsController, :type => :controller do
   before do
     @project = Project.new(name: "Sample", days_per_point: 0.5)
     @project.save!
@@ -8,14 +8,14 @@ describe DashboardsController do
   describe "GET 'show'" do
     before{ get :show, { project_id: @project.id } }
     subject{ response }
-    it { should be_success }
-    it{ should render_template(:show) }
+    it { is_expected.to be_success }
+    it{ is_expected.to render_template(:show) }
   end
   describe "GET 'archived'" do
     before{ get :archived, { project_id: @project.id } }
     subject{ response }
-    it { should be_success }
-    it{ should render_template(:show) }
+    it { is_expected.to be_success }
+    it{ is_expected.to render_template(:show) }
   end
   describe "GET 'convert'" do
     before do
@@ -23,6 +23,6 @@ describe DashboardsController do
       get :convert, { project_id: @project.id, format: :xml }
     end
     subject{ response.headers['Content-Disposition'] }
-    it{ should match @expected_header }
+    it{ is_expected.to match @expected_header }
   end
 end

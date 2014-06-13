@@ -10,19 +10,19 @@ require 'spec_helper'
 #     end
 #   end
 # end
-describe DashboardsHelper do
+describe DashboardsHelper, :type => :helper do
   describe "make_anchor method" do
     context "when sub_category_id is null & story_id is null," do
       subject{ helper.make_anchor(1, nil, nil) }
-      it{ should eq "category1" }
+      it{ is_expected.to eq "category1" }
     end
     context "when sub_category_id is not null & story_id is null," do
       subject{ helper.make_anchor(1, 2, nil) }
-      it{ should eq "sub_category1-2" }
+      it{ is_expected.to eq "sub_category1-2" }
     end
     context "when sub_category_id is not null & story_id is not null," do
       subject{ helper.make_anchor(1, 2, 3) }
-      it{ should eq "story1-2-3" }
+      it{ is_expected.to eq "story1-2-3" }
     end
   end
   describe "up_arrow_link_to_unless method" do
@@ -33,7 +33,7 @@ describe DashboardsHelper do
     let(:icon){ "<i class='icon-arrow-up'></i>" }
     context "when condition is true, " do
       subject{ helper.up_arrow_link_to_unless(true, { }) }
-      it{ should be_nil }
+      it{ is_expected.to be_nil }
     end
     context "when sub_category is not present and story is not present, " do
       before do
@@ -42,7 +42,7 @@ describe DashboardsHelper do
         @expected = "<a class=\"arrow\" href=\"#{@path}\" name=\"#{@name}\" style=\"color:silver\">#{icon}</a>"
       end
       subject{ helper.up_arrow_link_to_unless(false, { project: project, category: category }) }
-      it{ should eq @expected }
+      it{ is_expected.to eq @expected }
     end
     context "when sub_category is present and story is not present, " do
       before do
@@ -53,7 +53,7 @@ describe DashboardsHelper do
       subject do
         helper.up_arrow_link_to_unless(false, { project: project, category: category, sub_category: sub_category })
       end
-      it{ should eq @expected }
+      it{ is_expected.to eq @expected }
     end
     context "when sub_category is present and story is present, " do
       before do
@@ -64,7 +64,7 @@ describe DashboardsHelper do
       subject do
         helper.up_arrow_link_to_unless(false, { project: project, category: category, sub_category: sub_category, story: story })
       end
-      it{ should eq @expected }
+      it{ is_expected.to eq @expected }
     end
   end
   describe "down_arrow_link_to_unless method" do
@@ -75,7 +75,7 @@ describe DashboardsHelper do
     let(:icon){ "<i class='icon-arrow-down'></i>" }
     context "when condition is true, " do
       subject{ helper.down_arrow_link_to_unless(true, { }) }
-      it{ should be_nil }
+      it{ is_expected.to be_nil }
     end
     context "when sub_category is not present and story is not present, " do
       before do
@@ -84,7 +84,7 @@ describe DashboardsHelper do
         @expected = "<a class=\"arrow\" href=\"#{@path}\" name=\"#{@name}\" style=\"color:silver\">#{icon}</a>"
       end
       subject{ helper.down_arrow_link_to_unless(false, { project: project, category: category }) }
-      it{ should eq @expected }
+      it{ is_expected.to eq @expected }
     end
     context "when sub_category is present and story is not present, " do
       before do
@@ -95,7 +95,7 @@ describe DashboardsHelper do
       subject do
         helper.down_arrow_link_to_unless(false, { project: project, category: category, sub_category: sub_category })
       end
-      it{ should eq @expected }
+      it{ is_expected.to eq @expected }
     end
     context "when sub_category is present and story is present, " do
       before do
@@ -106,7 +106,7 @@ describe DashboardsHelper do
       subject do
         helper.down_arrow_link_to_unless(false, { project: project, category: category, sub_category: sub_category, story: story })
       end
-      it{ should eq @expected }
+      it{ is_expected.to eq @expected }
     end
   end
 end

@@ -1,32 +1,38 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe ProjectTask do
+describe ProjectTask, :type => :model do
   describe "field definitions" do
     subject { ProjectTask.new }
-    it { should respond_to(:name) }
-    it { should respond_to(:position) }
-    it { should respond_to(:price_per_day) }
-    it { should respond_to(:task_points) }
+    it { is_expected.to respond_to(:name) }
+    it { is_expected.to respond_to(:position) }
+    it { is_expected.to respond_to(:price_per_day) }
+    it { is_expected.to respond_to(:task_points) }
   end
 
   describe "validation" do
     context "when input valid data," do
       subject { ProjectTask.new(project_id: 1, template_task_id: 1, name: "試験", position: 1, price_per_day: 40000) }
-      it { should be_valid }
+      it { is_expected.to be_valid }
     end
     context "when name is not present," do
-      subject { ProjectTask.new(name: " ") }
-      it{ should_not be_valid }
-      it{ should have(1).error_on(:name) }
+      subject { ProjectTask.new(name: " ").tap(&:valid?) }
+      it{ is_expected.not_to be_valid }
+      it'has 1 error_on' do
+        expect(subject.errors[:name].size).to eq(1)
+      end
     end
     context "when price_per_day is not present," do
-      subject { ProjectTask.new(price_per_day: " ") }
-      it{ should have(1).error_on(:price_per_day) }
+      subject { ProjectTask.new(price_per_day: " ").tap(&:valid?) }
+      it'has 1 error_on' do
+        expect(subject.errors[:price_per_day].size).to eq(1)
+      end
     end
     context "when position is not present," do
-      subject { ProjectTask.new(position: " ") }
-      it{ should_not have(1).error_on(:position) }
+      subject { ProjectTask.new(position: " ").tap(&:valid?) }
+      it'does not have 1 error_on' do
+        expect(subject.errors[:position].size).not_to eq(1)
+      end
     end
   end
 
@@ -38,9 +44,9 @@ describe ProjectTask do
       @task_point.save!
     end
     it "project_taskを削除したらtask_pointsも削除されること" do
-      TaskPoint.where(project_task_id: @project_task.id).size.should eq 1
+      expect(TaskPoint.where(project_task_id: @project_task.id).size).to eq 1
       @project_task.destroy!
-      TaskPoint.where(project_task_id: @project_task.id).size.should eq 0
+      expect(TaskPoint.where(project_task_id: @project_task.id).size).to eq 0
     end
   end
 end

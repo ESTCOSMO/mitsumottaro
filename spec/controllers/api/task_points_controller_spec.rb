@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Api::TaskPointsController do
+describe Api::TaskPointsController, :type => :controller do
   before do
     @project = Project.create(name: "Project", days_per_point: 1.0 )
     @project_task = @project.project_tasks.build(name: "ProjectTask", price_per_day: 40000)
@@ -17,11 +17,11 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
         end
         describe "saved data" do
           subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-          it{ should be_nil }
+          it{ is_expected.to be_nil }
         end
       end
       context "when both point parameters are not blank," do
@@ -30,12 +30,20 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
         end
         describe "saved data" do
           subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-          its(:point_50){ should eq 3 }
-          its(:point_90){ should eq 8 }
+
+          describe '#point_50' do
+            subject { super().point_50 }
+            it { is_expected.to eq 3 }
+          end
+
+          describe '#point_90' do
+            subject { super().point_90 }
+            it { is_expected.to eq 8 }
+          end
         end
       end
       context "when point_50 parameter is blank," do
@@ -44,12 +52,20 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
         end
         describe "saved data" do
           subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-          its(:point_50){ should be_nil }
-          its(:point_90){ should eq 8 }
+
+          describe '#point_50' do
+            subject { super().point_50 }
+            it { is_expected.to be_nil }
+          end
+
+          describe '#point_90' do
+            subject { super().point_90 }
+            it { is_expected.to eq 8 }
+          end
         end
       end
       context "when point_90 parameter is blank," do
@@ -58,12 +74,20 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
         end
         describe "saved data" do
           subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-          its(:point_50){ should eq 11 }
-          its(:point_90){ should be_nil }
+
+          describe '#point_50' do
+            subject { super().point_50 }
+            it { is_expected.to eq 11 }
+          end
+
+          describe '#point_90' do
+            subject { super().point_90 }
+            it { is_expected.to be_nil }
+          end
         end
       end
       context "when some parameters are invalid," do
@@ -72,7 +96,7 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:bad_request] }
         end
       end
     end
@@ -87,11 +111,11 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
         end
         describe "saved data" do
           subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-          it{ should be_nil }
+          it{ is_expected.to be_nil }
         end
       end
       context "when both point parameters are not blank," do
@@ -100,12 +124,20 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
         end
         describe "saved data" do
           subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-          its(:point_50){ should eq 3 }
-          its(:point_90){ should eq 8 }
+
+          describe '#point_50' do
+            subject { super().point_50 }
+            it { is_expected.to eq 3 }
+          end
+
+          describe '#point_90' do
+            subject { super().point_90 }
+            it { is_expected.to eq 8 }
+          end
         end
       end
       context "when point_50 parameter is blank," do
@@ -114,12 +146,20 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
         end
         describe "saved data" do
           subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-          its(:point_50){ should be_nil }
-          its(:point_90){ should eq 8 }
+
+          describe '#point_50' do
+            subject { super().point_50 }
+            it { is_expected.to be_nil }
+          end
+
+          describe '#point_90' do
+            subject { super().point_90 }
+            it { is_expected.to eq 8 }
+          end
         end
       end
       context "when point_90 parameter is blank," do
@@ -128,12 +168,20 @@ describe Api::TaskPointsController do
         end
         describe "response status" do
           subject{ response.status }
-          it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+          it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
         end
         describe "saved data" do
           subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-          its(:point_50){ should eq 11 }
-          its(:point_90){ should be_nil }
+
+          describe '#point_50' do
+            subject { super().point_50 }
+            it { is_expected.to eq 11 }
+          end
+
+          describe '#point_90' do
+            subject { super().point_90 }
+            it { is_expected.to be_nil }
+          end
         end
       end
     end
@@ -146,11 +194,11 @@ describe Api::TaskPointsController do
     end
     describe "response status" do
       subject{ response.status }
-      it{ should eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
+      it{ is_expected.to eq  Rack::Utils::SYMBOL_TO_STATUS_CODE[:ok] }
     end
     describe "deleted data" do
       subject{ TaskPoint.where(story_id: @story.id, project_task_id: @project_task.id).first }
-      it{ should be_nil }
+      it{ is_expected.to be_nil }
     end
   end
 end

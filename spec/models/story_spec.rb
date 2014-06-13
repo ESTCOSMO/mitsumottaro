@@ -1,23 +1,25 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-describe Story do
+describe Story, :type => :model do
   describe "field definitions" do
     subject { Story.new }
-    it { should respond_to(:name) }
-    it { should respond_to(:position) }
-    it { should respond_to(:remarks) }
-    it { should respond_to(:task_points) }
+    it { is_expected.to respond_to(:name) }
+    it { is_expected.to respond_to(:position) }
+    it { is_expected.to respond_to(:remarks) }
+    it { is_expected.to respond_to(:task_points) }
   end
 
   describe "validation" do
     context "when input valid data," do
       subject { Story.new(sub_category_id: 1, name: "Story", position: 1, remarks: "備考") }
-      it { should be_valid }
+      it { is_expected.to be_valid }
     end
     context "when name is not present," do
-      subject { Story.new(name: "") }
-      it{ should have(1).error_on(:name) }
+      subject { Story.new(name: "").tap(&:valid?) }
+      it'has 1 error_on' do
+        expect(subject.errors[:name].size).to eq(1)
+      end
     end
   end
 
@@ -29,9 +31,9 @@ describe Story do
     end
     subject { @story }
     it "storyを削除したらtask_pointsも削除されること" do
-      TaskPoint.where(story_id: @story.id).size.should eq 1
+      expect(TaskPoint.where(story_id: @story.id).size).to eq 1
       @story.destroy!
-      TaskPoint.where(story_id: @story.id).size.should eq 0
+      expect(TaskPoint.where(story_id: @story.id).size).to eq 0
     end
   end
 
@@ -49,19 +51,19 @@ describe Story do
     end
     describe "sum_of_point_50 method" do
       subject{ @story.sum_of_point_50 }
-      it{ should eq 100 }
+      it{ is_expected.to eq 100 }
     end
     describe "sum_of_point_50_by_project_task_id method" do
       subject{ @story.sum_of_point_50_by_project_task_id(project_task1.id) }
-      it{ should eq 30 }
+      it{ is_expected.to eq 30 }
     end
     describe "sum_of_square_of_diff method" do
       subject{ @story.sum_of_square_of_diff }
-      it{ should eq 2325 }
+      it{ is_expected.to eq 2325 }
     end
     describe "total_price method" do
       subject{ @story.total_price(1.2, 0.5) }
-      it{ should eq 2700000 }
+      it{ is_expected.to eq 2700000 }
     end
   end
 
@@ -78,19 +80,25 @@ describe Story do
     end
     context "check story value, " do
       subject{ @new_story }
-      its(:name){ should eq "Story1" }
+
+      describe '#name' do
+        subject { super().name }
+        it { is_expected.to eq "Story1" }
+      end
     end
     context "check task_points counts, " do
       subject { @new_story.task_points }
-      it{ should have(2).items }
+      it'has 2 items' do
+        expect(subject.size).to eq(2)
+      end
     end
     context "check task_points values, " do
       specify do
         @new_story.task_points.each_with_index do |tp, i|
           org_tp = org_story.task_points[i]
-          tp.project_task_id.should eq @project_task_id_map[org_tp.project_task_id]
-          tp.point_50.should eq org_tp.point_50
-          tp.point_90.should eq org_tp.point_90
+          expect(tp.project_task_id).to eq @project_task_id_map[org_tp.project_task_id]
+          expect(tp.point_50).to eq org_tp.point_50
+          expect(tp.point_90).to eq org_tp.point_90
         end
       end
     end
