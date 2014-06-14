@@ -12,16 +12,12 @@ describe DstItemForm, :type => :model do
 
   describe "validation" do
     context "when type is empty," do
-      subject { DstItemForm.new(name: 'name').tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:type].size).to eq(1)
-      end
+      subject { DstItemForm.new(name: 'name').tap(&:valid?).errors[:type].size }
+      it { is_expected.to eq 1 }
     end
     context "when name is empty," do
-      subject { DstItemForm.new(type: 'category').tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:name].size).to eq(1)
-      end
+      subject { DstItemForm.new(type: 'category').tap(&:valid?).errors[:name].size }
+      it { is_expected.to eq 1 }
     end
     context "when type is cagetory," do
       context "when category_id and sub_category_id are empty," do
@@ -31,25 +27,20 @@ describe DstItemForm, :type => :model do
     end
     context "when type is sub_cagetory," do
       context "when category_id and sub_category_id are empty," do
-        subject { DstItemForm.new(name: 'name', type: 'sub_category').tap(&:valid?) }
-        it'has 1 error_on' do
-          expect(subject.errors[:category_id].size).to eq(1)
-        end
+        subject { DstItemForm.new(name: 'name', type: 'sub_category').tap(&:valid?).errors[:category_id].size }
+        it { is_expected.to eq 1 }
       end
     end
     context "when type is story," do
       context "when category_id is empty," do
-        subject { DstItemForm.new(name: 'name', type: 'story', sub_category_id: 1).tap(&:valid?) }
-        it'has 1 error_on' do
-          expect(subject.errors[:category_id].size).to eq(1)
-        end
+        subject { DstItemForm.new(name: 'name', type: 'story', sub_category_id: 1).tap(&:valid?).errors[:category_id].size }
+        it { is_expected.to eq 1 }
       end
       context "when sub_category_id is empty," do
-        subject { DstItemForm.new(name: 'name', type: 'story', category_id: 1).tap(&:valid?) }
-        it'has 1 error_on' do
-          expect(subject.errors[:sub_category_id].size).to eq(1)
-        end
+        subject { DstItemForm.new(name: 'name', type: 'story', category_id: 1).tap(&:valid?).errors[:sub_category_id].size }
+        it { is_expected.to eq 1 }
       end
     end
   end
 end
+

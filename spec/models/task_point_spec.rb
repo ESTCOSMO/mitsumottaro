@@ -14,10 +14,8 @@ describe TaskPoint, :type => :model do
       it { is_expected.to be_valid }
     end
     context "when project_task_id is not present," do 
-      subject { TaskPoint.new(project_task_id: " ").tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:project_task_id].size).to eq(1)
-      end
+      subject { TaskPoint.new(project_task_id: " ").tap(&:valid?).errors[:project_task_id].size }
+      it { is_expected.to eq 1 }
     end
     context "when point_50 is not numeric," do
       subject { TaskPoint.new(point_50: "abc") }

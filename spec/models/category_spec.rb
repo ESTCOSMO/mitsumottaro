@@ -16,22 +16,16 @@ describe Category, :type => :model do
       it { is_expected.to be_valid }
     end
     context "when name is not present," do
-      subject { Category.new(name: "").tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:name].size).to eq(1)
-      end
+      subject { Category.new(name: "").tap(&:valid?).errors[:name].size }
+      it { is_expected.to eq 1 }
     end
     context "when position is not present," do
-      subject { Category.new(position: " ").tap(&:valid?) }
-      it'does not have 1 error_on' do
-        expect(subject.errors[:position].size).not_to eq(1)
-      end
+      subject { Category.new(position: " ").tap(&:valid?).errors[:position].size }
+      it { is_expected.to eq 0 }
     end
     context "when remarks is not present," do
-      subject { Category.new(remarks: " ").tap(&:valid?) }
-      it'does not have 1 error_on' do
-        expect(subject.errors[:remarks].size).not_to eq(1)
-      end
+      subject { Category.new(remarks: " ").tap(&:valid?).errors[:remarks].size }
+      it { is_expected.to eq 0 }
     end
   end
 
