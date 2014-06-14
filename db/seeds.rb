@@ -6,6 +6,6 @@
 require "csv"
 
 CSV.foreach('db/templatetask.csv') do |row|
-  TemplateTask.create(name: row[0], position: row[1], price_per_day: row[2], default_task: false)
+  TemplateTask.create(name: row[0], price_per_day: row[1], default_task: false)
 end
 
