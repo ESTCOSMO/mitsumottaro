@@ -16,10 +16,8 @@ describe Story, :type => :model do
       it { is_expected.to be_valid }
     end
     context "when name is not present," do
-      subject { Story.new(name: "").tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:name].size).to eq(1)
-      end
+      subject { Story.new(name: "").tap(&:valid?).errors[:name].size }
+      it { is_expected.to eq 1 }
     end
   end
 

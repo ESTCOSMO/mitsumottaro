@@ -16,22 +16,16 @@ describe SubCategory, :type => :model do
       it { is_expected.to be_valid }
     end
     context "when name is not present," do
-      subject { SubCategory.new(name: "").tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:name].size).to eq(1)
-      end
+      subject { SubCategory.new(name: "").tap(&:valid?).errors[:name].size }
+      it { is_expected.to eq 1 }
     end
     context "when position is not present," do
-      subject { SubCategory.new(position: " ").tap(&:valid?) }
-      it'does not have 1 error_on' do
-        expect(subject.errors[:position].size).not_to eq(1)
-      end
+      subject { SubCategory.new(position: " ").tap(&:valid?).errors[:position].size }
+      it { is_expected.to eq 0 }
     end
     context "when remarks is not present," do
-      subject { SubCategory.new(remarks: " ").tap(&:valid?) }
-      it'does not have 1 error_on' do
-        expect(subject.errors[:remarks].size).not_to eq(1)
-      end
+      subject { SubCategory.new(remarks: " ").tap(&:valid?).errors[:remarks].size }
+      it { is_expected.to eq 0 }
     end
   end
 

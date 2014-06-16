@@ -16,24 +16,18 @@ describe AdditionalCost, :type => :model do
     end
 
     context "when name is not present," do
-      subject { AdditionalCost.new(name: " ").tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:name].size).to eq(1)
-      end
+      subject { AdditionalCost.new(name: " ").tap(&:valid?).errors[:name].size }
+      it { is_expected.to eq 1 }
     end
 
     context "when price is not present," do
-      subject { AdditionalCost.new(price: " ").tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:price].size).to eq(1)
-      end
+      subject { AdditionalCost.new(price: " ").tap(&:valid?).errors[:price].size }
+      it { is_expected.to eq 1 }
     end
 
     context "when position is not present," do
-      subject { AdditionalCost.new(position: " ").tap(&:valid?) }
-      it'does not have 1 error_on' do
-        expect(subject.errors[:position].size).not_to eq(1)
-      end
+      subject { AdditionalCost.new(position: " ").tap(&:valid?).errors[:position].size }
+      it { is_expected.to be 0 }
     end
   end
 end

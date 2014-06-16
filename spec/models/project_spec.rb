@@ -17,16 +17,12 @@ describe Project, :type => :model do
       it { is_expected.to be_valid }
     end
     context "when name is not present," do
-      subject { Project.new(name: " ").tap(&:valid?) }
-      it'has 1 error_on' do
-        expect(subject.errors[:name].size).to eq(1)
-      end
+      subject { Project.new(name: " ").tap(&:valid?).errors[:name].size }
+      it { is_expected.to eq 1 }
     end
     context "when days_per_point is not present," do
-      subject { Project.new(days_per_point: " ").tap(&:valid?) }
-      it'does not have 1 error_on' do
-        expect(subject.errors[:days_per_point].size).not_to eq(1)
-      end
+      subject { Project.new(days_per_point: " ").tap(&:valid?).errors[:days_per_point].size }
+      it { is_expected.to eq 0 }
     end
   end
 
