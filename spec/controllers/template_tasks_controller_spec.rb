@@ -42,7 +42,7 @@ describe TemplateTasksController, :type => :controller do
 
   describe "POST create" do
     describe "with valid params" do
-      it "creates a new TemplateTask" do
+      specify do
         expect {
           post :create, {:template_task => valid_attributes}, valid_session
         }.to change(TemplateTask, :count).by(1)
@@ -54,9 +54,10 @@ describe TemplateTasksController, :type => :controller do
         expect(assigns(:template_task)).to be_persisted
       end
 
-      it "redirects to index" do
-        post :create, {:template_task => valid_attributes}, valid_session
-        expect(response).to redirect_to(template_tasks_url)
+      describe "response" do
+        before { post :create, {:template_task => valid_attributes}, valid_session }
+        subject { response }
+        it { is_expected.to redirect_to template_tasks_url }
       end
     end
 
