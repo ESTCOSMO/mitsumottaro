@@ -10,7 +10,13 @@ h2
     | &nbsp;(archived)
 p.dashboard-summary
   span.label.summary-label
-    | Total[50%]: {{sumOfProjectPoints("50", project)}} / Buffer: {{buffer() | number:1}} / ratio: {{ratio() | number:1}}
+    | Total[50%]: {{sumOfProjectPoints("50", project)}}
+  span.label.summary-label
+    | Buffer: {{buffer() | number:1}}
+  span.label.summary-label
+    | ratio: {{ratio() | number:1}}
+  span.label.summary-label
+    | D/P: {{project.days_per_point | number: 2}}
   span
     a.btn.btn-mini.btn-info href="#{url.convert_project_dashboard_path('___PID___', format: :xml).gsub('___PID___', '{{project.id}}')}"
       i.icon-download-alt
