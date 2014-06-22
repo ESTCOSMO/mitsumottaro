@@ -10,11 +10,11 @@ h2
     | &nbsp;(archived)
 p.dashboard-summary
   span.label.summary-label
-    | Total[50%]: {{sumOfProjectPoints("50", project)}}
+    | Total[50%]: {{cachedSumOfProjectPointsOf50}}
   span.label.summary-label
-    | Buffer: {{buffer() | number:1}}
+    | Buffer: {{cachedBuffer | number:1}}
   span.label.summary-label
-    | ratio: {{ratio() | number:1}}
+    | ratio: {{cachedRatio | number:1}}
   span.label.summary-label
     | D/P: {{project.days_per_point | number: 2}}
   span
@@ -51,9 +51,9 @@ p.dashboard-summary
           li ng-repeat-end="true"
             | {{sumOfProjectPoints("50", project, { projectTaskId: task.id }) * cachedRatio |number: 1}}
           li.total
-            | {{sumOfProjectPoints("50", project)}}
+            | {{cachedSumOfProjectPointsOf50}}
           li.total
-            | {{sumOfProjectPoints("50", project) * cachedRatio | number: 1}}
+            | {{cachedSumOfProjectPointsOf50 * cachedRatio | number: 1}}
     li
       ul.clearfix.category
         li.summary-area ng-repeat-start="category in project.categories | orderBy:categoriesOrder"
