@@ -3,7 +3,7 @@
 
 ja:
   helpers:
-    actions: "Actions"
+    actions: "アクション"
     links:
       back: "戻る"
       cancel: "キャンセル"
