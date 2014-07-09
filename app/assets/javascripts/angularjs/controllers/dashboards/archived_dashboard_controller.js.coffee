@@ -3,15 +3,29 @@ angular.module('projectsControllers').controller 'ArchivedDashboardController', 
   $scope.project = Project.get({id: $routeParams.id})
   $scope.trustAsHtml = (html_code) -> $sce.trustAsHtml(html_code)
   $scope.buffer = () ->
-    Math.sqrt(sumOfDiffSquareOfProject($scope.project))
+    cache = Math.sqrt(sumOfDiffSquareOfProject($scope.project))
+    $scope.cachedBuffer = cache
+    cache
 
   ratio = () ->
-    cache = 1.0 + ($scope.buffer() / sumOfProjectPoints("50", $scope.project))
+    cache = 1.0 + ($scope.cachedBuffer / $scope.cachedSumOfProjectPointsOf50)
     $scope.cachedRatio = cache
     cache
 
+  sumOfProjectPointsOf50 = ->       
+    cache = sumOfProjectPoints("50", $scope.project)
+    $scope.cachedSumOfProjectPointsOf50 = cache
+    cache
+
+  $scope.sumOfProjectPointsOf50 = sumOfProjectPointsOf50 
+  $scope.cachedSumOfProjectPointsOf50 = 0
+
   $scope.ratio = ratio
   $scope.cachedRatio = 0
+  $scope.cachedBuffer = 0
+  $scope.$watch("ratio()")
+  $scope.$watch("buffer()")
+  $scope.$watch("sumOfProjectPointsOf50()")
 
   sumOfProjectPoints = (percent, project, args) ->
     if !project.categories
@@ -106,7 +120,7 @@ angular.module('projectsControllers').controller 'ArchivedDashboardController', 
   $scope.bufferedPointOfStoryTask = (project_task_id, story) ->
     point = findPointByTaskId(project_task_id, story)
     if point && (point.point_50 || point.point_50 == 0)
-      point.point_50 * ratio()
+      point.point_50 * $scope.cachedRatio
     else
       null
 ]
