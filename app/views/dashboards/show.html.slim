@@ -1,2 +1,4 @@
-div ng-view="true"
+div ng-init="projectId = #{params[:project_id]}"
+  div ng-controller="DashboardController"
+    div ng-view="true"
 

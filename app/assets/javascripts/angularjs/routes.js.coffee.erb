@@ -2,7 +2,7 @@
 angular.module("mitsumottaroApp").config ["$routeProvider", ($routeProvider) ->
  $routeProvider
    .when '/projects/:id/dashboard', {
-     controller: 'DashboardController'
+     controller: 'EditableDashboardController'
      templateUrl: '<%= asset_path('angularjs/templates/dashboard.html') %>'
    }
    .when '/projects/:id/dashboard/archived', {
