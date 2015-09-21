@@ -19,7 +19,15 @@
       <Borders>
 	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
-	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:Weight="0"/>
+      </Borders>
+      <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
+    </Style>
+    <Style ss:ID="story_blank">
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:Weight="0"/>
+	<Border ss:Position="Right" ss:Weight="0"/>
       </Borders>
       <Interior ss:Color="#FFFFFF" ss:Pattern="Solid" />
     </Style>
@@ -43,7 +51,16 @@
       <Borders>
 	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
-	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:Weight="0"/>
+      </Borders>
+      <Interior ss:Color="#FCF8E3" ss:Pattern="Solid" />
+      <Font ss:Color="#C09853" />
+    </Style>
+    <Style ss:ID="sub_category_blank">
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:Weight="0"/>
+	<Border ss:Position="Right" ss:Weight="0"/>
       </Borders>
       <Interior ss:Color="#FCF8E3" ss:Pattern="Solid" />
       <Font ss:Color="#C09853" />
@@ -99,7 +116,16 @@
       <Borders>
 	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
 	<Border ss:Position="Left" ss:LineStyle="Continuous"/>
-	<Border ss:Position="Right" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Right" ss:Weight="0" />
+      </Borders>
+      <Interior ss:Color="#D9EDF7" ss:Pattern="Solid" />
+      <Font ss:Color="#3A87AD" />
+    </Style>
+    <Style ss:ID="category_blank">
+      <Borders>
+	<Border ss:Position="Top" ss:LineStyle="Continuous"/>
+	<Border ss:Position="Left" ss:Weight="0" />
+	<Border ss:Position="Right" ss:Weight="0" />
       </Borders>
       <Interior ss:Color="#D9EDF7" ss:Pattern="Solid" />
       <Font ss:Color="#3A87AD" />
@@ -234,14 +260,20 @@
       <% @project.categories.each do |category| %>
         <% row_count += 1 %>
         <Row>
-          <Cell ss:MergeAcross="10" ss:StyleID="category_name"><Data ss:Type="String"><%= category.name %></Data></Cell>
+          <Cell ss:MergeAcross="3" ss:StyleID="category_name"><Data ss:Type="String"><%= category.name %></Data></Cell>
+          <% 7.times do |i| %>
+            <Cell ss:StyleID="category_blank"><Data ss:Type="String"></Data></Cell>
+          <% end %>
           <Cell ss:StyleID="category_remarks"><Data ss:Type="String"><%= (h category.remarks).gsub(/(\r)?\n/, '&#10;').html_safe %></Data></Cell>
         </Row>
         <% category.sub_categories.each do |sub_category| %>
           <% row_count += 1 %>
           <Row>
             <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
-            <Cell ss:MergeAcross="9" ss:StyleID="sub_category_name"><Data ss:Type="String"><%= sub_category.name %></Data></Cell>
+            <Cell ss:MergeAcross="2" ss:StyleID="sub_category_name"><Data ss:Type="String"><%= sub_category.name %></Data></Cell>
+            <% 7.times do |i| %>
+              <Cell ss:StyleID="sub_category_blank"><Data ss:Type="String"></Data></Cell>
+            <% end %>
             <Cell ss:StyleID="sub_category_remarks"><Data ss:Type="String"><%= (h sub_category.remarks).gsub(/(\r)?\n/, '&#10;').html_safe %></Data></Cell>
           </Row>
           <% sub_category.stories.each do |story| %>
@@ -249,7 +281,10 @@
             <Row>
               <Cell ss:StyleID="category_noname"><Data ss:Type="String"></Data></Cell>
               <Cell ss:StyleID="sub_category_noname"><Data ss:Type="String"></Data></Cell>
-              <Cell ss:MergeAcross="8" ss:StyleID="story_name"><Data ss:Type="String"><%= story.name %></Data></Cell>
+              <Cell ss:MergeAcross="1" ss:StyleID="story_name"><Data ss:Type="String"><%= story.name %></Data></Cell>
+              <% 7.times do |i| %>
+                <Cell ss:StyleID="story_blank"><Data ss:Type="String"></Data></Cell>
+              <% end %>
               <Cell ss:StyleID="story_remarks"><Data ss:Type="String"><%= (h story.remarks).gsub(/(\r)?\n/, '&#10;').html_safe %></Data></Cell>
             </Row>
             <% @project.project_tasks.each do |pt| %>
