@@ -11,9 +11,9 @@ before_install:
 bundler_args: --without development production
 
 rvm:
+  - 2.2
   - 2.1
   - 2.0.0
-  - 1.9.3
 
 env:
   - DB=mysql
