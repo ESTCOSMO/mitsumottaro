@@ -65,7 +65,7 @@ gem 'acts_as_list'
 
 gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
-gem 'libv8', '~> 3.11.8'
+gem 'libv8', '~> 3.16.14.19'
 gem 'less-rails'
 gem 'haml-rails'
 gem 'underscore-rails'
