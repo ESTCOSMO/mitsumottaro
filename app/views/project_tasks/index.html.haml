@@ -9,60 +9,49 @@
       %td= ps.name
       %td.number= number_with_delimiter(ps.price_per_day)
       %td
-        = link_to 'Edit', '#', class: 'btn btn-mini', id: "btn-edit-project-task_#{ps.id}"
+        = link_to 'Edit', '#', class: %i(btn btn-default btn-sm), id: "btn-edit-project-task_#{ps.id}"
         .hidden.project_task_name= ps.name
         .hidden.project_task_price_per_day= ps.price_per_day
-        = link_to 'Destroy', project_project_task_path(@project, ps), class: 'btn btn-danger btn-mini', "data-confirm" => "Are you sure?", method: :delete
+        = link_to 'Destroy', project_project_task_path(@project, ps), class: %i'btn btn-danger btn-sm', "data-confirm": "Are you sure?", method: :delete
 
-= link_to 'New', '#', class: 'btn btn-primary btn-new-project-task'
+= link_to 'New', '#', class: %i'btn btn-primary btn-new-project-task'
 
-#edit-project-task-modal.modal.hide
+#edit-project-task-modal.modal{ role: 'dialog' }
   .url_template.hidden
     = project_project_task_path(@project, "___PSID___")
-  .modal-header
-    %button.close{"type" => "button", "data-dissmiss" => "modal", "aria-hidden" => true}
-      &times;
-    %h3 科目
-  .modal-body
-    = form_for ProjectTask.new, url: "#", remote: true, html: { class: 'form-horizontal', id: 'edit_project_task_modal_form' } do |f|
-      = hidden_field_tag "_method", "PUT"
-      .alert.alert-error.hidden
-      .control-group
-        = f.label :name, class: 'control-label'
-        .controls
-          = f.text_field :name, class: "text_field"
-      .control-group
-        = f.label :price_per_day, class: 'control-label'
-        .controls
-          = f.number_field :price_per_day, class: "number_field"
-      .form-actions
-        = submit_tag "保存", class: "btn btn-primary btn-save"
-        %button.btn.close_btn{type: "button"}
-          閉じる
+  .modal-dialog{ role: 'document' }
+    .modal-content
+      .modal-header
+        %button.close{"type": "button", "data-dissmiss": "modal", "aria-hidden": true}
+          &times;
+        %h3 科目
+      .modal-body
+        = simple_form_for ProjectTask.new, url: "#", remote: true, html: { id: 'edit_project_task_modal_form' } do |f|
+          = hidden_field_tag "_method", "PUT"
+          .alert.alert-error.hidden
+          = f.input :name
+          = f.input :price_per_day
+          = f.button :submit, class: %i(btn btn-primary btn-save)
+          %button.btn.close_btn{type: "button"}
+            閉じる
 
-#new-project-task-modal.modal.hide
-  .modal-header
-    %button.close{"type" => "button", "data-dissmiss" => "modal", "aria-hidden" => true}
-      &times;
-    %h3 種別
-  .modal-body
-    = form_for [@project, @project.project_tasks.build], url: "#", remote: true, html: { class: 'form-horizontal', id: 'new_project_task_modal_form' } do |f|
-      .alert.alert-error.hidden
-      .control-group
-        %label.control-label= "テンプレート"
-        .controls
-          = select_tag :template_task_id, options_for_select(@template_tasks.map{|t| [t.name, t.id] })
-      .control-group
-        = f.label :name, class: 'control-label'
-        .controls
-          = f.text_field :name, value: @template_tasks[0].name, class: "text_field"
-      .control-group
-        = f.label :price_per_day, class: 'control-label'
-        .controls
-          = f.number_field :price_per_day, value: @template_tasks[0].price_per_day, class: "number_field"
-      .form-actions
-        = submit_tag "登録", class: "btn btn-primary btn-save"
-        %button.btn.close_btn{type: "button"}
-          閉じる
-      - @template_tasks.each do |t|
-        = hidden_field_tag "template_tasks_price_#{t.id}", t.price_per_day
+#new-project-task-modal.modal{ role: 'dialog' }
+  .modal-dialog{ role: 'document' }
+    .modal-content
+      .modal-header
+        %button.close{"type": "button", "data-dissmiss": "modal", "aria-hidden": true}
+          &times;
+        %h3 種別
+      .modal-body
+        = simple_form_for [@project, @project.project_tasks.build], url: "#", remote: true, html: { id: 'new_project_task_modal_form' } do |f|
+          .alert.alert-error.hidden
+          .form-group
+            %label.control-label{ for: 'template_task_id' }= "テンプレート"
+            = select_tag :template_task_id, options_for_select(@template_tasks.map{|t| [t.name, t.id] }), include_blank: true, class: %i(form-control)
+          = f.input :name, value: @template_tasks[0].name
+          = f.input :price_per_day, value: @template_tasks[0].price_per_day
+          = f.button :submit, class: %i(btn btn-primary btn-save)
+          %button.btn.close_btn{type: "button"}
+            閉じる
+        - @template_tasks.each do |t|
+          = hidden_field_tag "template_tasks_price_#{t.id}", t.price_per_day
