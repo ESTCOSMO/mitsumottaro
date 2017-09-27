@@ -39,7 +39,7 @@ describe DashboardsHelper, :type => :helper do
       before do
         @name = helper.make_anchor(category.id)
         @path = move_higher_project_category_path(project, category)
-        @expected = "<a class=\"arrow\" href=\"#{@path}\" name=\"#{@name}\" style=\"color:silver\">#{icon}</a>"
+        @expected = "<a name=\"#{@name}\" class=\"arrow\" style=\"color:silver\" href=\"#{@path}\">#{icon}</a>"
       end
       subject{ helper.up_arrow_link_to_unless(false, { project: project, category: category }) }
       it{ is_expected.to eq @expected }
@@ -48,7 +48,7 @@ describe DashboardsHelper, :type => :helper do
       before do
         @name = helper.make_anchor(category.id, sub_category.id)
         @path = move_higher_project_category_sub_category_path(project, category, sub_category)
-        @expected = "<a class=\"arrow\" href=\"#{@path}\" name=\"#{@name}\" style=\"color:silver\">#{icon}</a>"
+        @expected = "<a name=\"#{@name}\" class=\"arrow\" style=\"color:silver\" href=\"#{@path}\">#{icon}</a>"
       end
       subject do
         helper.up_arrow_link_to_unless(false, { project: project, category: category, sub_category: sub_category })
@@ -59,7 +59,7 @@ describe DashboardsHelper, :type => :helper do
       before do
         @name = helper.make_anchor(category.id, sub_category.id, story.id)
         @path = move_higher_project_category_sub_category_story_path(project, category, sub_category, story)
-        @expected = "<a class=\"arrow\" href=\"#{@path}\" name=\"#{@name}\" style=\"color:silver\">#{icon}</a>"
+        @expected = "<a name=\"#{@name}\" class=\"arrow\" style=\"color:silver\" href=\"#{@path}\">#{icon}</a>"
       end
       subject do
         helper.up_arrow_link_to_unless(false, { project: project, category: category, sub_category: sub_category, story: story })
@@ -81,7 +81,7 @@ describe DashboardsHelper, :type => :helper do
       before do
         @name = helper.make_anchor(category.id)
         @path = move_lower_project_category_path(project, category)
-        @expected = "<a class=\"arrow\" href=\"#{@path}\" name=\"#{@name}\" style=\"color:silver\">#{icon}</a>"
+        @expected = "<a name=\"#{@name}\" class=\"arrow\" style=\"color:silver\" href=\"#{@path}\">#{icon}</a>"
       end
       subject{ helper.down_arrow_link_to_unless(false, { project: project, category: category }) }
       it{ is_expected.to eq @expected }
@@ -90,7 +90,7 @@ describe DashboardsHelper, :type => :helper do
       before do
         @name = helper.make_anchor(category.id, sub_category.id)
         @path = move_lower_project_category_sub_category_path(project, category, sub_category)
-        @expected = "<a class=\"arrow\" href=\"#{@path}\" name=\"#{@name}\" style=\"color:silver\">#{icon}</a>"
+        @expected = "<a name=\"#{@name}\" class=\"arrow\" style=\"color:silver\" href=\"#{@path}\">#{icon}</a>"
       end
       subject do
         helper.down_arrow_link_to_unless(false, { project: project, category: category, sub_category: sub_category })
@@ -101,7 +101,7 @@ describe DashboardsHelper, :type => :helper do
       before do
         @name = helper.make_anchor(category.id, sub_category.id, story.id)
         @path = move_lower_project_category_sub_category_story_path(project, category, sub_category, story)
-        @expected = "<a class=\"arrow\" href=\"#{@path}\" name=\"#{@name}\" style=\"color:silver\">#{icon}</a>"
+        @expected = "<a name=\"#{@name}\" class=\"arrow\" style=\"color:silver\" href=\"#{@path}\">#{icon}</a>"
       end
       subject do
         helper.down_arrow_link_to_unless(false, { project: project, category: category, sub_category: sub_category, story: story })
