@@ -12,8 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-sprockets
-//= require bootstrap
+//= require twitter/bootstrap
 //= require underscore
 //= require angular
 //= require angularjs/lib/ui-bootstrap-tpls-0.11.0

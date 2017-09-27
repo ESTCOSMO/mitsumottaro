@@ -66,6 +66,8 @@ end
 gem 'acts_as_list'
 
 gem 'bootstrap-sass'
+gem 'twitter-bootstrap-rails'
+gem 'therubyracer'
 gem 'libv8', '~> 3.16.14.19'
 gem 'haml-rails'
 gem 'underscore-rails'
