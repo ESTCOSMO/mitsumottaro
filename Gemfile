@@ -7,7 +7,7 @@ gem 'rails', '4.1.5'
 
 gem 'sqlite3'
 if ENV['TRAVIS']
-  gem "mysql2"
+  gem "mysql2", '~> 0.3.20'
   gem 'pg'
 end
 
