@@ -11,6 +11,8 @@ if ENV['TRAVIS']
   gem 'pg'
 end
 
+gem 'rake', '< 11.0'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -63,10 +65,8 @@ end
 
 gem 'acts_as_list'
 
-gem 'twitter-bootstrap-rails'
-gem 'therubyracer'
+gem 'bootstrap-sass'
 gem 'libv8', '~> 3.16.14.19'
-gem 'less-rails'
 gem 'haml-rails'
 gem 'underscore-rails'
 group :test do
