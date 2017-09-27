@@ -1,0 +1,10 @@
+/*
+ *= require font-awesome
+ *= require_self
+ *= require_tree .
+ */
+footer {
+  margin: 15px;
+}
+
+
