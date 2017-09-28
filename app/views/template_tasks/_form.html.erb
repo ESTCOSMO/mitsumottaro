@@ -1,26 +1,8 @@
-<%= form_for @template_task, :html => { :class => 'form-horizontal' } do |f| %>
-  <div class="control-group">
-    <%= f.label :name, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :name, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :price_per_day, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :price_per_day, :class => 'number_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :default_task, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.check_box :default_task, :class => 'checkbox' %>
-    </div>
-  </div>
-
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                template_tasks_path, :class => 'btn' %>
+<%= simple_form_for @template_task do |f| %>
+    <%= f.input :name %>
+    <%= f.input :price_per_day %>
+    <%= f.input :default_task %>
+    <%= f.button :submit, class: %i(btn btn-primary) %>
+    <%= link_to t('.cancel', default: t("helpers.links.cancel")), template_tasks_path, class: 'btn btn-default' %>
   </div>
 <% end %>
