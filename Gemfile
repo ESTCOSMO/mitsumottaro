@@ -52,7 +52,6 @@ gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'underscore-rails'
 
-if ENV['TRAVIS']
-  gem 'mysql2'
-  gem 'pg'
-end
+gem 'mysql2' if ENV['TRAVIS']
+gem 'pg' if ENV['TRAVIS'] || ENV['HEROKU_POSTGRESQL_GRAY_URL']
+
