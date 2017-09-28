@@ -54,4 +54,3 @@ gem 'underscore-rails'
 
 gem 'mysql2' if ENV['TRAVIS']
 gem 'pg' if ENV['TRAVIS'] || ENV['HEROKU_POSTGRESQL_GRAY_URL']
-
