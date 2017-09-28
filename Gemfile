@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby ENV['CUSTOM_RUBY_VERSION'] || RUBY_VERSION
+
 gem 'rails', '4.2.9'
 
 # Gems used only for assets and not required
@@ -50,7 +52,5 @@ gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'underscore-rails'
 
-if ENV['TRAVIS']
-  gem 'mysql2'
-  gem 'pg'
-end
+gem 'mysql2' if ENV['TRAVIS']
+gem 'pg' if ENV['TRAVIS'] || ENV['HEROKU_POSTGRESQL_GRAY_URL']
