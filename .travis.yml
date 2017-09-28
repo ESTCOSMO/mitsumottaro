@@ -23,3 +23,6 @@ env:
 gemfile:
   - Gemfile
 
+after_script:
+  - bundle exec rubocop
+
