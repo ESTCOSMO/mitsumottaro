@@ -2,9 +2,9 @@
 h2
   span.back_arrow
     a ng-if="editable" href="#{url.projects_path}"
-      i.icon-chevron-left
+      span.fa.fa-chevron-left aria-hidden="true"
     a ng-if="!editable" href="#{url.archived_projects_path}"
-      i.icon-chevron-left
+      span.fa.fa-chevron-left aria-hidden="true"
   | {{project.name}}
   small ng-if="!editable"
     | &nbsp;(archived)
@@ -18,8 +18,8 @@ p.dashboard-summary
   span.label.summary-label
     | D/P: {{project.days_per_point | number: 2}}
   span
-    a.btn.btn-mini.btn-info href="#{url.convert_project_dashboard_path('___PID___', format: :xml).gsub('___PID___', '{{project.id}}')}"
-      i.icon-download-alt
+    a.btn.btn-sm.btn-info href="#{url.convert_project_dashboard_path('___PID___', format: :xml).gsub('___PID___', '{{project.id}}')}"
+      span.fa.fa-download aria-hidden="true"
       | 見積もりダウンロード (MS Office XML形式)
 .dashboard-view
   ul
@@ -28,9 +28,9 @@ p.dashboard-summary
         li ng-repeat="task in project.project_tasks"
           | {{task.name}}
           a.project-task-operation-btn ng-if="editable" href="#{url.move_higher_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}" ng-hide="$first"
-            i.icon-arrow-left
+            span.fa.fa-arrow-left aria-hidden="true"
           a.project-task-operation-btn ng-if="editable" href="#{url.move_lower_project_project_task_path('___PID___', '___TASKID___').gsub('___PID___', '{{project.id}}').gsub('___TASKID___', '{{task.id}}')}" ng-hide="$last"
-            i.icon-arrow-right
+            span.fa.fa-arrow-right aria-hidden="true"
         li 合計
       .clearfix
       ul.clearfix.header_points
@@ -44,7 +44,7 @@ p.dashboard-summary
       .summary-title.project-summary
         span プロジェクトサマリ
         a.project-operation-btn  ng-if="editable" ng-click="createCategory(project)" tooltip="大項目の追加"
-          i.icon-plus
+          span.fa.fa-plus aria-hidden="true"
         ul.clearfix.summary-point
           li ng-repeat-start="task in project.project_tasks"
             | {{sumOfProjectPoints("50", project, { projectTaskId: task.id })}}
@@ -76,18 +76,18 @@ p.dashboard-summary
                 span.item-name style="padding: 0 5px" contenteditable="true" ng-model="category.name" mt-blur="updateCategoryName(project, category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
                 span
                   a.category-operation-btn ng-click="createSubCategory(project, category)" tooltip="中項目の追加"
-                    i.icon-plus
+                    span.fa.fa-plus aria-hidden="true"
                 span
                   a.category-operation-btn ng-click="moveHigher(project, category)" ng-hide="$first" tooltip="上へ移動"
-                    i.icon-arrow-up
+                    span.fa.fa-arrow-up aria-hidden="true"
                   a.category-operation-btn ng-click="moveLower(project, category)" ng-hide="$last" tooltip="下へ移動"
-                    i.icon-arrow-down
+                    span.fa.fa-arrow-down aria-hidden="true"
                   a.category-operation-btn ng-click="remarksUpdater.showModal(category, project.id, category.id)" ng-class="{remarks_exists: category.remarks}" tooltip="{{category.remarks || 'メモの編集'}}"
-                    i.icon-tag
+                    span.fa.fa-tag aria-hidden="true"
                   a.category-operation-btn ng-click="copyItem.showModal(project, category)" tooltip="複製"
-                    i.icon-file
+                    span.fa.fa-file aria-hidden="true"
                   a.category-operation-btn ng-click="removeCategory(project, category)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
-                    i.icon-remove
+                    span.fa.fa-remove aria-hidden="true"
               span ng-if="!editable"
                 span.item-name-rom style="padding: 0 5px" contenteditable="false" ng-model="category.name"
               ul.clearfix.summary-point
@@ -108,18 +108,18 @@ p.dashboard-summary
                     span.item-name style="padding: 0 5px" contenteditable="true" ng-model="sub_category.name" mt-blur="updateSubCategoryName(project, category, sub_category)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
                     span
                       a.subcategory-operation-btn ng-click="createStory(project, category, sub_category)" tooltip="小項目の追加"
-                        i.icon-plus
+                        span.fa.fa-plus aria-hidden="true"
                     span
                       a.subcategory-operation-btn ng-click="moveHigher(project, category, sub_category)" ng-hide="$first" tooltip="上へ移動"
-                        i.icon-arrow-up
+                        span.fa.fa-arrow-up aria-hidden="true"
                       a.subcategory-operation-btn ng-click="moveLower(project, category, sub_category)" ng-hide="$last" tooltip="下へ移動"
-                        i.icon-arrow-down
+                        span.fa.fa-arrow-down aria-hidden="true"
                       a.subcategory-operation-btn ng-click="remarksUpdater.showModal(sub_category, project.id, category.id, sub_category.id)" ng-class="{remarks_exists: sub_category.remarks}" tooltip="{{sub_category.remarks || 'メモの編集'}}"
-                        i.icon-tag
+                        span.fa.fa-tag aria-hidden="true"
                       a.subcategory-operation-btn ng-click="copyItem.showModal(project, category, sub_category)" tooltip="複製"
-                        i.icon-file
+                        span.fa.fa-file aria-hidden="true"
                       a.subcategory-operation-btn ng-click="removeSubCategory(project, category, sub_category)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
-                        i.icon-remove
+                        span.fa.fa-remove aria-hidden="true"
                   span ng-if="!editable"
                     span.item-name-rom style="padding: 0 5px" contenteditable="false" ng-model="sub_category.name"
                   ul.clearfix.summary-point
@@ -140,15 +140,15 @@ p.dashboard-summary
                     span.item-name style="padding: 0 5px" contenteditable="true" ng-model="story.name" mt-blur="updateStoryName(project, category, sub_category, story)" ng-required="true"  ng-model-options="{ updateOn: 'blur' }" ng-keypress="ignoreEnterKey($event)" select-on-focus="true"
                     span
                       a.story-operation-btn ng-click="moveHigher(project, category, sub_category, story)" ng-hide="$first" tooltip="上へ移動"
-                        i.icon-arrow-up
+                        span.fa.fa-arrow-up aria-hidden="true"
                       a.story-operation-btn ng-click="moveLower(project, category, sub_category, story)" ng-hide="$last" tooltip="下へ移動"
-                        i.icon-arrow-down
+                        span.fa.fa-arrow-down aria-hidden="true"
                       a.story-operation-btn ng-click="remarksUpdater.showModal(story, project.id, category.id, sub_category.id, story.id)" ng-class="{remarks_exists: story.remarks}" tooltip="{{story.remarks|| 'メモの編集'}}"
-                        i.icon-tag
+                        span.fa.fa-tag aria-hidden="true"
                       a.story-operation-btn ng-click="copyItem.showModal(project, category, sub_category, story)" tooltip="複製"
-                        i.icon-file
+                        span.fa.fa-file aria-hidden="true"
                       a.story-operation-btn ng-click="removeStory(project, category, sub_category, story)" ng-confirm-click="本当に削除しますか?" tooltip="削除"
-                        i.icon-remove
+                        span.fa.fa-remove aria-hidden="true"
                   span ng-if="!editable"
                     span.item-name-rom style="padding: 0 5px" contenteditable="dalse" ng-model="story.name"
                   ul.point ng-if="editable"

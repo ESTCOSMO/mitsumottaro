@@ -3,8 +3,8 @@ class Api::TaskPointsController < ApplicationController
 
   def create
     task_point = @story.task_points.find_or_initialize_by(project_task_id: params[:project_task_id])
-    params.keys.include?("point_50") and task_point.point_50 = params[:point_50]
-    params.keys.include?("point_90") and task_point.point_90 = params[:point_90]
+    params.keys.include?('point_50') and task_point.point_50 = params[:point_50]
+    params.keys.include?('point_90') and task_point.point_90 = params[:point_90]
 
     if task_point.point_50.blank? && task_point.point_90.blank?
       task_point.destroy if task_point.persisted?

@@ -1,80 +1,80 @@
 Mitsumoritaro::Application.routes.draw do
   resources :template_tasks do
     member do
-      patch "move_higher" => 'template_tasks#move_higher', as: :move_higher
-      patch "move_lower" => 'template_tasks#move_lower', as: :move_lower
+      patch 'move_higher' => 'template_tasks#move_higher', as: :move_higher
+      patch 'move_lower' => 'template_tasks#move_lower', as: :move_lower
     end
   end
 
   resources :projects do
     collection do
-      get "archived" => 'projects#archived', as: :archived
+      get 'archived' => 'projects#archived', as: :archived
     end
     member do
-      post "dup" => 'projects#dup_form', as: :dup
-      post "archive" => 'projects#archive', as: :archive
-      post "active" => 'projects#active', as: :active
+      post 'dup' => 'projects#dup_form', as: :dup
+      post 'archive' => 'projects#archive', as: :archive
+      post 'active' => 'projects#active', as: :active
     end
     resources :additional_costs do
       member do
-        patch "move_higher" => 'additional_costs#move_higher', as: :move_higher
-        patch "move_lower" => 'additional_costs#move_lower', as: :move_lower
+        patch 'move_higher' => 'additional_costs#move_higher', as: :move_higher
+        patch 'move_lower' => 'additional_costs#move_lower', as: :move_lower
       end
     end
     resource :dashboard, only: :show do
       member do
-        get "archived" => 'dashboards#archived', as: :archived
-        get "convert" => 'dashboards#convert', as: :convert
+        get 'archived' => 'dashboards#archived', as: :archived
+        get 'convert' => 'dashboards#convert', as: :convert
       end
     end
-    resources :project_tasks, except: [:show, :new, :edit] do
+    resources :project_tasks, except: %i[show new edit] do
       member do
-        get "move_higher" => 'project_tasks#move_higher', as: :move_higher
-        get "move_lower" => 'project_tasks#move_lower', as: :move_lower
+        get 'move_higher' => 'project_tasks#move_higher', as: :move_higher
+        get 'move_lower' => 'project_tasks#move_lower', as: :move_lower
       end
     end
-    resources :categories, only: [:create, :update, :destroy], controller: :items do
+    resources :categories, only: %i[create update destroy], controller: :items do
       member do
-        get "move_higher" => 'items#move_higher', as: :move_higher
-        get "move_lower" => 'items#move_lower', as: :move_lower
-        post "copy" => 'items#copy', as: :copy
+        get 'move_higher' => 'items#move_higher', as: :move_higher
+        get 'move_lower' => 'items#move_lower', as: :move_lower
+        post 'copy' => 'items#copy', as: :copy
       end
-      resources :sub_categories, only: [:create, :update, :destroy] , controller: :items do
+      resources :sub_categories, only: %i[create update destroy] , controller: :items do
         member do
-          get "move_higher" => 'items#move_higher', as: :move_higher
-          get "move_lower" =>  'items#move_lower', as: :move_lower
-          post "copy" => 'items#copy', as: :copy
+          get 'move_higher' => 'items#move_higher', as: :move_higher
+          get 'move_lower' =>  'items#move_lower', as: :move_lower
+          post 'copy' => 'items#copy', as: :copy
         end
-        resources :stories, only: [:create, :update, :destroy] , controller: :items do
+        resources :stories, only: %i[create update destroy] , controller: :items do
           member do
-            get "move_higher" => 'items#move_higher', as: :move_higher
-            get "move_lower" => 'items#move_lower', as: :move_lower
-            post "copy" => 'items#copy', as: :copy
+            get 'move_higher' => 'items#move_higher', as: :move_higher
+            get 'move_lower' => 'items#move_lower', as: :move_lower
+            post 'copy' => 'items#copy', as: :copy
           end
-          resources :task_points, only: [:create, :destroy]
+          resources :task_points, only: %i[create destroy]
         end
       end
     end
   end
 
   namespace :api do
-    resources :projects, only: [:show, :create, :update] do
-      resources :categories, except: [:index, :new, :edit] do
+    resources :projects, only: %i[show create update] do
+      resources :categories, except: %i[index new edit] do
         member do
-          patch "move_higher" => 'categories#move_higher', as: :move_higher
-          patch "move_lower" => 'categories#move_lower', as: :move_lower
+          patch 'move_higher' => 'categories#move_higher', as: :move_higher
+          patch 'move_lower' => 'categories#move_lower', as: :move_lower
         end
-        resources :sub_categories, except: [:index, :new, :edit] do
+        resources :sub_categories, except: %i[index new edit] do
           member do
-            patch "move_higher" => 'sub_categories#move_higher', as: :move_higher
-            patch "move_lower" => 'sub_categories#move_lower', as: :move_lower
+            patch 'move_higher' => 'sub_categories#move_higher', as: :move_higher
+            patch 'move_lower' => 'sub_categories#move_lower', as: :move_lower
           end
-          resources :stories, except: [:index, :new, :edit] do
+          resources :stories, except: %i[index new edit] do
             member do
-              patch "move_higher" => 'stories#move_higher', as: :move_higher
-              patch "move_lower" => 'stories#move_lower', as: :move_lower
+              patch 'move_higher' => 'stories#move_higher', as: :move_higher
+              patch 'move_lower' => 'stories#move_lower', as: :move_lower
             end
-            resources :task_points, only: [:create, :destroy]
+            resources :task_points, only: %i[create destroy]
           end
         end
       end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe AdditionalCostsController, :type => :controller do
 
   before do
-    @project = Project.new(name: "Sample", days_per_point: 0.5)
+    @project = Project.new(name: 'Sample', days_per_point: 0.5)
     @project.save!
   end
 
@@ -30,20 +30,20 @@ describe AdditionalCostsController, :type => :controller do
   end
 
   describe "POST 'create'" do
-    context "when input correct data, " do
+    context 'when input correct data, ' do
       before do
         post :create, {  project_id: @project.id, additional_cost:{ name: 'Additional', price: 10000, remarks: 'Remarks!' }}
       end
-      describe "check redirect path" do
+      describe 'check redirect path' do
         subject { response }
         it { is_expected.to redirect_to project_additional_costs_url(@project) }
       end
-      describe "check saved data" do
+      describe 'check saved data' do
         subject { AdditionalCost.where(project_id: @project.id).first }
 
         describe '#name' do
           subject { super().name }
-          it { is_expected.to eq "Additional" }
+          it { is_expected.to eq 'Additional' }
         end
 
         describe '#price' do
@@ -57,22 +57,22 @@ describe AdditionalCostsController, :type => :controller do
         end
       end
     end
-    context "when name is empty, " do
+    context 'when name is empty, ' do
       before do
         post :create, {  project_id: @project.id, additional_cost:{ name: '', price: 10000 }}
       end
-      describe "check response template" do
+      describe 'check response template' do
         subject { response }
-        it { is_expected.to render_template "new" }
+        it { is_expected.to render_template 'new' }
       end
     end
-    context "when price is empty, " do
+    context 'when price is empty, ' do
       before do
         post :create, {  project_id: @project.id, additional_cost:{ name: 'Additional', price: '' }}
       end
-      describe "check response template" do
+      describe 'check response template' do
         subject { response }
-        it { is_expected.to render_template "new" }
+        it { is_expected.to render_template 'new' }
       end
     end
   end
@@ -82,20 +82,20 @@ describe AdditionalCostsController, :type => :controller do
       @additional_cost = @project.additional_costs.build(name: 'Additional', price: 10000, remarks: 'Remarks!')
       @additional_cost.save!
     end
-    context "when input correct data, " do
+    context 'when input correct data, ' do
       before do
         post :update, {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: 20000, remarks: 'Updated Remarks!' }}
       end
-      describe "check redirect path" do
+      describe 'check redirect path' do
         subject { response }
         it { is_expected.to redirect_to project_additional_costs_url(@project) }
       end
-      describe "check saved data" do
+      describe 'check saved data' do
         subject { AdditionalCost.where(project_id: @project.id).first }
 
         describe '#name' do
           subject { super().name }
-          it { is_expected.to eq "EditedAdditional" }
+          it { is_expected.to eq 'EditedAdditional' }
         end
 
         describe '#price' do
@@ -109,22 +109,22 @@ describe AdditionalCostsController, :type => :controller do
         end
       end
     end
-    context "when name is empty, " do
+    context 'when name is empty, ' do
       before do
         post :update, {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: '', price: 20000 }}
       end
-      describe "check response template" do
+      describe 'check response template' do
         subject { response }
-        it { is_expected.to render_template "edit" }
+        it { is_expected.to render_template 'edit' }
       end
     end
-    context "when price is empty, " do
+    context 'when price is empty, ' do
       before do
         post :update, {  project_id: @project.id, id: @additional_cost.id, additional_cost:{ name: 'EditedAdditional', price: '' }}
       end
-      describe "check response template" do
+      describe 'check response template' do
         subject { response }
-        it { is_expected.to render_template "edit" }
+        it { is_expected.to render_template 'edit' }
       end
     end
   end
@@ -137,11 +137,11 @@ describe AdditionalCostsController, :type => :controller do
     before do
       delete :destroy, {  project_id: @project.id, id: @additional_cost.id }
     end
-    describe "check redirect path" do
+    describe 'check redirect path' do
       subject { response }
       it { is_expected.to redirect_to project_additional_costs_url(@project) }
     end
-    describe "check deleted data" do
+    describe 'check deleted data' do
       subject { AdditionalCost.where(project_id: @project.id).size }
       it { is_expected.to eq 0 }
     end
@@ -157,15 +157,15 @@ describe AdditionalCostsController, :type => :controller do
     before do
       patch :move_higher, {  project_id: @project.id, id: @additional_cost2.id }
     end
-    describe "check redirect path" do
+    describe 'check redirect path' do
       subject { response }
       it { is_expected.to redirect_to project_additional_costs_url(@project) }
     end
-    describe "moved higher data" do
+    describe 'moved higher data' do
       subject { AdditionalCost.find(@additional_cost2.id).position }
       it { is_expected.to eq 1 }
     end
-    describe "moved lower data" do
+    describe 'moved lower data' do
       subject { AdditionalCost.find(@additional_cost1.id).position }
       it { is_expected.to eq 2 }
     end
@@ -181,15 +181,15 @@ describe AdditionalCostsController, :type => :controller do
     before do
       patch :move_lower, {  project_id: @project.id, id: @additional_cost1.id }
     end
-    describe "check redirect path" do
+    describe 'check redirect path' do
       subject { response }
       it { is_expected.to redirect_to project_additional_costs_url(@project) }
     end
-    describe "moved higher data" do
+    describe 'moved higher data' do
       subject { AdditionalCost.find(@additional_cost2.id).position }
       it { is_expected.to eq 1 }
     end
-    describe "moved lower data" do
+    describe 'moved lower data' do
       subject { AdditionalCost.find(@additional_cost1.id).position }
       it { is_expected.to eq 2 }
     end
