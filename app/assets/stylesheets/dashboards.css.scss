@@ -2,8 +2,10 @@
   .summary-label {
     padding: 4px;
     margin: 3px;
+    background-color: #999999;
   }
 }
+
 .dashboard-view {
   border-style: solid;
   border-color: #dddddd;
@@ -18,6 +20,7 @@
   ul {
     list-style: none;
     margin: 0;
+    padding: 0;
   }
 
   ul.category {
@@ -112,7 +115,7 @@
     color: #666;
     li {
       float: left;
-      width: 109px;
+      width: 108px;
       text-align: center;
       border-left: 1px solid #dddddd;
       border-bottom: 1px solid #dddddd;
