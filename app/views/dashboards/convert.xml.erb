@@ -237,7 +237,7 @@
       </Row>
       <Row>
         <Cell ss:StyleID="default"><Data ss:Type="String">バッファ/50%計</Data></Cell>
-        <Cell ss:StyleID="default" ss:Formula="=R[-2]C/R[-4]C"><Data ss:Type="Number"><%= @project.buffer * @project.days_per_point %></Data></Cell>
+        <Cell ss:StyleID="default" ss:Formula="=R[-2]C/R[-4]C"><Data ss:Type="Number"><%= @project.sum_of_point_50 && @project.sum_of_point_50 != 0 ? @project.buffer / @project.sum_of_point_50 : '-' %></Data></Cell>
       </Row>
       <Row>
         <Cell><Data ss:Type="String"></Data></Cell>
