@@ -25,13 +25,13 @@
         <td><%=l project.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_project_path(project), :class => 'btn btn-mini' %>
+                      edit_project_path(project), :class => 'btn btn-default btn-sm' %>
           <%= link_to "科目設定",
-                      project_project_tasks_path(project), :class => 'btn btn-mini' %>
+                      project_project_tasks_path(project), :class => 'btn btn-default btn-sm' %>
           <%= link_to "複製",
-                      dup_project_path(project), class: 'btn btn-mini', method: :post %>
+                      dup_project_path(project), class: 'btn btn-default btn-sm', method: :post %>
           <%= link_to archive_project_path(project), :method => :post,
-                      :class => 'btn btn-mini btn-warning' do %>
+                      :class => 'btn btn-sm btn-warning' do %>
                 <i class="icon-inbox"></i> Archive
           <%  end %>
         </td>
