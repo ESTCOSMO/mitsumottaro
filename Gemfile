@@ -21,6 +21,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'sqlite3'
 end
 
 group :test do
@@ -47,7 +48,6 @@ gem 'libv8', '~> 3.16.14.19'
 gem 'rake', '< 11.0'
 gem 'simple_form'
 gem 'slim-rails'
-gem 'sqlite3'
 gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'underscore-rails'
