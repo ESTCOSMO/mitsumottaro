@@ -14,9 +14,9 @@
   <%= link_to t('.go_to_project_top', :default => t("helpers.links.go_to_project_top")),
               project_dashboard_path(@project, anchor: "/projects/#{@project.id}/dashboard"), :class => 'btn btn-primary'  %>
   <%= link_to t('.back', :default => t("helpers.links.back")),
-              projects_path, :class => 'btn'  %>
+              projects_path, :class => 'btn btn-default'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_project_path(@project), :class => 'btn' %>
+              edit_project_path(@project), :class => 'btn btn-default' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
               project_path(@project),
               :method => 'delete',
