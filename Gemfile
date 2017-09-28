@@ -7,7 +7,7 @@ gem 'rails', '4.2.9'
 
 gem 'sqlite3'
 if ENV['TRAVIS']
-  gem "mysql2"
+  gem 'mysql2'
   gem 'pg'
 end
 
@@ -48,7 +48,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'spring'
   gem 'spring-commands-rspec'
-  #  gem 'debugger'
+  gem 'rubocop', require: false
 end
 
 group :test do

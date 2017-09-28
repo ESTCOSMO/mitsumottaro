@@ -43,7 +43,7 @@ class Project < ActiveRecord::Base
 
   def dup_project!
     proj = dup
-    proj.name += " (コピー)"
+    proj.name += ' (コピー)'
     proj.archived = false
     proj.save!
     proj

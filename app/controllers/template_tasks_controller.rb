@@ -34,7 +34,7 @@ class TemplateTasksController < ApplicationController
         format.html { redirect_to template_tasks_path, notice: 'TemplateTask was successfully created.' }
         format.json { render json: @template_task, status: :created, location: @template_task }
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json { render json: @template_task.errors, status: :unprocessable_entity }
       end
     end
@@ -50,7 +50,7 @@ class TemplateTasksController < ApplicationController
         format.html { redirect_to template_tasks_path, notice: 'TemplateTask was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { render action: 'edit' }
         format.json { render json: @template_task.errors, status: :unprocessable_entity }
       end
     end

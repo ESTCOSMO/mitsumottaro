@@ -1,85 +1,85 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe TemplateTasksController, :type => :routing do
-  describe "routing" do
-    describe "routes to #index" do
-      context "when using url," do
-        subject{ { get:"/template_tasks" } }
+  describe 'routing' do
+    describe 'routes to #index' do
+      context 'when using url,' do
+        subject{ { get:'/template_tasks' } }
         it{ is_expected.to be_routable }
-        it{ is_expected.to route_to(controller: "template_tasks", action: "index") }
+        it{ is_expected.to route_to(controller: 'template_tasks', action: 'index') }
       end
-      context "when using prefix_path," do
+      context 'when using prefix_path,' do
         subject{ { get: template_tasks_path } }
         it{ is_expected.to be_routable }
-        it{ is_expected.to route_to(controller: "template_tasks", action: "index") }
+        it{ is_expected.to route_to(controller: 'template_tasks', action: 'index') }
       end
     end
 
-    describe "routes to #new" do
-      context "when using url," do
-        subject{ { get:"/template_tasks/new" } }
+    describe 'routes to #new' do
+      context 'when using url,' do
+        subject{ { get:'/template_tasks/new' } }
         it{ is_expected.to be_routable }
-        it{ is_expected.to route_to(controller: "template_tasks", action: "new") }
+        it{ is_expected.to route_to(controller: 'template_tasks', action: 'new') }
       end
-      context "when using prefix_path," do
+      context 'when using prefix_path,' do
         subject{ { get: new_template_task_path } }
         it{ is_expected.to be_routable }
-        it{ is_expected.to route_to(controller: "template_tasks", action: "new") }
+        it{ is_expected.to route_to(controller: 'template_tasks', action: 'new') }
       end
     end
 
-    describe "routes to #show" do
-      context "when using url," do
-        subject{ { get:"/template_tasks/1" } }
+    describe 'routes to #show' do
+      context 'when using url,' do
+        subject{ { get:'/template_tasks/1' } }
         it{ is_expected.to be_routable }
-        it{ is_expected.to route_to(controller: "template_tasks", action: "show", id: "1") }
+        it{ is_expected.to route_to(controller: 'template_tasks', action: 'show', id: '1') }
       end
-      context "when using prefix_path," do
+      context 'when using prefix_path,' do
         subject{ { get: template_task_path(id: 1) } }
         it{ is_expected.to be_routable }
-        it{ is_expected.to route_to(controller: "template_tasks", action: "show", id: "1") }
+        it{ is_expected.to route_to(controller: 'template_tasks', action: 'show', id: '1') }
       end
     end
 
-    describe "routes to #edit" do
-      context "when using url," do
-        subject{ { get:"/template_tasks/1/edit" } }
+    describe 'routes to #edit' do
+      context 'when using url,' do
+        subject{ { get:'/template_tasks/1/edit' } }
         it{ is_expected.to be_routable }
-        it{ is_expected.to route_to(controller: "template_tasks", action: "edit", id: "1") }
+        it{ is_expected.to route_to(controller: 'template_tasks', action: 'edit', id: '1') }
       end
-      context "when using prefix_path," do
+      context 'when using prefix_path,' do
         subject{ { get: edit_template_task_path(id: 1) } }
         it{ is_expected.to be_routable }
-        it{ is_expected.to route_to(controller: "template_tasks", action: "edit", id: "1") }
+        it{ is_expected.to route_to(controller: 'template_tasks', action: 'edit', id: '1') }
       end
     end
 
-    describe "routes to #create" do
-      subject{ { post: "/template_tasks" } }
-      it{ is_expected.to route_to(controller: "template_tasks", action: "create") }
+    describe 'routes to #create' do
+      subject{ { post: '/template_tasks' } }
+      it{ is_expected.to route_to(controller: 'template_tasks', action: 'create') }
     end
 
-    describe "routes to #update" do
-      subject{ { put: "/template_tasks/1" } }
-      it{ is_expected.to route_to(controller: "template_tasks", action: "update", id: "1") }
+    describe 'routes to #update' do
+      subject{ { put: '/template_tasks/1' } }
+      it{ is_expected.to route_to(controller: 'template_tasks', action: 'update', id: '1') }
     end
 
-    describe "routes to #destroy" do
-      subject{ { delete: "/template_tasks/1" } }
-      it{ is_expected.to route_to(controller: "template_tasks", action: "destroy", id: "1") }
+    describe 'routes to #destroy' do
+      subject{ { delete: '/template_tasks/1' } }
+      it{ is_expected.to route_to(controller: 'template_tasks', action: 'destroy', id: '1') }
     end
 
     %w( move_higher move_lower ).each do |action|
       describe "routes to ##{action}" do
-        context "when using url," do
+        context 'when using url,' do
           subject{ { patch:"/template_tasks/1/#{action}" } }
           it{ is_expected.to be_routable }
-          it{ is_expected.to route_to(controller: "template_tasks", action: "#{action}", id: "1") }
+          it{ is_expected.to route_to(controller: 'template_tasks', action: "#{action}", id: '1') }
         end
-        context "when using prefix_path," do
+        context 'when using prefix_path,' do
           subject{ { patch: send("#{action}_template_task_path", {id: 1}) } }
           it{ is_expected.to be_routable }
-          it{ is_expected.to route_to(controller: "template_tasks", action: "#{action}", id: "1") }
+          it{ is_expected.to route_to(controller: 'template_tasks', action: "#{action}", id: '1') }
         end
       end
     end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DashboardsController, :type => :controller do
   before do
-    @project = Project.new(name: "Sample", days_per_point: 0.5)
+    @project = Project.new(name: 'Sample', days_per_point: 0.5)
     @project.save!
   end
   describe "GET 'show'" do

@@ -3,7 +3,7 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 
-require "csv"
+require 'csv'
 
 CSV.foreach('db/templatetask.csv') do |row|
   TemplateTask.create(name: row[0], price_per_day: row[1], default_task: false)
