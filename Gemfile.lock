@@ -142,6 +142,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (3.10.0)
     rack (1.6.8)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -284,6 +285,7 @@ DEPENDENCIES
   jquery-rails
   libv8 (~> 3.16.14.19)
   pg
+  puma
   rails (= 4.2.9)
   rake (< 11.0)
   rspec-activemodel-mocks
