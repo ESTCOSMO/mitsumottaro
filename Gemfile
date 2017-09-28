@@ -44,12 +44,11 @@ gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'haml-rails'
 gem 'jquery-rails'
-gem 'libv8', '~> 3.16.14.19'
 gem 'puma'
 gem 'rake', '< 11.0'
 gem 'simple_form'
 gem 'slim-rails'
-gem 'therubyracer'
+# gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'underscore-rails'
 
@@ -60,7 +59,7 @@ group :test do
   end
 end
 
-group :deployment do
+group :production do
   gem 'pg'
   gem 'rails_12factor'
 end
