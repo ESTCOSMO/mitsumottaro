@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby ENV['CUSTOM_RUBY_VERSION'] || ENV['TRAVIS_RUBY_VERSION'] || '2.4.1'
+
 gem 'rails', '4.2.9'
 
 # Gems used only for assets and not required
