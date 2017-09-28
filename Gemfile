@@ -52,5 +52,13 @@ gem 'therubyracer'
 gem 'twitter-bootstrap-rails'
 gem 'underscore-rails'
 
-gem 'mysql2' if ENV['TRAVIS']
-gem 'pg' if ENV['TRAVIS'] || ENV['HEROKU_POSTGRESQL_GRAY_URL']
+group :test do
+  if ENV['TRAVIS']
+    gem 'mysql2'
+    gem 'pg'
+  end
+end
+
+group :deployment do
+  gem 'pg'
+end
