@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby ENV['CUSTOM_RUBY_VERSION'] || ENV['TRAVIS_RUBY_VERSION'] || '2.4.1'
+ruby ENV['CUSTOM_RUBY_VERSION'] || RUBY_VERSION
 
 gem 'rails', '4.2.9'
 
