@@ -13,7 +13,7 @@ describe TaskPoint, :type => :model do
       subject { TaskPoint.new(story_id: 1, project_task_id: 1, point_50: 20, point_90: 50) }
       it { is_expected.to be_valid }
     end
-    context 'when project_task_id is not present,' do 
+    context 'when project_task_id is not present,' do
       subject { TaskPoint.new(project_task_id: ' ').tap(&:valid?).errors[:project_task_id].size }
       it { is_expected.to eq 1 }
     end

@@ -8,4 +8,3 @@ require 'csv'
 CSV.foreach('db/templatetask.csv') do |row|
   TemplateTask.create(name: row[0], price_per_day: row[1], default_task: false)
 end
-

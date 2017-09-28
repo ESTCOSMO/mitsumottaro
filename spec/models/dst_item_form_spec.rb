@@ -43,4 +43,3 @@ describe DstItemForm, :type => :model do
     end
   end
 end
-

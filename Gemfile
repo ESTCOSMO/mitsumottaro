@@ -80,4 +80,3 @@ gem 'angularjs-rails'
 gem 'slim-rails'
 gem 'active_model_serializers'
 gem 'simple_form'
-
