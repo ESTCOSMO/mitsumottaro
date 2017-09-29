@@ -4,12 +4,6 @@
   "scripts": {
   },
   "env": {
-    "HEROKU_POSTGRESQL_GRAY_URL": {
-      "required": true
-    },
-    "DATABASE_URL": {
-      "required": true
-    }
   },
   "formation": {
   },
