@@ -18,7 +18,7 @@ p.dashboard-summary
   span.label.summary-label
     | D/P: {{project.days_per_point | number: 2}}
   span
-    a.btn.btn-sm.btn-info href="#{url.convert_project_dashboard_path('___PID___', format: :xml).gsub('___PID___', '{{project.id}}')}"
+    a.btn.btn-xs.btn-info href="#{url.convert_project_dashboard_path('___PID___', format: :xml).gsub('___PID___', '{{project.id}}')}"
       span.fa.fa-download aria-hidden="true"
       | 見積もりダウンロード (MS Office XML形式)
 .dashboard-view
