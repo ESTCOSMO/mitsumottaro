@@ -2,12 +2,8 @@
   "name": "mitsumottaro",
   "description": "",
   "scripts": {
-    "postdeploy": "bundle exec rubocop"
   },
   "env": {
-    "HEROKU_POSTGRESQL_GRAY_URL": {
-      "required": true
-    }
   },
   "formation": {
   },
