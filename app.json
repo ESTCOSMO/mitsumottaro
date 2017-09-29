@@ -2,6 +2,7 @@
   "name": "mitsumottaro",
   "description": "",
   "scripts": {
+    "postdeploy": "bundle exec rake db:migrate"
   },
   "env": {
   },
