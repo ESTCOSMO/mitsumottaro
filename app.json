@@ -2,6 +2,7 @@
   "name": "mitsumottaro",
   "description": "",
   "scripts": {
+    "postdeploy": "rake db:seed"
   },
   "env": {
   },
