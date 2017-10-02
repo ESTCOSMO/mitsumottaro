@@ -21,7 +21,7 @@
 1. `bundle'を実行
 2. `rake db:migrate'を実行
 3. `rails s'を実行
-4. Access http://localhost:3000 with your favorite Web browser which supports JavaScript.
+4. Access http://localhost:3000 with your favorite Web browser which supports JavaScript(e.g. those such as lynx, w3m are not supported).
 
 == 簡単な使い方
 0. 科目テンプレートに「要件定義」、「設計」、、、といった顧客に求められる見積り科目作成(複数のプロジェクトで利用可能)
