@@ -8,6 +8,13 @@
     <%= csrf_meta_tags %>
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+    <script src="//cdn.jsdelivr.net/npm/fingerprintjs2@1.5.1/dist/fingerprint2.min.js"></script>
+    <script>
+new Fingerprint2().get(function(result, components){
+  console.log(result); //a hash, representing your device fingerprint
+  console.log(components); // an array of FP components
+});
+    </script>
   </head>
   <body>
     <div class="navbar navbar-default">
