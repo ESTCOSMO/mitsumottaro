@@ -17,7 +17,7 @@ describe AdditionalCost, :type => :model do
 
     context 'when name is not present,' do
       subject { AdditionalCost.new(name: ' ').tap(&:valid?).errors[:name].size }
-      it { is_expected.to eq 1 }
+      it { is_expected.to eq 5 }
     end
 
     context 'when price is not present,' do
