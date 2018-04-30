@@ -1,0 +1,39 @@
+version: 0.2
+
+#env:
+  #variables:
+     # key: "value"
+     # key: "value"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+
+phases:
+  #install:
+    #commands:
+      # - command
+      # - command
+  pre_build:
+    commands:
+      - apt-get update
+      - apt-get install -y nodejs
+      - bundle install
+      - rake db:setup
+      - rake db:migrate
+  build:
+    commands:
+      - bundle exec rake
+      - bundle exec rubocop
+  #post_build:
+    #commands:
+      # - command
+      # - command
+#artifacts:
+  #files:
+    # - location
+    # - location
+  #discard-paths: yes
+  #base-directory: location
+#cache:
+  #paths:
+    # - paths
