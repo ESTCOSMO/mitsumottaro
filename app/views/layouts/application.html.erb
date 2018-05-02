@@ -24,11 +24,11 @@
                 <ul class="nav navbar-nav">
                     <% if params[:project_id] %>
                         <% unless params[:action] == 'archived' %>
-                            <li><%= link_to "プロジェクトトップ", project_dashboard_path(params[:project_id], anchor: "/projects/#{params[:project_id]}/dashboard")  %></li>
+                            <li><%= link_to "TOP", project_dashboard_path(params[:project_id], anchor: "/projects/#{params[:project_id]}/dashboard")  %></li>
                             <li><%= link_to "科目", project_project_tasks_path(params[:project_id]) %></li>
                             <li><%= link_to "追加コスト", project_additional_costs_path(params[:project_id]) %></li>
                         <% else %>
-                            <li><%= link_to "プロジェクトトップ", archived_project_dashboard_path(params[:project_id], anchor: "/projects/#{params[:project_id]}/dashboard/archived") %></li>
+                            <li><%= link_to "TOP", archived_project_dashboard_path(params[:project_id], anchor: "/projects/#{params[:project_id]}/dashboard/archived") %></li>
                         <% end %>
                     <% end %>
                 </ul>
