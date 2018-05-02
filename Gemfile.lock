@@ -130,7 +130,6 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     multi_json (1.12.2)
-    mysql2 (0.5.1)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     parallel (1.12.0)
@@ -284,7 +283,6 @@ DEPENDENCIES
   guard-rspec
   haml-rails
   jquery-rails
-  mysql2
   pg
   puma
   rails (= 4.2.9)

@@ -50,7 +50,10 @@ gem 'twitter-bootstrap-rails'
 gem 'underscore-rails'
 
 group :test do
-  gem 'mysql2'
+  if ENV['TRAVIS']
+    # see https://qiita.com/oshin/items/f5ff336f63366c364909
+    gem 'mysql2', '~> 0.3.20'
+  end
 end
 
 group :production do
