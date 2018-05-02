@@ -51,7 +51,8 @@ gem 'underscore-rails'
 
 group :test do
   if ENV['TRAVIS']
-    gem 'mysql2'
+    # see https://qiita.com/oshin/items/f5ff336f63366c364909
+    gem 'mysql2', '~> 0.3.20'
     gem 'pg'
   end
 end
