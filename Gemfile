@@ -53,6 +53,7 @@ group :test do
   if ENV['TRAVIS']
     # see https://qiita.com/oshin/items/f5ff336f63366c364909
     gem 'mysql2', '~> 0.3.20'
+    gem 'pg'
   end
 end
 
