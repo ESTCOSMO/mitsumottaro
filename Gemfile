@@ -50,10 +50,7 @@ gem 'twitter-bootstrap-rails'
 gem 'underscore-rails'
 
 group :test do
-  if ENV['TRAVIS']
-    gem 'mysql2'
-    gem 'pg'
-  end
+  gem 'mysql2'
 end
 
 group :production do
